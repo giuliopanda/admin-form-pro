@@ -1,0 +1,1634 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Database Press\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2022-09-08 09:20+0000\n"
+"PO-Revision-Date: 2022-09-08 09:20+0000\n"
+"Last-Translator: \n"
+"Language-Team: Italian\n"
+"Language: it_IT\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Loco https://localise.biz/\n"
+"X-Loco-Version: 2.6.2; wp-6.0.2\n"
+"X-Domain: db_press"
+
+#: admin/class-dbp-list-admin.php:228
+msgid "!= (Does Not Equal)"
+msgstr ""
+
+#: admin/class-dbp-list-admin.php:233
+msgid "%LIKE% (Search Text)"
+msgstr ""
+
+#: admin/partials/dbp-content-multiquery.php:57
+#, php-format
+msgid "%s Queries executed"
+msgstr ""
+
+#: admin/class-dbp-table-admin.php:501
+#, php-format
+msgid "%s queries executed successfully."
+msgstr ""
+
+#: includes/dbp-loader.php:871 includes/dbp-loader.php:882
+#, php-format
+msgid "%s queries were executed successfully:"
+msgstr ""
+
+#: admin/class-dbp-list-admin.php:231
+msgid "< (Less Than)"
+msgstr ""
+
+#: admin/class-dbp-table-admin.php:708
+msgid "</b> created"
+msgstr ""
+
+#: admin/class-dbp-list-admin.php:232
+msgid "<= (Less or Equal To)"
+msgstr ""
+
+#: admin/class-dbp-table-admin.php:277
+msgid "<b>Copy and run the queries to correct the problem.</b>"
+msgstr ""
+
+#: admin/class-dbp-table-admin.php:274
+msgid ""
+"<b>To solve the problem follow the instructions:</b><br>\n"
+"\t\t\t\t\t<p>1. Click on Edit status and put the table in DRAFT MODE</p><p>2."
+" Copy and run the queries</p>"
+msgstr ""
+
+#: admin/class-dbp-table-admin.php:286
+#, php-format
+msgid ""
+"<p style=\"background:#F2F2F2; border:1px solid #EEE; padding:.5rem\">ALTER "
+"TABLE `%s` ADD dbp_id BIGINT AUTO_INCREMENT PRIMARY KEY;<br></p>"
+msgstr ""
+
+#: admin/class-dbp-table-admin.php:282
+#, php-format
+msgid ""
+"<p style=\"background:#F2F2F2; border:1px solid #EEE; padding:.5rem\">ALTER "
+"TABLE `%s` drop primary key;<br>\n"
+"\t\t\t\t\tCREATE UNIQUE INDEX old_primary_key ON `%s` (%s);<br>\n"
+"\t\t\t\t\tALTER TABLE `%s` ADD dbp_id BIGINT AUTO_INCREMENT PRIMARY KEY;<br>"
+"</p>"
+msgstr ""
+
+#: admin/class-dbp-table-admin.php:280
+#, php-format
+msgid ""
+"<p style=\"background:#F2F2F2; border:1px solid #EEE; padding:.5rem\">ALTER "
+"TABLE `%s` MODIFY %s INT NOT NULL AUTO_INCREMENT;<br></p>"
+msgstr ""
+
+#: admin/class-dbp-list-admin.php:227
+msgid "= (Equals)"
+msgstr ""
+
+#: admin/class-dbp-list-admin.php:229
+msgid "> (Greater Than)"
+msgstr ""
+
+#: admin/class-dbp-list-admin.php:230
+msgid ">= (Greater or Equal To)"
+msgstr ""
+
+#: includes/dbp-loader-import.php:415
+msgid "[Custom Text]"
+msgstr ""
+
+#: admin/partials/dbp-content-table-structure.php:100
+msgid ""
+"A Close table cannot be modified! You must first change the status to DRAFT."
+msgstr ""
+
+#: admin/class-dbp-list-admin.php:346
+msgid ""
+"a filter could not be saved because a field was not chosen to associate it "
+"with"
+msgstr ""
+
+#: admin/partials/dbp-content-multiquery.php:40
+msgid "A query have failed. Do you want to continue?"
+msgstr ""
+
+#: admin/partials/dbp-content-table-structure.php:102
+msgid ""
+"A table in production cannot be modified! You must first change the status "
+"to DRAFT."
+msgstr ""
+
+#: admin/partials/dbp-partial-alter-table.php:31
+#: admin/partials/dbp-content-table-import.php:115
+msgid "Action"
+msgstr ""
+
+#: admin/partials/dbp-content-list-structure.php:288
+msgid "Add Custom column"
+msgstr ""
+
+#: admin/partials/dbp-content-list-sql-edit.php:74
+msgid "Add custom icon"
+msgstr ""
+
+#: admin/partials/dbp-content-list-sql-edit.php:131
+msgid "Add filters from external data"
+msgstr ""
+
+#: admin/partials/dbp-content-table-structure.php:172
+msgid "Add index"
+msgstr ""
+
+#: includes/dbp-html-sql.php:82
+msgid "Add meta data"
+msgstr ""
+
+#: admin/partials/dbp-page-admin-menu.php:20
+msgid "Add New"
+msgstr ""
+
+#: admin/partials/dbp-content-table-structure-indexes.php:40
+msgid "Add new"
+msgstr ""
+
+#: admin/partials/dbp-content-list-browse.php:23
+msgid "Add new content"
+msgstr ""
+
+#: admin/partials/dbp-content-table-with-filter.php:66
+#: admin/partials/dbp-page-admin-menu.php:33
+msgid "Add New record"
+msgstr ""
+
+#: admin/partials/dbp-partial-alter-table.php:158
+#: admin/partials/dbp-content-list-sql-edit.php:159
+#: admin/partials/dbp-content-table-import.php:169
+msgid "Add row"
+msgstr ""
+
+#: admin/partials/dbp-content-list-sql-edit.php:52
+msgid "Add the list in the sidebar menu."
+msgstr ""
+
+#: admin/partials/dbp-content-list-sql-edit.php:50
+msgid "Admin sidebar menu"
+msgstr ""
+
+#: admin/partials/dbp-content-list-structure.php:295
+msgid ""
+"After modifying the query columns, the form will be saved automatically to "
+"allow you to view the modifications made"
+msgstr ""
+
+#: admin/partials/dbp-content-list-structure.php:202
+msgid "Align"
+msgstr ""
+
+#: admin/partials/dbp-content-multiquery.php:29
+msgid "all done! everything went fine"
+msgstr ""
+
+#: includes/dbp-loader.php:1319
+msgid "All fields are required"
+msgstr ""
+
+#: admin/partials/dbp-content-table-import.php:214
+msgid "All records will be inserted as new."
+msgstr ""
+
+#: admin/class-dbp-table-admin.php:237
+msgid "Altered Index success"
+msgstr ""
+
+#: admin/partials/dbp-content-table-structure.php:112
+msgid "Analysis in progress"
+msgstr ""
+
+#: admin/partials/dbp-content-table-structure.php:93
+msgid "Analysis of changes"
+msgstr ""
+
+#: includes/dbp-functions.php:1447
+#, php-format
+msgid "Are you sure you want to remove the <b>%s</b> selected records?"
+msgstr ""
+
+#: admin/partials/dbp-partial-alter-table.php:34
+#: admin/partials/dbp-partial-structure-show-table.php:15
+#: admin/partials/dbp-content-list-all.php:76
+msgid "Attributes"
+msgstr ""
+
+#: admin/partials/dbp-content-list-form-single-table.php:69
+#, php-format
+msgid ""
+"Automatically calculate the value from the query. This is the formula "
+"entered: %s."
+msgstr ""
+
+#: admin/partials/dbp-content-list-form-single-table.php:49
+msgid "Automatically filled by the query"
+msgstr ""
+
+#: includes/dbp-functions.php:602
+msgid "Between Values (BETWEEN)"
+msgstr ""
+
+#: admin/partials/dbp-content-list-browse.php:70
+#: admin/partials/dbp-content-table-with-filter.php:83
+#: admin/partials/dbp-page-admin-menu.php:45
+msgid "Bulk actions"
+msgstr ""
+
+#: admin/partials/dbp-content-list-form-single-table.php:152
+msgid "Calculated Field: formula"
+msgstr ""
+
+#: includes/dbp-html-sql.php:73 admin/partials/dbp-content-multiquery.php:43
+#: admin/partials/dbp-partial-dropdown.php:111
+#: admin/partials/dbp-content-table-structure.php:149
+msgid "Cancel"
+msgstr ""
+
+#: admin/partials/dbp-content-list-structure.php:102
+#: admin/partials/dbp-content-list-structure.php:272
+msgid "change styles"
+msgstr ""
+
+#: admin/partials/dbp-content-list-structure.php:95
+#: admin/partials/dbp-content-list-structure.php:265
+msgid "change values"
+msgstr ""
+
+#: admin/partials/dbp-content-list-form-single-table.php:144
+msgid "Checkbox value"
+msgstr ""
+
+#: admin/partials/dbp-content-list-form-single-table.php:127
+msgid "Choices (one choice per line)"
+msgstr ""
+
+#: admin/partials/dbp-content-table-import.php:72
+msgid "Choose action"
+msgstr ""
+
+#: admin/partials/dbp-content-list-structure.php:289
+msgid "Choose column to show*"
+msgstr ""
+
+#: admin/partials/dbp-content-list-form-single-table.php:230
+msgid "Choose post types"
+msgstr ""
+
+#: admin/partials/dbp-content-list-form-single-table.php:205
+msgid "Choose Table"
+msgstr ""
+
+#: admin/partials/dbp-content-list-structure.php:222
+msgid "Choose the list and column on which to compare the data"
+msgstr ""
+
+#: includes/dbp-render-list.php:285 includes/dbp-html-search-frontend.php:70
+msgid "Clean"
+msgstr ""
+
+#: admin/partials/dbp-content-list-browse.php:54
+#: admin/partials/dbp-content-table-with-filter.php:59
+#: admin/partials/dbp-page-admin-menu.php:76
+msgid "Clear Filter"
+msgstr ""
+
+#: includes/dbp-functions.php:1959
+msgid "click_me"
+msgstr ""
+
+#: includes/dbp-temporaly-files.php:214
+msgid "Column "
+msgstr ""
+
+#: admin/partials/dbp-content-list-structure.php:66
+#: admin/partials/dbp-content-list-structure.php:159
+msgid "Column dimension"
+msgstr ""
+
+#: admin/partials/dbp-content-list-setting.php:83
+msgid "Column sort"
+msgstr ""
+
+#: admin/partials/dbp-content-list-structure.php:81
+#: admin/partials/dbp-content-list-structure.php:179
+msgid "Column type"
+msgstr ""
+
+#: admin/partials/dbp-content-table-structure-indexes.php:39
+msgid "Columns"
+msgstr ""
+
+#: admin/partials/dbp-content-multiquery.php:41
+msgid "Continue"
+msgstr ""
+
+#: admin/class-dbp-table-admin.php:753
+msgid "Create list from query"
+msgstr ""
+
+#: admin/partials/dbp-partial-sidebar.php:25
+msgid "Create new table"
+msgstr ""
+
+#: admin/partials/dbp-content-table-import.php:73
+#: admin/partials/dbp-content-table-import.php:176
+msgid "Create Table"
+msgstr ""
+
+#: admin/partials/dbp-page-home.php:26
+msgid ""
+"Create your first list. You can try creating a simple structure like a list "
+"of cities.\n"
+"                                Inside the documentation you will also find "
+"tutorials to learn how to use the plugin."
+msgstr ""
+
+#: includes/dbp-loader-import.php:45
+msgid "CSV column"
+msgstr ""
+
+#: admin/partials/dbp-content-list-structure.php:36
+msgid "CUSTOM COLUMN"
+msgstr ""
+
+#: admin/partials/dbp-content-list-form-single-table.php:112
+msgid "Custom css class"
+msgstr ""
+
+#: admin/partials/dbp-content-list-form.php:100
+msgid "Custom title"
+msgstr ""
+
+#. Name of the plugin
+msgid "Database Press"
+msgstr ""
+
+#: includes/documentation/pages_en_GB/home.php:6
+#: includes/documentation/pages_it_IT/home.php:6
+msgid "Database Press document"
+msgstr ""
+
+#. Description of the plugin
+msgid ""
+"Database Press is a tool designed to manage the administration and "
+"publication of new MySQL tables."
+msgstr ""
+
+#: admin/partials/dbp-partial-sidebar.php:17
+msgid "Database table actions"
+msgstr ""
+
+#: admin/partials/dbp-content-list-structure.php:209
+msgid "Date format"
+msgstr ""
+
+#: admin/partials/dbp-partial-sidebar.php:52
+msgid "DB TABLES"
+msgstr ""
+
+#: admin/partials/dbp-partial-alter-table.php:35
+#: admin/partials/dbp-partial-structure-show-table.php:16
+msgid "Default"
+msgstr ""
+
+#: admin/partials/dbp-content-list-sql-edit.php:124
+msgid "Default Order"
+msgstr ""
+
+#: admin/partials/dbp-content-list-form-single-table.php:104
+msgid "Default Value"
+msgstr ""
+
+#: admin/partials/dbp-content-list-sql-edit.php:141
+#: admin/partials/dbp-content-list-sql-edit.php:152
+#: admin/partials/dbp-content-list-structure.php:38
+#: admin/partials/dbp-content-list-structure.php:131
+msgid "DELETE"
+msgstr ""
+
+#: admin/partials/dbp-partial-alter-table.php:56
+#: admin/partials/dbp-partial-alter-table.php:116
+#: admin/partials/dbp-content-table-import.php:210
+msgid "Delete"
+msgstr ""
+
+#: admin/partials/dbp-content-list-form-single-table.php:82
+msgid "DELETE FIELD"
+msgstr ""
+
+#: admin/class-dbp-table-admin.php:247
+msgid "Delete Index success"
+msgstr ""
+
+#: admin/partials/dbp-content-list-sql-edit.php:167
+msgid "Delete options"
+msgstr ""
+
+#: admin/partials/dbp-content-table-import.php:130
+#: admin/partials/dbp-content-table-import.php:157
+msgid "Delete Row"
+msgstr ""
+
+#: admin/partials/dbp-content-list-sql-edit.php:44
+msgid "Descriprion"
+msgstr ""
+
+#: admin/partials/dbp-content-list-form.php:105
+#: admin/partials/dbp-content-table-structure.php:79
+#: admin/partials/dbp-content-table-structure.php:82
+#: admin/partials/dbp-content-table-structure.php:145
+msgid "Description"
+msgstr ""
+
+#: admin/partials/dbp-partial-dropdown.php:96
+msgid "Deselect all"
+msgstr ""
+
+#: admin/partials/dbp-content-list-setting.php:299
+msgid "Detail Template"
+msgstr ""
+
+#: admin/partials/dbp-content-list-setting.php:269
+msgid "Detailed view"
+msgstr ""
+
+#: includes/dbp-functions.php:595 includes/dbp-functions.php:617
+#: includes/dbp-functions.php:632
+msgid "Does Not Equal (!=)"
+msgstr ""
+
+#: includes/dbp-loader-import.php:409
+msgid "Don't insert"
+msgstr ""
+
+#: admin/partials/dbp-content-multiquery.php:29
+#: admin/partials/dbp-content-multiquery.php:32
+msgid "Download result"
+msgstr ""
+
+#: admin/partials/dbp-content-multiquery.php:35
+msgid "Download the report for more information"
+msgstr ""
+
+#: includes/dbp-model-structure.php:111
+msgid "Duplicated column name!"
+msgstr ""
+
+#: includes/dbp-html-sql.php:70
+msgid "Edit inline"
+msgstr ""
+
+#: admin/partials/dbp-content-table-structure.php:157
+msgid "Edit Status & Description"
+msgstr ""
+
+#: admin/partials/dbp-content-table-structure.php:24
+#: admin/partials/dbp-content-table-structure.php:26
+#: admin/partials/dbp-content-table-structure.php:28
+#: admin/partials/dbp-content-table-structure.php:30
+msgid "Edit table structure"
+msgstr ""
+
+#: admin/partials/dbp-content-list-sql-edit.php:118
+msgid "Elements per page"
+msgstr ""
+
+#: admin/partials/dbp-content-list-setting.php:247
+msgid "ELSE :"
+msgstr ""
+
+#: includes/dbp-functions.php:604 includes/dbp-functions.php:624
+#: includes/dbp-functions.php:639
+msgid "Empties"
+msgstr ""
+
+#: includes/dbp-functions.php:594 includes/dbp-functions.php:616
+#: includes/dbp-functions.php:631
+msgid "Equals (=)"
+msgstr ""
+
+#: admin/partials/dbp-content-table-import.php:238
+msgid "Erorrs"
+msgstr ""
+
+#: admin/class-dbp-table-admin.php:249
+msgid "Error Delete Index success"
+msgstr ""
+
+#: includes/dbp-functions.php:623
+msgid "Exclude Text  (NOT LIKE)"
+msgstr ""
+
+#: includes/dbp-functions.php:601 includes/dbp-functions.php:638
+msgid "Exclude Text (NOT LIKE)"
+msgstr ""
+
+#: admin/partials/dbp-content-table-import.php:289
+msgid "Execute import"
+msgstr ""
+
+#: admin/partials/dbp-content-table-structure.php:58
+msgid "Executing..."
+msgstr ""
+
+#: admin/partials/dbp-content-list-form-single-table.php:90
+msgid "Field Label"
+msgstr ""
+
+#: admin/partials/dbp-content-list-form-single-table.php:121
+msgid "Field Note (optional)"
+msgstr ""
+
+#: admin/partials/dbp-content-list-form-single-table.php:75
+msgid "Field Type"
+msgstr ""
+
+#: admin/partials/dbp-content-table-import.php:277
+msgid "File to import"
+msgstr ""
+
+#: admin/partials/dbp-content-list-sql-edit.php:130
+msgid "Filter (in frontend And admin plugin)"
+msgstr ""
+
+#: admin/class-dbp-list-admin.php:250
+msgid "First you need to write a query to extract the list data. "
+msgstr ""
+
+#: admin/partials/dbp-content-list-setting.php:235
+msgid "Footer"
+msgstr ""
+
+#: includes/dbp-list-loader.php:296
+#, php-format
+msgid "For row %s I can't find the field  in which to insert the data."
+msgstr ""
+
+#: includes/dbp-list-loader.php:298
+#, php-format
+msgid "For row %s I can't find the primary key  in which to insert the data."
+msgstr ""
+
+#: admin/partials/dbp-content-list-form.php:93
+msgid "Frame Style"
+msgstr ""
+
+#: includes/documentation/pages_en_GB/tutorial_02.php:7
+msgid "Galleries"
+msgstr ""
+
+#. Author of the plugin
+msgid "Giulio Pandolfelli"
+msgstr ""
+
+#: admin/class-dbp-table-admin.php:738 admin/class-dbp-table-admin.php:745
+#: admin/class-dbp-table-admin.php:755
+msgid "Go"
+msgstr ""
+
+#: admin/partials/dbp-content-table-import.php:302
+msgid "Go ahead"
+msgstr ""
+
+#: admin/partials/dbp-content-table-structure.php:18
+#: admin/partials/dbp-content-table-structure.php:20
+msgid "Go Back"
+msgstr ""
+
+#: includes/dbp-functions.php:597 includes/dbp-functions.php:619
+#: includes/dbp-functions.php:634
+msgid "Greater or Equal To (>=)"
+msgstr ""
+
+#: includes/dbp-functions.php:633
+msgid "Greater Than  (>)"
+msgstr ""
+
+#: includes/dbp-functions.php:596 includes/dbp-functions.php:618
+msgid "Greater Than (>)"
+msgstr ""
+
+#: admin/partials/dbp-content-list-setting.php:211
+msgid "Header (first special row)"
+msgstr ""
+
+#: includes/documentation/pages_en_GB/hooks.php:8
+msgid "Hooks & filters"
+msgstr ""
+
+#: admin/partials/dbp-content-list-sql-edit.php:108
+msgid "How the data is extracted"
+msgstr ""
+
+#. URI of the plugin
+msgid "https://github.com/giuliopanda/db_press"
+msgstr ""
+
+#: includes/dbp-loader.php:604
+msgid ""
+"I am sorry but I cannot show the requested details because I have found more "
+"than 200 results!. Verify that the primary key of each selected table is "
+"always displayed in the MySQL SELECT statement. Check that the tables have a "
+"unique auto increment primary key."
+msgstr ""
+
+#: includes/dbp-temporaly-files.php:109
+msgid "I can't delete the file: %"
+msgstr ""
+
+#: includes/dbp-loader.php:1431 includes/dbp-loader.php:1452
+msgid "I can't find any linkable metadata"
+msgstr ""
+
+#: includes/dbp-temporaly-files.php:41
+#, php-format
+msgid "I cannot access a temporaly folder: %s"
+msgstr ""
+
+#: admin/class-dbp-list-admin.php:298 admin/class-dbp-list-admin.php:741
+#, php-format
+msgid ""
+"I didn't save the query because it was wrong!.<br><h3>Error:</h3>%s<h3>Query:"
+"</h3>%s"
+msgstr ""
+
+#: includes/dbp-loader-import.php:171
+msgid "I have not found any data to insert"
+msgstr ""
+
+#: includes/dbp-loader.php:581 includes/dbp-loader.php:921
+msgid ""
+"I have not found any results. Verify that the primary key of each selected "
+"table is always displayed in the MySQL SELECT statement."
+msgstr ""
+
+#: admin/class-dbp-list-admin.php:348
+#, php-format
+msgid ""
+"I have not saved the filter associated with the <b>%s</b> field because it "
+"has no parameters to pass. If you want to filter the list by shortcode "
+"attributes use %s."
+msgstr ""
+
+#: admin/partials/dbp-content-table-import.php:224
+msgid "I'm feeling lucky! Import the data"
+msgstr ""
+
+#: includes/dbp-loader.php:1222 includes/dbp-loader.php:1225
+#: includes/dbp-loader.php:1272
+msgid "I'm sorry, but I can't extract the query columns"
+msgstr ""
+
+#: admin/class-dbp-table-admin.php:447
+msgid ""
+"If you can alter the table, go to Structure and follow the instructions."
+msgstr ""
+
+#: admin/class-dbp-table-admin.php:445
+msgid ""
+"If you can modify the table, go to the structure tab and follow the proposed "
+"instructions."
+msgstr ""
+
+#: includes/dbp-loader-structure.php:113
+msgid ""
+"If you change the primary key I cannot check if there will be any data loss"
+msgstr ""
+
+#: admin/partials/dbp-content-table-import.php:215
+msgid ""
+"If you want to insert data into multiple tables, you can reference the newly "
+"created or updated record ID using the following code:"
+msgstr ""
+
+#: admin/partials/dbp-content-multiquery.php:45
+msgid "Ignore errors"
+msgstr ""
+
+#: admin/partials/dbp-partial-sidebar.php:27
+msgid "Import"
+msgstr ""
+
+#: admin/partials/dbp-content-table-import.php:114
+msgid "Import from CSV column"
+msgstr ""
+
+#: admin/class-dbp-list-admin.php:236
+msgid "IN (Match in array)"
+msgstr ""
+
+#: admin/partials/dbp-content-table-structure-indexes.php:34
+msgid "Index choice"
+msgstr ""
+
+#: admin/partials/dbp-content-table-structure-indexes.php:28
+msgid "Index name"
+msgstr ""
+
+#: admin/partials/dbp-content-table-structure.php:167
+msgid "Indexes"
+msgstr ""
+
+#: admin/partials/dbp-content-table-structure.php:168
+msgid ""
+"Indexes can be used to improve query performance. Instead, you can use "
+"unique keys to avoid duplicate fields within one or more columns."
+msgstr ""
+
+#: admin/partials/dbp-page-home.php:92
+msgid "init: the max_input_vars (php.ini) value is very low"
+msgstr ""
+
+#: admin/partials/dbp-content-table-import.php:242
+msgid "Insert"
+msgstr ""
+
+#: admin/partials/dbp-content-table-import.php:74
+msgid "Insert/Update Records"
+msgstr ""
+
+#: admin/partials/dbp-content-list-form.php:77
+msgid "It allows you not to create the record"
+msgstr ""
+
+#: admin/class-dbp-table-admin.php:556
+msgid "It doesn't look like a valid csv"
+msgstr ""
+
+#: admin/partials/dbp-content-list-form-single-table.php:256
+msgid "JS Script"
+msgstr ""
+
+#: admin/partials/dbp-content-list-form-single-table.php:210
+msgid "Label"
+msgstr ""
+
+#: admin/partials/dbp-page-home.php:30
+msgid "Latest lists"
+msgstr ""
+
+#: admin/partials/dbp-partial-alter-table.php:33
+#: admin/partials/dbp-partial-structure-show-table.php:14
+msgid "Length"
+msgstr ""
+
+#: includes/dbp-functions.php:599 includes/dbp-functions.php:621
+#: includes/dbp-functions.php:636
+msgid "Less or Equal To (<=)"
+msgstr ""
+
+#: includes/dbp-functions.php:635
+msgid "Less Than  (<)"
+msgstr ""
+
+#: includes/dbp-functions.php:598 includes/dbp-functions.php:620
+msgid "Less Than (<)"
+msgstr ""
+
+#: admin/class-dbp-list-admin.php:234
+msgid "LIKE% (Text start with)"
+msgstr ""
+
+#: admin/partials/dbp-content-list-structure.php:210
+msgid "Link text"
+msgstr ""
+
+#: admin/partials/dbp-content-list-all.php:19
+#: admin/partials/dbp-partial-sidebar.php:32
+msgid "LIST (Query saved)"
+msgstr ""
+
+#: includes/documentation/pages_en_GB/js-controller-form.php:8
+#: includes/documentation/pages_it_IT/js-controller-form.php:8
+msgid "LIST FORM js script"
+msgstr ""
+
+#: admin/partials/dbp-content-list-setting.php:29
+msgid "List of records"
+msgstr ""
+
+#: admin/class-dbp-list-admin.php:88
+msgid "List published"
+msgstr ""
+
+#: admin/class-dbp-list-admin.php:95
+msgid "List removed"
+msgstr ""
+
+#: admin/partials/dbp-content-list-sql-edit.php:35
+msgid "List settings"
+msgstr ""
+
+#: admin/class-dbp-list-admin.php:103
+msgid "List trashed"
+msgstr ""
+
+#: admin/partials/dbp-content-list-setting.php:54
+msgid "List type"
+msgstr ""
+
+#: admin/partials/dbp-page-home.php:100
+#, php-format
+msgid "Log dir (%s) is NOT writable"
+msgstr ""
+
+#: admin/partials/dbp-page-home.php:98
+msgid "Log dir is writable"
+msgstr ""
+
+#: admin/partials/dbp-content-list-form-single-table.php:200
+msgid "Lookup params"
+msgstr ""
+
+#: admin/partials/dbp-content-list-setting.php:222
+msgid "Loop the data"
+msgstr ""
+
+#: admin/partials/dbp-content-list-structure.php:213
+#: admin/partials/dbp-content-list-structure.php:301
+msgid "Max text length"
+msgstr ""
+
+#: admin/partials/dbp-content-table-import.php:309
+#, php-format
+msgid "max upload files <b>%s</b>"
+msgstr ""
+
+#: admin/partials/dbp-page-home.php:95
+msgid "max_input_vars is ok"
+msgstr ""
+
+#: includes/dbp-html-sql.php:79
+msgid "Merge"
+msgstr ""
+
+#: admin/partials/dbp-content-list-form.php:56
+msgid "Module Type"
+msgstr ""
+
+#: admin/class-dbp-table-admin.php:444
+msgid "Most of the features have been disabled."
+msgstr ""
+
+#: admin/partials/dbp-content-list-setting.php:287
+msgid "Mostra i dati in una tabella"
+msgstr ""
+
+#: includes/dbp-temporaly-files.php:171
+msgid "Move uploaded file error"
+msgstr ""
+
+#: admin/partials/dbp-content-multiquery.php:23
+msgid "Multi Queries executed"
+msgstr ""
+
+#: includes/dbp-html-table.php:65
+#, php-format
+msgid "MySQL returned %s rows. (Query took %s seconds.)"
+msgstr ""
+
+#: admin/partials/dbp-partial-alter-table.php:29
+#: admin/partials/dbp-partial-structure-show-table.php:11
+msgid "Name"
+msgstr ""
+
+#: admin/partials/dbp-content-list-structure.php:57
+#: admin/partials/dbp-content-list-structure.php:149
+msgid "Name in url (for request)"
+msgstr ""
+
+#: admin/partials/dbp-content-list-form.php:114
+msgid "New Field"
+msgstr ""
+
+#: includes/dbp-temporaly-files.php:162
+msgid "No file uploaded"
+msgstr ""
+
+#: admin/class-dbp-admin-menu.php:70 admin/class-dbp-list-admin.php:517
+msgid "No Multiquery permitted in list"
+msgstr ""
+
+#: admin/partials/dbp-content-list-setting.php:258
+msgid "No result"
+msgstr ""
+
+#: admin/partials/dbp-content-table-structure.php:124
+msgid "No table was selected"
+msgstr ""
+
+#: includes/dbp-functions.php:854
+msgid "No temp data found"
+msgstr ""
+
+#: includes/dbp-functions.php:605 includes/dbp-functions.php:625
+#: includes/dbp-functions.php:640
+msgid "Not Empties"
+msgstr ""
+
+#: admin/class-dbp-list-admin.php:237
+msgid "NOT IN (Not found in array)"
+msgstr ""
+
+#: admin/class-dbp-list-admin.php:235
+msgid "NOT LIKE (Exclude Text)"
+msgstr ""
+
+#: admin/partials/dbp-partial-alter-table.php:36
+#: admin/partials/dbp-partial-structure-show-table.php:17
+msgid "Null"
+msgstr ""
+
+#: admin/partials/dbp-partial-dropdown.php:110
+msgid "OK"
+msgstr ""
+
+#: admin/partials/dbp-content-list-browse.php:78
+#: admin/partials/dbp-content-table-with-filter.php:91
+msgid "On selected records"
+msgstr ""
+
+#: admin/partials/dbp-content-table-structure.php:122
+msgid "One or more queries have failed. Correct them before editing the table."
+msgstr ""
+
+#: includes/dbp-list-loader.php:90 admin/class-dbp-list-admin.php:212
+#: admin/class-dbp-list-admin.php:288 admin/class-dbp-list-admin.php:735
+#: admin/class-dbp-list-admin.php:813
+msgid "Only a single select query is allowed in the lists"
+msgstr ""
+
+#: includes/dbp-model-structure.php:162
+msgid "Only one primary key field is allowed"
+msgstr ""
+
+#: includes/dbp-model.php:1719
+msgid ""
+"Only tables in draft can be Altered. Go to structure and change the status "
+"of the table"
+msgstr ""
+
+#: includes/dbp-loader.php:1186
+#, php-format
+msgid "Ops Query Error: %s "
+msgstr ""
+
+#: includes/dbp-list-loader.php:229
+msgid "Ops this looks like a bug, parameters are missing."
+msgstr ""
+
+#: includes/dbp-loader.php:377
+msgid "Option not available for this query"
+msgstr ""
+
+#: admin/partials/dbp-content-list-sql-edit.php:115
+msgid "Options"
+msgstr ""
+
+#: admin/partials/dbp-partial-alter-table.php:28
+#: admin/partials/dbp-content-table-import.php:111
+msgid "Order"
+msgstr ""
+
+#: includes/dbp-html-sql.php:76
+msgid "Organize columns"
+msgstr ""
+
+#: includes/dbp-functions-items-setting.php:400
+#, php-format
+msgid "Other %s elements"
+msgstr ""
+
+#: admin/partials/dbp-content-list-setting.php:71
+msgid "Pagination position"
+msgstr ""
+
+#: admin/partials/dbp-content-list-setting.php:77
+#: admin/partials/dbp-content-list-setting.php:204
+msgid "Pagination style"
+msgstr ""
+
+#: admin/partials/dbp-content-list-sql-edit.php:88
+msgid "Permissions"
+msgstr ""
+
+#: includes/documentation/pages_en_GB/code-php.php:7
+#: includes/documentation/pages_it_IT/code-php.php:7
+msgid "PHP"
+msgstr ""
+
+#: admin/partials/dbp-content-list-setting.php:282
+msgid "Popup type"
+msgstr ""
+
+#: admin/partials/dbp-content-list-sql-edit.php:80
+msgid "Position (number)"
+msgstr ""
+
+#: admin/partials/dbp-partial-alter-table.php:30
+#: admin/partials/dbp-partial-structure-show-table.php:12
+#: admin/partials/dbp-content-table-import.php:113
+msgid "Preset"
+msgstr ""
+
+#: admin/partials/dbp-partial-alter-table.php:37
+msgid "Pri"
+msgstr ""
+
+#: admin/partials/dbp-partial-alter-table.php:37
+msgid "Primary Key & Auto increment"
+msgstr ""
+
+#: includes/dbp-model-structure.php:435
+msgid "Primary key is missing"
+msgstr ""
+
+#: admin/partials/dbp-content-list-sql-edit.php:106
+msgid "Query"
+msgstr ""
+
+#: admin/partials/dbp-content-multiquery.php:35
+msgid "Query execution was interrupted by the user."
+msgstr ""
+
+#: includes/dbp-loader.php:425
+msgid "Query not executed"
+msgstr ""
+
+#: admin/partials/dbp-content-list-browse.php:80
+#: admin/partials/dbp-content-table-with-filter.php:93
+msgid "Query results operations"
+msgstr ""
+
+#: admin/partials/dbp-content-list-form-single-table.php:221
+msgid "Query test"
+msgstr ""
+
+#: admin/partials/dbp-content-list-form-single-table.php:217
+msgid "Query WHERE part (optional)"
+msgstr ""
+
+#: admin/partials/dbp-content-list-form-single-table.php:172
+msgid "Recalculate and save all records"
+msgstr ""
+
+#: includes/dbp-functions.php:1438
+#, php-format
+msgid ""
+"Records in the \"%s\" table cannot be removed because they are in a closed "
+"state. If you want to be able to remove the data, change the status from the "
+"table structure to \"published\""
+msgstr ""
+
+#: admin/partials/dbp-content-table-import.php:213
+msgid "Records with the same primary key will be updated."
+msgstr ""
+
+#: includes/documentation/pages_en_GB/tutorial_01.php:7
+#: includes/documentation/pages_it_IT/tutorial_01.php:7
+msgid "Related post"
+msgstr ""
+
+#: admin/partials/dbp-content-table-structure.php:21
+msgid "Reload"
+msgstr ""
+
+#: admin/partials/dbp-partial-dropdown.php:28
+#: admin/partials/dbp-partial-dropdown.php:30
+msgid "Remove Filter"
+msgstr ""
+
+#: admin/partials/dbp-partial-dropdown.php:19
+msgid "Remove sort"
+msgstr ""
+
+#: admin/partials/dbp-content-list-form-single-table.php:96
+msgid "Required?"
+msgstr ""
+
+#: admin/partials/dbp-content-list-form-single-table.php:60
+msgid "Restore the deleted field"
+msgstr ""
+
+#: admin/partials/dbp-content-list-form-single-table.php:244
+msgid "Roles"
+msgstr ""
+
+#: includes/dbp-list-loader.php:282
+#, php-format
+msgid "row ID %s: The template engine gave an error: %s"
+msgstr ""
+
+#: admin/partials/dbp-content-list-sql-edit.php:163
+msgid "Salva la query prima di impostare i filtri"
+msgstr ""
+
+#: admin/partials/dbp-content-table-structure-indexes.php:53
+#: admin/partials/dbp-content-list-sql-edit.php:17
+#: admin/partials/dbp-content-list-form.php:11
+#: admin/partials/dbp-content-list-form.php:127
+#: admin/partials/dbp-content-table-structure.php:106
+#: admin/partials/dbp-content-table-structure.php:148
+#: admin/partials/dbp-content-list-setting.php:9
+#: admin/partials/dbp-content-list-setting.php:306
+#: admin/partials/dbp-content-list-structure.php:11
+#: admin/partials/dbp-content-list-structure.php:304
+msgid "Save"
+msgstr ""
+
+#: admin/class-dbp-list-admin.php:610 admin/class-dbp-list-admin.php:778
+#: admin/class-dbp-list-admin.php:884
+msgid "Saved"
+msgstr ""
+
+#: admin/class-dbp-table-admin.php:756
+#: admin/partials/dbp-partial-dropdown.php:75
+#: admin/partials/dbp-content-list-setting.php:91
+msgid "Search"
+msgstr ""
+
+#: includes/dbp-functions.php:600 includes/dbp-functions.php:622
+#: includes/dbp-functions.php:637
+msgid "Search Text (%LIKE%)"
+msgstr ""
+
+#: admin/partials/dbp-content-list-structure.php:72
+#: admin/partials/dbp-content-list-structure.php:165
+msgid "Searchable"
+msgstr ""
+
+#: admin/partials/dbp-partial-dropdown.php:95
+msgid "Select all"
+msgstr ""
+
+#: admin/partials/dbp-content-table-import.php:193
+msgid ""
+"Select one or more tables in which to insert data.<br>On each field choose "
+"which column of the csv to insert.<br>If you want to insert data on multiple "
+"tables, for example post and postmeta: First select the post table and "
+"associate the fields of your csv. At the bottom of the table you will find a "
+"string. This refers to the id of the records that will be created or updated."
+"<br>Add the postmeta table and on the post_id field select the code in "
+"square brackets.<br>"
+msgstr ""
+
+#: admin/partials/dbp-content-table-import.php:201
+msgid "Select table"
+msgstr ""
+
+#: admin/partials/dbp-content-table-structure.php:30
+msgid "Set the primary key through queries before changing the structure"
+msgstr ""
+
+#: admin/partials/dbp-content-list-sql-edit.php:25
+#: admin/partials/dbp-content-list-form.php:19
+#: admin/partials/dbp-content-list-setting.php:18
+#: admin/partials/dbp-content-list-structure.php:19
+msgid "Shortcode: "
+msgstr ""
+
+#: admin/partials/dbp-content-list-structure.php:251
+msgid "Show"
+msgstr ""
+
+#: admin/partials/dbp-partial-sidebar.php:34
+msgid "Show all (Create new)"
+msgstr ""
+
+#: admin/partials/dbp-page-home.php:32
+msgid "Show all List "
+msgstr ""
+
+#: admin/partials/dbp-partial-sidebar.php:21
+msgid "Show all List (query saved)"
+msgstr ""
+
+#: admin/partials/dbp-partial-sidebar.php:19
+#: admin/partials/dbp-partial-sidebar.php:54
+msgid "Show all tables"
+msgstr ""
+
+#: admin/partials/dbp-content-list-setting.php:36
+msgid "Show IF"
+msgstr ""
+
+#: admin/partials/dbp-content-list-sql-edit.php:59
+msgid "Show in admin menu"
+msgstr ""
+
+#: admin/partials/dbp-content-list-structure.php:212
+msgid "Show post attributes [%post.]"
+msgstr ""
+
+#: admin/partials/dbp-content-table-structure.php:32
+msgid "Show sql"
+msgstr ""
+
+#: admin/partials/dbp-content-list-form.php:88
+msgid "Show Title"
+msgstr ""
+
+#: admin/partials/dbp-content-list-structure.php:211
+#, php-format
+msgid "Show user attributes [%user.]"
+msgstr ""
+
+#: admin/partials/dbp-content-multiquery.php:32
+msgid "Some queries gave an error"
+msgstr ""
+
+#: admin/class-dbp-admin-menu.php:52 admin/class-dbp-admin-menu.php:60
+#: admin/class-dbp-admin-menu.php:147 admin/class-dbp-admin-menu.php:151
+msgid "Something is wrong, call the site administrator"
+msgstr ""
+
+#: admin/class-dbp-list-admin.php:658 admin/class-dbp-list-admin.php:937
+msgid "Something is wrong, check the query"
+msgstr ""
+
+#: admin/partials/dbp-content-list-form.php:129
+msgid "Something is wrong, check the query if it is correct"
+msgstr ""
+
+#: includes/dbp-loader.php:930
+msgid "Something wrong"
+msgstr ""
+
+#: admin/partials/dbp-partial-dropdown.php:18
+msgid "Sort Ascending"
+msgstr ""
+
+#: admin/partials/dbp-partial-dropdown.php:17
+msgid "Sort Desending"
+msgstr ""
+
+#: admin/partials/dbp-partial-sidebar.php:23
+msgid "SQL command"
+msgstr ""
+
+#: admin/partials/dbp-content-table-structure.php:72
+#: admin/partials/dbp-content-table-structure.php:132
+#: admin/partials/dbp-content-table-structure.php:142
+msgid "Status"
+msgstr ""
+
+#: includes/dbp-loader.php:606
+msgid ""
+"Strange, I have not found any results. Verify that the primary key of each "
+"selected table is always displayed in the MySQL SELECT statement. Check that "
+"the tables have a unique auto increment primary key."
+msgstr ""
+
+#: admin/partials/dbp-content-list-setting.php:64
+msgid "Style color"
+msgstr ""
+
+#: admin/partials/dbp-content-table-structure.php:14
+#, php-format
+msgid "Table %s"
+msgstr ""
+
+#: includes/dbp-model-structure.php:438
+#, php-format
+msgid "Table %s already exists!"
+msgstr ""
+
+#: admin/partials/dbp-content-table-structure-indexes.php:13
+#, php-format
+msgid "Table %s INDEX"
+msgstr ""
+
+#: includes/dbp-loader-import.php:43
+msgid "Table Column"
+msgstr ""
+
+#: admin/partials/dbp-content-list-setting.php:97
+msgid "Table Dimension"
+msgstr ""
+
+#: admin/partials/dbp-content-list-setting.php:109
+msgid "Table example"
+msgstr ""
+
+#: admin/partials/dbp-content-table-import.php:112
+msgid "Table name"
+msgstr ""
+
+#: admin/partials/dbp-content-list-structure.php:47
+#: admin/partials/dbp-content-list-structure.php:140
+msgid "Table title"
+msgstr ""
+
+#: admin/partials/dbp-content-list-setting.php:103
+#: admin/partials/dbp-content-list-setting.php:196
+msgid "Table update"
+msgstr ""
+
+#: admin/partials/dbp-content-list-structure.php:241
+msgid "Table:"
+msgstr ""
+
+#: includes/documentation/pages_en_GB/pinacode.php:2
+#: includes/documentation/pages_it_IT/pinacode.php:2
+msgid "Template engine"
+msgstr ""
+
+#: includes/dbp-temporaly-files.php:88 includes/dbp-temporaly-files.php:335
+msgid "Temporary file cannot be read"
+msgstr ""
+
+#: admin/partials/dbp-content-list-form-single-table.php:170
+msgid "Test formula"
+msgstr ""
+
+#: admin/partials/dbp-content-table-import.php:223
+msgid "Test the Import"
+msgstr ""
+
+#: includes/dbp-loader.php:1637
+msgid "Text the first 100 records"
+msgstr ""
+
+#: admin/partials/dbp-content-list-setting.php:290
+#, php-format
+msgid "The action is now active: <b>do_action(\"dbp_detail_%s\", $data)</b> "
+msgstr ""
+
+#: admin/partials/dbp-content-table-import.php:35
+msgid "The csv file has been loaded, check if the data is correct."
+msgstr ""
+
+#: includes/dbp-loader.php:1292 includes/dbp-loader.php:1295
+msgid "The current query cannot be joined to other tables"
+msgstr ""
+
+#: includes/dbp-loader.php:1456
+msgid "The current query cannot be linked to metadata"
+msgstr ""
+
+#: admin/class-dbp-table-admin.php:353 admin/class-dbp-list-admin.php:536
+msgid "The data has been removed"
+msgstr ""
+
+#: admin/class-dbp-table-admin.php:344 admin/class-dbp-admin-menu.php:100
+#: admin/class-dbp-list-admin.php:527
+#, php-format
+msgid "The data has been removed. <br> %s"
+msgstr ""
+
+#: admin/class-dbp-list-admin.php:793
+msgid ""
+"The expression must return boolean, or a number or one of the following "
+"texts: true, t, false, f"
+msgstr ""
+
+#: includes/dbp-temporaly-files.php:197
+msgid "The file you are trying to upload does not exist"
+msgstr ""
+
+#: includes/dbp-loader-import.php:247 includes/dbp-loader-import.php:361
+msgid "The insertions cannot be performed for the primary key in the table"
+msgstr ""
+
+#: admin/partials/dbp-page-home.php:90
+msgid ""
+"the max_input_vars (php.ini) value is sufficient, but if you can increase it "
+"to at least 5000 it would be better."
+msgstr ""
+
+#: admin/partials/dbp-content-table-structure.php:28
+msgid "The max_input_vars value is sufficient to edit this form"
+msgstr ""
+
+#: includes/dbp-functions.php:994
+#, php-format
+msgid ""
+"The maximum number of input_var (max_input_vars) allowed by php.ini is %s "
+"But to manage this table I need at least %s"
+msgstr ""
+
+#: admin/partials/dbp-page-home.php:82
+#, php-format
+msgid ""
+"The mysql user does not have enough permissions to manage this plugin. "
+"Missing: <b>%s</b>"
+msgstr ""
+
+#: admin/partials/dbp-page-home.php:84
+msgid "The permissions of the mysql user are correct"
+msgstr ""
+
+#: admin/class-dbp-table-admin.php:385
+msgid "The queries were performed successfully."
+msgstr ""
+
+#: includes/dbp-functions-import.php:132
+msgid "The query does not return a unique value"
+msgstr ""
+
+#: includes/dbp-loader-import.php:226 includes/dbp-loader-import.php:230
+#: includes/dbp-loader-import.php:232
+msgid "The query failed"
+msgstr ""
+
+#: includes/dbp-model.php:1755
+#, php-format
+msgid "The query has multiple columns (<b>%s</b>) with the same name."
+msgstr ""
+
+#: admin/class-dbp-list-admin.php:303
+msgid "The query is required"
+msgstr ""
+
+#: includes/dbp-loader.php:599
+msgid ""
+"The query responded with multiple lines. Verify that the primary key of each "
+"selected table is always displayed in the MySQL SELECT statement"
+msgstr ""
+
+#: admin/partials/dbp-content-list-form.php:48
+msgid "The table can no longer be modified because it is in a closed state."
+msgstr ""
+
+#: admin/class-dbp-table-admin.php:451
+msgid ""
+"The table can no longer be modified because it is in the \"CLOSE\" state."
+msgstr ""
+
+#: admin/partials/dbp-content-list-form.php:118
+msgid "The table is in a published state and cannot be changed"
+msgstr ""
+
+#: admin/class-dbp-list-admin.php:432
+msgid "The title is required"
+msgstr ""
+
+#: includes/dbp-loader-import.php:195
+msgid "The value is different from the original csv"
+msgstr ""
+
+#: includes/dbp-model-structure.php:426
+msgid "There are no columns to insert"
+msgstr ""
+
+#: includes/dbp-loader.php:957
+msgid "There are no records to delete"
+msgstr ""
+
+#: admin/class-dbp-list-admin.php:780
+msgid "There was a problem saving the data"
+msgstr ""
+
+#: includes/dbp-loader.php:1130 includes/dbp-functions.php:1467
+msgid "There was an unexpected problem"
+msgstr ""
+
+#: includes/dbp-loader.php:623
+msgid "There was an unexpected problem, please try reloading the page."
+msgstr ""
+
+#: admin/class-dbp-table-admin.php:271 admin/class-dbp-table-admin.php:443
+msgid ""
+"This system works better with tables that have only one field set as the "
+"autoincrement primary key."
+msgstr ""
+
+#: admin/partials/dbp-partial-alter-table.php:163
+msgid ""
+"This system works with tables that have only one field set as the "
+"autoincrement primary key!"
+msgstr ""
+
+#: includes/dbp-model.php:695
+msgid "This type of query is not allowed because the table is in CLOSE state"
+msgstr ""
+
+#: includes/dbp-model.php:693
+msgid "This type of query is not allowed because the table is in PUBLISH state"
+msgstr ""
+
+#: admin/partials/dbp-content-list-sql-edit.php:38
+#: admin/partials/dbp-content-list-sql-edit.php:67
+msgid "Title"
+msgstr ""
+
+#: admin/partials/dbp-content-table-import.php:234
+msgid "Total row"
+msgstr ""
+
+#: includes/dbp-loader-import.php:44
+#: admin/partials/dbp-partial-alter-table.php:32
+#: admin/partials/dbp-partial-structure-show-table.php:13
+msgid "Type"
+msgstr ""
+
+#: admin/partials/dbp-content-table-import.php:246
+msgid "Update"
+msgstr ""
+
+#: admin/partials/dbp-content-table-import.php:54
+msgid "Update Preview"
+msgstr ""
+
+#: admin/partials/dbp-content-table-import.php:293
+msgid "Upload a <b>csv</b> file and go ahead to configure the import"
+msgstr ""
+
+#: admin/partials/dbp-content-table-import.php:36
+msgid "Upload a new file"
+msgstr ""
+
+#: admin/partials/dbp-content-table-import.php:279
+msgid "Upload an <b>sql</b> file with the queries to run"
+msgstr ""
+
+#: admin/partials/dbp-content-table-import.php:49
+#: admin/partials/dbp-content-table-import.php:51
+msgid "Use first row as Headers"
+msgstr ""
+
+#: admin/partials/dbp-page-home.php:69
+msgid ""
+"Using the mysql root user to connect to the database is not a good idea."
+msgstr ""
+
+#: admin/partials/dbp-partial-dropdown.php:52
+msgid "Value"
+msgstr ""
+
+#: admin/partials/dbp-partial-dropdown.php:62
+msgid "Value 2"
+msgstr ""
+
+#: includes/dbp-functions.php:603
+msgid "Values outside the range (NOT BETWEEN)"
+msgstr ""
+
+#: admin/partials/dbp-content-list-setting.php:278
+msgid "View type"
+msgstr ""
+
+#: admin/partials/dbp-content-list-setting.php:260
+msgid ""
+"What appears if there are no results. It is used only when compiled. Unlike "
+"\"show if [% total_row]> 0\", no result keeps showing the search field."
+msgstr ""
+
+#: admin/partials/dbp-content-list-sql-edit.php:168
+msgid ""
+"When one or more records are deleted, you choose which tables in the query "
+"you want to be deleted."
+msgstr ""
+
+#: admin/partials/dbp-partial-sidebar.php:73
+msgid "WORDPRESS TABLES"
+msgstr ""
+
+#: admin/partials/dbp-content-list-setting.php:271
+msgid "You can choose to view the content detail on a page."
+msgstr ""
+
+#: includes/dbp-model.php:1701
+msgid "You cannot remove the entire database"
+msgstr ""
+
+#: includes/dbp-loader.php:769
+msgid "You do not have permission to access this content!"
+msgstr ""
+
+#: admin/class-dbp-list-admin.php:202 admin/class-dbp-list-admin.php:464
+#: admin/class-dbp-list-admin.php:590 admin/class-dbp-list-admin.php:655
+#: admin/class-dbp-list-admin.php:934
+msgid "You have not selected any list"
+msgstr ""
+
+#: admin/class-dbp-list-admin.php:507 admin/class-dbp-list-admin.php:641
+#: admin/class-dbp-list-admin.php:913
+msgid "You have to config the query first!"
+msgstr ""
+
+#: admin/partials/dbp-content-table-structure.php:26
+msgid "You must first set the table in draft mode"
+msgstr ""
+
+#: admin/class-dbp-table-admin.php:242
+msgid "You must select at least one column"
+msgstr ""
+
+#: includes/dbp-loader-import.php:124 includes/dbp-loader-import.php:280
+msgid "You must select at least one table before you can import data"
+msgstr ""
+
+#: admin/class-dbp-list-admin.php:587
+msgid "You need to create a select query for the lists"
+msgstr ""
