@@ -31,10 +31,10 @@ class  Dbp_pro_loader_list_sql_edit {
             <h3 class="dbp-h3 dbp-margin-top"><?php _e('Query', 'database_press'); ?></h3>
             <p class="dbp-alert-gray" style="margin-top:-1rem">
                 <?php _e('How the data is extracted','database_press'); 
-                dbp_fn::echo_html_icon_help('dbp_list-list-sql-edit','admin_query');
+                ADFO_fn::echo_html_icon_help('dbp_list-list-sql-edit','admin_query');
                 ?>
             </p>
-            <?php dbp_html_sql::render_sql_from($table_model, $show_query); ?>
+            <?php ADFO_html_sql::render_sql_from($table_model, $show_query); ?>
         </div>
         <?php
 	}
@@ -47,7 +47,7 @@ class  Dbp_pro_loader_list_sql_edit {
 		<br>
 		<h3 class="dbp-h3"><?php _e('Delete options', 'admin_form'); ?></h3>
 		<p class="dbp-alert-gray" style="margin-top:-1rem"><?php _e('When one or more records are deleted, you choose which tables in the query you want to be deleted.', 'admin_form');
-		dbp_fn::echo_html_icon_help('dbp_list-list-sql-edit','delete_options');?></p>
+		ADFO_fn::echo_html_icon_help('dbp_list-list-sql-edit','delete_options');?></p>
 		<?php
 		
 		/** @var array $delete_tables [[table, as, where, la parte di stringa elaborata], ...] */
@@ -62,7 +62,7 @@ class  Dbp_pro_loader_list_sql_edit {
 					<div class="dbp-form-row-column">
 						<label>
 							<span class="dbp-form-label "><?php echo $dt[0].' AS '.$dt[1].' '; ?></span>
-							<?php echo dbp_fn::html_select(['1'=>'Yes', 0=>'No'], true, 'name="remove_tables_alias['.$dt[1].']"', $post_allow_delete[$dt[1]]); ?>
+							<?php echo ADFO_fn::html_select(['1'=>'Yes', 0=>'No'], true, 'name="remove_tables_alias['.$dt[1].']"', $post_allow_delete[$dt[1]]); ?>
 						</label>
 					</div>
 				<?php if ($k%2) : ?></div><?php endif; 
@@ -83,10 +83,10 @@ class  Dbp_pro_loader_list_sql_edit {
 		$show_query = false;
 		$error_query = "";
 		if ($id > 0) {
-			$post = dbp_functions_list::get_post_dbp($id);
+			$post = ADFO_functions_list::get_post_dbp($id);
 			if (isset($_REQUEST['custom_query']) && $_REQUEST['custom_query'] !== '') {
 				// aggiungo tutti i primary id e li salvo a parte 
-				$table_model = new Dbp_model();
+				$table_model = new ADFO_model();
 				$table_model->prepare(wp_kses_post((wp_unslash($_REQUEST['custom_query']))));
 				if ($table_model->sql_type() != "select") {
 					$error_query = __('Only a single select query is allowed in the lists', 'database_press');
@@ -164,7 +164,7 @@ class  Dbp_pro_loader_list_sql_edit {
 			if (!isset($_REQUEST['remove_tables_alias']) || !is_array($_REQUEST['remove_tables_alias'])) {
 				$remove_tables_alias_request = [];
 			} else {
-				$remove_tables_alias_request = dbp_fn::sanitize_text_recursive($_REQUEST['remove_tables_alias']);	
+				$remove_tables_alias_request = ADFO_fn::sanitize_text_recursive($_REQUEST['remove_tables_alias']);	
 			}
 			foreach ($remove_tables_alias_request as $remove_tables_alias=>$allow) {
 				$post->post_content['delete_params']['remove_tables_alias'][sanitize_text_field($remove_tables_alias)] = absint($allow);
@@ -207,7 +207,7 @@ class  Dbp_pro_loader_list_sql_edit {
 			/**
 			 * @var dbpDs_list_setting[] $setting_custom_list
 			 */
-			$setting_custom_list =  dbp_functions_list::get_list_structure_config($items, $post->post_content['list_setting']);
+			$setting_custom_list =  ADFO_functions_list::get_list_structure_config($items, $post->post_content['list_setting']);
 			foreach ($setting_custom_list as $key_list=>$list) {
 				$post->post_content['list_setting'][$key_list] = $list->get_for_saving_in_the_db();
 			}

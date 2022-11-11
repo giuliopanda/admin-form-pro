@@ -63,9 +63,7 @@ class  Dbp_pro_list_loader {
 		add_action( 'wp_ajax_af_delete_confirm', [$this, 'af_delete_confirm']);
 
 		add_action('dbp_list_browse_after_content', [$this, 'list_browse_after_content'], 10, 2);
-		
 		add_action('dbp_page_admin_menu_after_title', [$this, 'list_browse_after_content'], 10, 2);
-
 
 		add_action( 'wp_ajax_af_test_formula', [$this, 'test_formula']);
         add_action( 'wp_ajax_af_recalculate_formula', [$this, 'recalculate_formula']);
@@ -78,12 +76,12 @@ class  Dbp_pro_list_loader {
      */
     function create_list() {
         global $wpdb;
-        dbp_fn::require_init();
+        ADFO_fn::require_init();
         // SE c'è una query la scrivo
         if (!isset($_REQUEST['table_choose']) && !isset($_REQUEST['new_sql'])) {
             wp_redirect( admin_url("admin.php?page=admin_form&section=list-all&msg=create_list_error"));
         }
-        $title = wp_strip_all_tags( dbp_fn::get_request('new_title'));
+        $title = wp_strip_all_tags( ADFO_fn::get_request('new_title'));
        // TODO: if (!is_admin()) return;
         $create_list = array(
             'post_title'    => $title,
@@ -98,11 +96,11 @@ class  Dbp_pro_list_loader {
             wp_redirect( admin_url("admin.php?page=admin_form&section=list-all&msg=create_list_error"));
         } else {
             if (isset($_REQUEST['new_sql'])) {
-                $sql = html_entity_decode ( dbp_fn::get_request('new_sql'));
+                $sql = html_entity_decode ( ADFO_fn::get_request('new_sql'));
             } else if (isset($_REQUEST['table_choose'])) {
                 if ($_REQUEST['table_choose'] == 'create_new_table') {
                     // il nome della tabella
-                    $table_name = str_replace($wpdb->prefix, '', dbp_fn::clean_string($title));
+                    $table_name = str_replace($wpdb->prefix, '', ADFO_fn::clean_string($title));
                     $count = 0;
                     if ($table_name == "") {
                        $table_name = uniqid();
@@ -110,7 +108,7 @@ class  Dbp_pro_list_loader {
                     $table_name = $wpdb->prefix."dbp_".$table_name;
                     $table_name_temp = $table_name;
                     
-                    while (dbp_fn::exists_table($table_name)) {
+                    while (ADFO_fn::exists_table($table_name)) {
                         $count ++;
                         $table_name = $table_name_temp ."_". $count;
                     }
@@ -124,19 +122,19 @@ class  Dbp_pro_list_loader {
                     
                     $sql = 'SELECT `'.$table_as.'`.* FROM `'.$table_name.'` `'.$table_as.'`';
                     // TODO METTO LA TABELLA IN DRAFT MODE!
-                    dbp_fn::update_dbp_option_table_status($table_name, 'DRAFT');
+                    ADFO_fn::update_dbp_option_table_status($table_name, 'DRAFT');
 
                 } else {
-                    $table_name =  dbp_fn::get_request('mysql_table_name');
+                    $table_name =  ADFO_fn::get_request('mysql_table_name');
                     // ho già la tabella
                     $table_as = substr(str_replace([$wpdb->prefix,"_","-"], '',  $table_name), 0, 3);
 
-                    $sql = 'SELECT `'.esc_sql($table_as).'`.* FROM `'. dbp_fn::sanitize_key($table_name) .'` `'.esc_sql($table_as).'`';
+                    $sql = 'SELECT `'.esc_sql($table_as).'`.* FROM `'. ADFO_fn::sanitize_key($table_name) .'` `'.esc_sql($table_as).'`';
                 }
             }
-            $post = dbp_functions_list::get_post_dbp($id);
+            $post = ADFO_functions_list::get_post_dbp($id);
             if ($sql != "") {
-                $table_model = new Dbp_model();
+                $table_model = new ADFO_model();
                 $table_model->prepare($sql);
                 if ($table_model->sql_type() != "select") {
                     //TODO Al momento il messaggio di errore non è usato da impostare con i cookie !!!!
@@ -159,7 +157,7 @@ class  Dbp_pro_list_loader {
                     } else {
                         $list_setting = [];
                     }
-                    $setting_custom_list =  dbp_functions_list::get_list_structure_config($items, $list_setting);
+                    $setting_custom_list =  ADFO_functions_list::get_list_structure_config($items, $list_setting);
                     $table_model->remove_limit();
                     $table_model->remove_order();
                     $post->post_content['sql'] = $table_model->get_current_query();
@@ -197,12 +195,12 @@ class  Dbp_pro_list_loader {
 			<div class="dbp-form-row-column">
 				<div>
 					<label><span class="dbp-form-label"><?php _e('Calculated Field: formula','admin_form'); ?>
-					<?php dbp_fn::echo_html_icon_help('dbp_list-list-form','calc_field'); ?></span></label>
+					<?php ADFO_fn::echo_html_icon_help('dbp_list-list-form','calc_field'); ?></span></label>
 					<textarea class="dbp-input js-fields-custom-value-calc" style="width:100%" rows="3" name="fields_custom_value_calc[<?php echo absint($count_fields); ?>]"><?php echo esc_textarea(@$item->custom_value); ?></textarea>
 					<div><span class="dbp-link-click" onclick="show_pinacode_vars()">show shortcode variables</span></div>
 				</div>
 				<div style="margin-top:1rem">
-				<?php echo dbp_fn::html_select(['EMPTY'=>'Calculate the formula only when the field is empty.','EVERY_TIME'=>'Recalculate the formula each time you save'], true, ' name="fields_custom_value_calc_when['.absint($count_fields).']"', @$item->custom_value_calc_when); ?>
+				<?php echo ADFO_fn::html_select(['EMPTY'=>'Calculate the formula only when the field is empty.','EVERY_TIME'=>'Recalculate the formula each time you save'], true, ' name="fields_custom_value_calc_when['.absint($count_fields).']"', @$item->custom_value_calc_when); ?>
 			
 				</label>
 				</div>
@@ -212,11 +210,11 @@ class  Dbp_pro_list_loader {
 			<p>
 				<?php if ($total_row > 0) : ?>
 					<div class="dbp-form-row-column" style="margin-bottom:.5rem">
-					<label>Choose the record: <?php echo dbp_fn::html_select($select_array_test, true, ' class="js-choose-test-row"'); ?>
+					<label>Choose the record: <?php echo ADFO_fn::html_select($select_array_test, true, ' class="js-choose-test-row"'); ?>
 					</label>
 					<div class="button js-test-formula" onClick="click_af_test_formula(this);"><?php _e('Test formula', 'admin_form'); ?></div>
 				</div>
-					<div class="button" id="dbp_<?php  echo dbp_fn::get_uniqid(); ?>" onClick="click_af_recalculate_formula(jQuery(this).prop('id'), 0, <?php echo $total_row ; ?>);"><?php _e('Recalculate and save all records', 'admin_form'); ?></div>
+					<div class="button" id="dbp_<?php  echo ADFO_fn::get_uniqid(); ?>" onClick="click_af_recalculate_formula(jQuery(this).prop('id'), 0, <?php echo $total_row ; ?>);"><?php _e('Recalculate and save all records', 'admin_form'); ?></div>
 				<?php endif; ?>
 			</p>
 			</div>
@@ -224,8 +222,8 @@ class  Dbp_pro_list_loader {
 		
 		<?php
 		if ( $item->lookup_id != '') {
-            $lookup_col_list = Dbp_fn::get_table_structure($item->lookup_id, true);
-            $primary = Dbp_fn::get_primary_key($item->lookup_id);
+            $lookup_col_list = ADFO_fn::get_table_structure($item->lookup_id, true);
+            $primary = ADFO_fn::get_primary_key($item->lookup_id);
             $pos = array_search($primary, $lookup_col_list);
             if ($pos !== false) {
                 unset($lookup_col_list[$pos]);
@@ -234,21 +232,21 @@ class  Dbp_pro_list_loader {
         } else {
             $lookup_col_list = [];
         }
-        $list_of_tables = Dbp_fn::get_table_list();
+        $list_of_tables = ADFO_fn::get_table_list();
         ?>
-        <div class="js-dbp-lookup-data"<?php echo (@$item->form_type != 'LOOKUP') ? ' style="display:none"' : ''; ?> id="id<?php echo dbp_fn::get_uniqid(); ?>">
+        <div class="js-dbp-lookup-data"<?php echo (@$item->form_type != 'LOOKUP') ? ' style="display:none"' : ''; ?> id="id<?php echo ADFO_fn::get_uniqid(); ?>">
             <h3><?php _e('Lookup params','admin_form'); ?>
-            <?php dbp_fn::echo_html_icon_help('dbp_list-list-form','lookup'); ?>
+            <?php ADFO_fn::echo_html_icon_help('dbp_list-list-form','lookup'); ?>
             </h3>
             <div class="dbp-structure-grid">
                 <div class="dbp-form-row-column">
                     <label class="dbp-label-grid dbp-css-mb-0"><span class="dbp-form-label"><?php _e('Choose Table','admin_form'); ?></span>
-                    <?php echo Dbp_fn::html_select($list_of_tables['tables'], true, 'name="fields_lookup_id['. absint($count_fields) . ']" onchange="dbp_change_lookup_id(this)" class="js-select-fields-lookup"', @$item->lookup_id); ?>
+                    <?php echo ADFO_fn::html_select($list_of_tables['tables'], true, 'name="fields_lookup_id['. absint($count_fields) . ']" onchange="dbp_change_lookup_id(this)" class="js-select-fields-lookup"', @$item->lookup_id); ?>
                     </label>
                 </div>
                 <div class="dbp-form-row-column">
                     <label class="dbp-label-grid dbp-css-mb-0"><span class="dbp-form-label"><?php _e('Label','admin_form'); ?></span>
-                    <?php echo Dbp_fn::html_select($lookup_col_list, false, 'name="fields_lookup_sel_txt['. absint($count_fields) . ']"  class="js-lookup-select-text"', @$item->lookup_sel_txt); ?>
+                    <?php echo ADFO_fn::html_select($lookup_col_list, false, 'name="fields_lookup_sel_txt['. absint($count_fields) . ']"  class="js-lookup-select-text"', @$item->lookup_sel_txt); ?>
                     </label>
                     <input type="hidden" name="fields_lookup_sel_val[<?php echo absint($count_fields); ?>]" class="js-lookup-select-value" value="<?php echo esc_attr(@$item->lookup_sel_val); ?>">
                 </div>
@@ -257,7 +255,7 @@ class  Dbp_pro_list_loader {
                 <label><span class="dbp-form-label"><?php _e('Query WHERE part (optional)','admin_form'); ?></span></label>
                 <div>
                 <textarea class="dbp-input js-lookup-where" style="width:100%; margin-bottom:.5rem" rows="1" name="fields_lookup_where[<?php echo absint($count_fields); ?>]"><?php echo esc_textarea(@$item->lookup_where); ?></textarea>
-                <?php $id_test_lookup = 'dbpl_' . Dbp_fn::get_uniqid() ;?>
+                <?php $id_test_lookup = 'dbpl_' . ADFO_fn::get_uniqid() ;?>
                 <span class="dbp-link-click" onclick="btn_lookup_test_query(this,'<?php echo esc_attr($id_test_lookup); ?>')"><?php _e('Query test','admin_form'); ?></span>
                 <span id="<?php echo esc_attr($id_test_lookup); ?>" style="margin-left:1rem"></span>
                 </div>
@@ -274,8 +272,8 @@ class  Dbp_pro_list_loader {
     function form_lookup_test_query() {
 		global $wpdb;
 		ob_start();
-		dbp_fn::require_init();
-		$table_model = new Dbp_model(sanitize_text_field($_REQUEST['table']));
+		ADFO_fn::require_init();
+		$table_model = new ADFO_model(sanitize_text_field($_REQUEST['table']));
 		if (isset($_REQUEST['where']) && $_REQUEST['where'] != "") {
 			$sql = $table_model->get_current_query()." WHERE ".sanitize_text_field($_REQUEST['where']);
 			$table_model->prepare($sql);
@@ -331,7 +329,7 @@ class  Dbp_pro_list_loader {
         // Choose columns to show
         if (isset($_REQUEST['custom_query']) && $_REQUEST['custom_query'] !== '') {
             // aggiungo tutti i primary id e li salvo a parte 
-            $table_model = new Dbp_model();
+            $table_model = new ADFO_model();
             $custom_query = wp_kses_post( wp_unslash($_REQUEST['custom_query']));
             $table_model->prepare($custom_query);
             
@@ -354,7 +352,7 @@ class  Dbp_pro_list_loader {
         ?>
         <div id="dbp-bnt-columns-query" class="button js-show-only-select-query" onclick="af_columns_sql_query_edit()"><?php _e('Choose column to show*', 'admin_form'); ?></div>
         <div style="display:none">
-            <?php dbp_html_sql::render_sql_from($table_model, false); ?>
+            <?php ADFO_html_sql::render_sql_from($table_model, false); ?>
         </div>
         <p>* <?php _e('After modifying the query columns, the form will be saved automatically to allow you to view the modifications made', 'admin_form'); ?></p>
         <?php
@@ -366,9 +364,9 @@ class  Dbp_pro_list_loader {
 	 *  Chiamato dal bottone ORGANIZE COLUMNS
 	 */
 	function columns_sql_query_edit() {
-		dbp_fn::require_init();
-		$table_model = new Dbp_model();
-		$sql = html_entity_decode(dbp_fn::get_request('sql'));
+		ADFO_fn::require_init();
+		$table_model = new ADFO_model();
+		$sql = html_entity_decode(ADFO_fn::get_request('sql'));
 		$table_model->prepare($sql);
 		if ($sql != "" && $table_model->sql_type() == "select") {
 			$all_fields = $table_model->get_all_fields_from_query();
@@ -427,13 +425,13 @@ class  Dbp_pro_list_loader {
 	 * Chiamato dal bottone ORGANIZE COLUMNS
 	 */
 	function edit_sql_query_select() {
-		dbp_fn::require_init();
-		$table_model = new Dbp_model();
-		$table_model->prepare(dbp_fn::get_request('sql', ''));
-		if (dbp_fn::get_request('sql') != "" && $table_model->sql_type() == "select") {
+		ADFO_fn::require_init();
+		$table_model = new ADFO_model();
+		$table_model->prepare(ADFO_fn::get_request('sql', ''));
+		if (ADFO_fn::get_request('sql') != "" && $table_model->sql_type() == "select") {
 			// preparo la stringa con il nuovo select
-			$choose_columns = dbp_fn::get_request('choose_columns');
-			$columns_as = dbp_fn::get_request('label');
+			$choose_columns = ADFO_fn::get_request('choose_columns');
+			$columns_as = ADFO_fn::get_request('label');
 			$select = [];
 			$as_unique = [];
 			foreach ($choose_columns as $key => $value) {
@@ -459,7 +457,7 @@ class  Dbp_pro_list_loader {
 			 * Ricarico l'html del box della query
 			 */
 			$table_model->remove_limit();
-			$html = dbp_html_sql::get_html_fields($table_model);
+			$html = ADFO_html_sql::get_html_fields($table_model);
 
 			wp_send_json(['sql' => $new_query, 'html'=>$html]);
 		} else {
@@ -474,14 +472,14 @@ class  Dbp_pro_list_loader {
 	 * Prepara il csv 
 	 */
 	function af_download_csv() {
-		dbp_fn::require_init();
-		$temporaly_files = new Dbp_temporaly_files();
-		$csv_filename = dbp_fn::get_request('csv_filename', '');
-		$request_ids = dbp_fn::get_request('ids', false);
-		$limit_start = dbp_fn::get_request('limit_start', 0);
-		$dbp_id		 = dbp_fn::get_request('dbp_id', 0);
+		ADFO_fn::require_init();
+		$temporaly_files = ADFO_temporaly_files();
+		$csv_filename = ADFO_fn::get_request('csv_filename', '');
+		$request_ids = ADFO_fn::get_request('ids', false);
+		$limit_start = ADFO_fn::get_request('limit_start', 0);
+		$dbp_id		 = ADFO_fn::get_request('dbp_id', 0);
 		if ($dbp_id > 0) {
-			$post = dbp_functions_list::get_post_dbp($dbp_id);
+			$post = ADFO_functions_list::get_post_dbp($dbp_id);
 		}
 		if ($limit_start == 0) {
 			$temporaly_files->clear_old();
@@ -490,8 +488,8 @@ class  Dbp_pro_list_loader {
 			// estraggo i dati dalla query
 			$line = 2000;
 			$next_limit_start = $limit_start + $line;
-			$table_model = new Dbp_model();
-			$table_model->prepare(dbp_fn::get_request('sql', ''));
+			$table_model = new ADFO_model();
+			$table_model->prepare(ADFO_fn::get_request('sql', ''));
 			$table_model->list_add_limit($limit_start, $line);
 			if ($dbp_id > 0) {
 				if (isset($post->post_content['sql_order']['sort']) &&  isset($post->post_content['sql_order']['field'])) {
@@ -503,7 +501,7 @@ class  Dbp_pro_list_loader {
 			$count = $table_model->get_count();
 			if ($dbp_id > 0) {
 				$table_model->update_items_with_setting($post);
-				dbp_fn::remove_hide_columns($table_model);
+				ADFO_fn::remove_hide_columns($table_model);
 				$table_items = [];
 				/*
 				// TODO come lo gestisco?
@@ -542,8 +540,8 @@ class  Dbp_pro_list_loader {
 				if ($foreach_count <= $limit_start) continue;
 				if ($foreach_count > $next_limit_start) break;
 				$filter = [];
-				$table_model = new Dbp_model();
-				$table_model->prepare(dbp_fn::get_request('sql', ''));
+				$table_model = new ADFO_model();
+				$table_model->prepare(ADFO_fn::get_request('sql', ''));
 				foreach ($ids as $column=>$id) {
 					$temp_col = explode(".",$column);
 					$table = '`'.esc_sql(array_shift($temp_col)).'`';
@@ -571,13 +569,13 @@ class  Dbp_pro_list_loader {
 	 * Chiamato dal bottone MERGE
 	 */
 	function merge_sql_query_edit() {
-		dbp_fn::require_init();
-		$table_model = new Dbp_model();
-		$sql = html_entity_decode(dbp_fn::get_request('sql'));
+		ADFO_fn::require_init();
+		$table_model = new ADFO_model();
+		$sql = html_entity_decode(ADFO_fn::get_request('sql'));
 		$table_model->prepare($sql);
 		if ($sql != "" && $table_model->sql_type() == "select") {
 			$all_fields = $table_model->get_all_fields_from_query();
-			$all_tables = dbp_fn::get_table_list();
+			$all_tables = ADFO_fn::get_table_list();
 			if (is_countable($all_fields) && count($all_fields) > 0 && is_countable($all_tables) && count($all_tables) > 0) {
 				wp_send_json(['all_fields' => $all_fields, 'all_tables' => $all_tables['tables']]);
 			} else {
@@ -594,9 +592,9 @@ class  Dbp_pro_list_loader {
 	 * Chiamato dal bottone MERGE
 	 */
 	function merge_sql_query_get_fields() {
-		dbp_fn::require_init();
-		$table = esc_sql(dbp_fn::get_request('table'));
-		$all_columns = dbp_fn::get_table_structure($table, true);
+		ADFO_fn::require_init();
+		$table = esc_sql(ADFO_fn::get_request('table'));
+		$all_columns = ADFO_fn::get_table_structure($table, true);
 		wp_send_json(['all_columns' => $all_columns]);
 		die();
 	}
@@ -606,21 +604,21 @@ class  Dbp_pro_list_loader {
 	 */
 	function edit_sql_query_merge() {
 		global $wpdb;
-		dbp_fn::require_init();
+		ADFO_fn::require_init();
 		if (!isset($_REQUEST['dbp_merge_table']) || !isset($_REQUEST['dbp_merge_column']) ||  !isset($_REQUEST['dbp_ori_field'])) {
 			wp_send_json(['msg' => __('All fields are required','admin_form')]);
 			die();
 		}
 		//var_dump ($_REQUEST);
-		$table_model = new Dbp_model();
-		$sql = html_entity_decode(dbp_fn::get_request('sql'));
+		$table_model = new ADFO_model();
+		$sql = html_entity_decode(ADFO_fn::get_request('sql'));
 		$table_model->prepare($sql);
 		if ($sql != "" && $table_model->sql_type() == "select") {
 			$sql_schema = $table_model->get_schema();
 			$temp_curr_query = $table_model->get_current_query();
 			// trovo l'alias della tabella di cui si sta facendo il join
 			// TODO ho una funzione apposta per questo da sostituire
-			$table_alias_temp  = substr(dbp_fn::clean_string(str_replace($wpdb->prefix, "", sanitize_text_field($_REQUEST['dbp_merge_table']))),0 ,3);
+			$table_alias_temp  = substr(ADFO_fn::clean_string(str_replace($wpdb->prefix, "", sanitize_text_field($_REQUEST['dbp_merge_table']))),0 ,3);
 			if (strlen($table_alias_temp) < 3 ) {
 				$table_alias_temp = $table_alias_temp.substr(md5($table_alias_temp),0 , 2);
 			}
@@ -630,17 +628,17 @@ class  Dbp_pro_list_loader {
 				$table_alias = $table_alias_temp.''.$count_ta;
 				$count_ta++;
 			}
-			$table_alias = Dbp_fn::sanitize_key($table_alias);
+			$table_alias = ADFO_fn::sanitize_key($table_alias);
 			// compongo la nuova porzione di query
 			$join = strtoupper(sanitize_text_field($_REQUEST['dbp_merge_join']));
 			if (!in_array($join, ['INNER JOIN','LEFT JOIN','RIGHT JOIN'])) {
 				$join ='INNER JOIN';
 			}
-			$join = $join.' `'.Dbp_fn::sanitize_key(sanitize_text_field($_REQUEST['dbp_merge_table'])).'` `'.$table_alias.'`';
-			$join .= " ON `" . $table_alias . "`.`" . Dbp_fn::sanitize_key(sanitize_text_field($_REQUEST['dbp_merge_column'])) . '` = '. Dbp_fn::sanitize_key(sanitize_text_field($_REQUEST['dbp_ori_field']));
+			$join = $join.' `'.ADFO_fn::sanitize_key(sanitize_text_field($_REQUEST['dbp_merge_table'])).'` `'.$table_alias.'`';
+			$join .= " ON `" . $table_alias . "`.`" . ADFO_fn::sanitize_key(sanitize_text_field($_REQUEST['dbp_merge_column'])) . '` = '. ADFO_fn::sanitize_key(sanitize_text_field($_REQUEST['dbp_ori_field']));
 			// la unisco alla query originale
 			//$table_model->list_add_select(''); // serve per convertire l'* in table.*
-			$table_model2 =  new Dbp_model();
+			$table_model2 = new ADFO_model();
 			$table_model->list_add_from($join);
 			// Modifico il select aggiungo i nuovi campi:
 			// duplico il model per avere lo schema dei dati da inserire. Non uso l'* perché 
@@ -656,7 +654,7 @@ class  Dbp_pro_list_loader {
 				
 					if (isset($field->orgtable) && $field->orgtable != "" && isset($field->table) && $field->table == $table_alias) {
 						
-						$new_name = dbp_fn::get_column_alias(strtolower($table_alias . '_' .substr(str_replace(" ", "_", $field->name), 0, 50)), $sql_query_temp);
+						$new_name = ADFO_fn::get_column_alias(strtolower($table_alias . '_' .substr(str_replace(" ", "_", $field->name), 0, 50)), $sql_query_temp);
 						$sql_query_temp .= " ".$new_name;
 						
 						$add_select[] = '`' . $table_alias . '`.`' .$field->name . '` AS `'.$new_name.'`';
@@ -675,7 +673,7 @@ class  Dbp_pro_list_loader {
 			}
 		}
 		$table_model->remove_limit();
-		$html = dbp_html_sql::get_html_fields($table_model);
+		$html = ADFO_html_sql::get_html_fields($table_model);
 
 		wp_send_json(['sql' => $table_model->get_current_query(), 'html'=>$html]);
 		die();
@@ -686,9 +684,9 @@ class  Dbp_pro_list_loader {
 	 * Chiamato dal bottone Add metadata
 	 */
 	function metadata_sql_query_edit() {
-		dbp_fn::require_init();
-		$table_model = new Dbp_model();
-		$sql = html_entity_decode(dbp_fn::get_request('sql'));
+		ADFO_fn::require_init();
+		$table_model = new ADFO_model();
+		$sql = html_entity_decode(ADFO_fn::get_request('sql'));
 		$table_model->prepare($sql);
 		if ($sql != "" && $table_model->sql_type() == "select") {
 			$tables = [];
@@ -701,7 +699,7 @@ class  Dbp_pro_list_loader {
 						$table = $field->orgtable;
 						// devo trovare la primary key
 						if (!isset($pris[$field->orgtable])) {
-							$pris[$field->orgtable] = dbp_fn::get_primary_key($field->orgtable);
+							$pris[$field->orgtable] = ADFO_fn::get_primary_key($field->orgtable);
 						}
 						// se non è già stata inserita
 						if (!in_array($table, $already_inserted) && $pris[$field->orgtable] != "") {
@@ -724,7 +722,7 @@ class  Dbp_pro_list_loader {
 				wp_send_json(['msg' => __("I can't find any linkable metadata",'admin_form')]);
 			}
 		
-			$all_tables = dbp_fn::get_table_list();
+			$all_tables = ADFO_fn::get_table_list();
 			$return_table = [];
 			foreach ($all_tables['tables'] as $sql_table) {
 				
@@ -757,13 +755,13 @@ class  Dbp_pro_list_loader {
 	 */
 	function metadata_sql_query_edit_step2() {
 		global $wpdb;
-		dbp_fn::require_init();
-		$table2 = dbp_fn::get_request('table2');
+		ADFO_fn::require_init();
+		$table2 = ADFO_fn::get_request('table2');
 		$sql_table_temp = explode("::", $table2);
-		$sql = html_entity_decode(Dbp_fn::get_request('sql'));
+		$sql = html_entity_decode(ADFO_fn::get_request('sql'));
 		$sql_table = array_pop($sql_table_temp);
 	
-		$structure = dbp_fn::get_table_structure($sql_table);
+		$structure = ADFO_fn::get_table_structure($sql_table);
 		$table = substr($sql_table,strlen($wpdb->prefix));
 		$table = str_replace(["_meta","meta"],"", $table);
 		if (substr($table,-1) == "s") {
@@ -785,7 +783,7 @@ class  Dbp_pro_list_loader {
 		$list = [];
 		// Aggiungo all'elenco ($list) i meta_key
 		if ($columns['pri'] != "" && $columns['parent_id'] != "") {
-			$list_db = $wpdb->get_results('SELECT DISTINCT meta_key FROM `'.Dbp_fn::sanitize_key($sql_table).'` ORDER BY meta_key ASC');
+			$list_db = $wpdb->get_results('SELECT DISTINCT meta_key FROM `'.ADFO_fn::sanitize_key($sql_table).'` ORDER BY meta_key ASC');
 			if (is_countable($list_db)) {
 				foreach ($list_db as $d) {
 					$list[] = $d->meta_key;
@@ -793,7 +791,7 @@ class  Dbp_pro_list_loader {
 			}
 		}
 		// cerco di capire quali metadata sono stati già aggiunti 
-		$table_model = new Dbp_model();
+		$table_model = new ADFO_model();
 		$table_model->prepare($sql);
 		$selected = [];
 		$from_sql = $table_model->get_partial_query_from(true);
@@ -819,14 +817,14 @@ class  Dbp_pro_list_loader {
 	 * Genero la query con l'aggiunta dei metadati
 	 */
 	function edit_sql_addmeta() {
-		dbp_fn::require_init();
+		ADFO_fn::require_init();
 		$choose_meta = array_map('sanitize_text_field', $_REQUEST['choose_meta']);
-		$choose_meta = dbp_fn::sanitize_text_recursive($_REQUEST['choose_meta']);
-		$already_checked_meta =  (isset($_REQUEST['altreadychecked_meta']) && is_array($_REQUEST['altreadychecked_meta'])) ? array_filter(dbp_fn::sanitize_text_recursive($_REQUEST['altreadychecked_meta'])) : []; 
+		$choose_meta = ADFO_fn::sanitize_text_recursive($_REQUEST['choose_meta']);
+		$already_checked_meta =  (isset($_REQUEST['altreadychecked_meta']) && is_array($_REQUEST['altreadychecked_meta'])) ? array_filter(ADFO_fn::sanitize_text_recursive($_REQUEST['altreadychecked_meta'])) : []; 
 
 		$pri = sanitize_text_field($_REQUEST['pri_key']);
 		$parent_id = sanitize_text_field($_REQUEST['parent_id']);
-		$table2 =  Dbp_fn::get_request('dbp_meta_table');
+		$table2 =  ADFO_fn::get_request('dbp_meta_table');
 		$_sql_table_temp = array_map('sanitize_text_field', explode("::", $table2));
 		$_parent_table_temp = array_shift($_sql_table_temp); // la tabella.primary_id su cui sono collegati i meta 
 		$_parent_table_temp =  explode(".", $_parent_table_temp);
@@ -836,7 +834,7 @@ class  Dbp_pro_list_loader {
 		$table = array_shift($_sql_table_temp); // la tabella dei meta
 
 		$sql = wp_kses_post( wp_unslash($_REQUEST['sql']));
-		$table_model = new Dbp_model();
+		$table_model = new ADFO_model();
 		$table_model->prepare($sql);
 		$from_sql = $table_model->get_partial_query_from();
 		if ($sql != "" && $table_model->sql_type() == "select") {
@@ -849,9 +847,9 @@ class  Dbp_pro_list_loader {
 					$key = array_search($meta, $already_checked_meta);
 					unset($already_checked_meta[$key]);
 				} elseif (stripos($from_sql, $check_string) === false) {
-					$alias = dbp_fn::get_table_alias($table, $sql." ".implode(", ",$temp_sql_from), str_replace("_","",$meta));
+					$alias = ADFO_fn::get_table_alias($table, $sql." ".implode(", ",$temp_sql_from), str_replace("_","",$meta));
 					$temp_sql_from[] = ' LEFT JOIN `'.$table.'` `'.$alias.'` ON `'.$alias.'`.`'.$parent_id.'` = `'.$parent_table.'`.`'.$parent_table_id.'` AND `'.$alias.'`.`meta_key` = \''.esc_sql($meta).'\'';
-					$temp_sql_select[] = '`'.$alias.'`.`meta_value` AS `'.dbp_fn::get_column_alias($meta, $sql).'`';
+					$temp_sql_select[] = '`'.$alias.'`.`meta_value` AS `'.ADFO_fn::get_column_alias($meta, $sql).'`';
 				}
 			}
 
@@ -893,7 +891,7 @@ class  Dbp_pro_list_loader {
 
 		}
 		$table_model->remove_limit();
-		$html = dbp_html_sql::get_html_fields($table_model);
+		$html = ADFO_html_sql::get_html_fields($table_model);
 		wp_send_json(['sql' => $table_model->get_current_query(), 'html'=>$html]);
 		die();
 	}
@@ -908,10 +906,10 @@ class  Dbp_pro_list_loader {
 	function check_query() {
 		global $wpdb;
 		
-		dbp_fn::require_init();
+		ADFO_fn::require_init();
 		$response = ['is_select' => 0, 'error' => ''];
-		$sql = dbp_fn::get_request('sql','','remove_slashes');
-		$table_model = new Dbp_model();
+		$sql = ADFO_fn::get_request('sql','','remove_slashes');
+		$table_model = new ADFO_model();
 		$table_model->prepare($sql);
 		if ($sql != "" && $table_model->sql_type() == "select") {
 			$ris = $wpdb->get_var("EXPLAIN ".$sql );
@@ -929,7 +927,7 @@ class  Dbp_pro_list_loader {
 	 * Calcola quali record sta per eliminare a seconda della query e delle primary ID
 	 */
 	public function af_delete_confirm() {
-		dbp_fn::require_init();
+		ADFO_fn::require_init();
 		$json_send = [];
 		//$json_send = ['error' => '', 'items' => '', 'checkboxes'];
 		if (!isset($_REQUEST['ids']) || !is_countable($_REQUEST['ids'])) {
@@ -938,11 +936,11 @@ class  Dbp_pro_list_loader {
 			die();
 		}
 		if (isset($_REQUEST['dbp_id']) && $_REQUEST['dbp_id']  > 0) {
-			$json_send = dbp_fn::prepare_delete_rows($_REQUEST['ids'],'', $_REQUEST['dbp_id']);
+			$json_send = ADFO_fn::prepare_delete_rows($_REQUEST['ids'],'', $_REQUEST['dbp_id']);
         } else if ($_REQUEST['sql'] != "") {
-			$ids = dbp_fn::sanitize_absint_recursive($_REQUEST['ids']);
+			$ids = ADFO_fn::sanitize_absint_recursive($_REQUEST['ids']);
 			//TODO security nessun sql deve passare su request!
-			$json_send = dbp_fn::prepare_delete_rows($ids, wp_kses_post( wp_unslash($_REQUEST['sql'])) );
+			$json_send = ADFO_fn::prepare_delete_rows($ids, wp_kses_post( wp_unslash($_REQUEST['sql'])) );
         } else {
 			$json_send['error'] = __('Something wrong', 'admin_form');
 			wp_send_json($json_send);
@@ -960,10 +958,10 @@ class  Dbp_pro_list_loader {
 	 * Scelgo da quali tabelle rimuovere i dati
 	 */
 	function af_check_delete_from_sql() {
-		dbp_fn::require_init();
+		ADFO_fn::require_init();
 		$errors = [];
-		$table_model = new Dbp_model();
-		$table_model->prepare(dbp_fn::get_request('sql', ''));
+		$table_model = new ADFO_model();
+		$table_model->prepare(ADFO_fn::get_request('sql', ''));
 		$table_items = $table_model->get_list();
 		if ($table_model->last_error ) {
             $error =  $table_model->last_error."<br >".$table_model->get_current_query();
@@ -980,8 +978,8 @@ class  Dbp_pro_list_loader {
 		$temp_groups = [];
 		foreach ($header as $key=>$th) {
 			if ($th['schema']->table == '' OR $th['schema']->orgtable == '') continue;
-			$id = dbp_fn::get_primary_key($th['schema']->orgtable);
-			$option = dbp_fn::get_dbp_option_table($th['schema']->orgtable);
+			$id = ADFO_fn::get_primary_key($th['schema']->orgtable);
+			$option = ADFO_fn::get_dbp_option_table($th['schema']->orgtable);
 			if ($option['status'] != "CLOSE" && $id != "") {
 				if ($th['schema']->table == $th['schema']->orgtable) {
 					$temp_groups[$th['schema']->table] =  $th['schema']->table;
@@ -999,15 +997,15 @@ class  Dbp_pro_list_loader {
 	 * Preparo gli id da rimuovere in delete from query
 	 */
 	function prepare_query_delete() {
-		dbp_fn::require_init();
+		ADFO_fn::require_init();
 		$errors = [];
-		$table_model = new Dbp_model();
-		$tables = dbp_fn::get_request('tables', 0);
-		$limit_start = dbp_fn::get_request('limit_start', 0);
+		$table_model = new ADFO_model();
+		$tables = ADFO_fn::get_request('tables', 0);
+		$limit_start = ADFO_fn::get_request('limit_start', 0);
 		$limit = 1000;
-		$total = dbp_fn::get_request('total', 0);
-		$filename = dbp_fn::get_request('dbp_filename', '');
-		$table_model->prepare(dbp_fn::get_request('sql', ''));
+		$total = ADFO_fn::get_request('total', 0);
+		$filename = ADFO_fn::get_request('dbp_filename', '');
+		$table_model->prepare(ADFO_fn::get_request('sql', ''));
 		$table_model->add_primary_ids();
 		$table_model->list_add_limit($limit_start, $limit);
 		$table_model->get_list();
@@ -1018,7 +1016,7 @@ class  Dbp_pro_list_loader {
 		}
 		$data_to_delete = [];
 		$table_items = $table_model->items;
-		$temporaly_file = new Dbp_temporaly_files();
+		$temporaly_file = new ADFO_temporaly_files();
 		if ($filename != "") {
 			$data_to_delete = $temporaly_file->read($filename);
 		} else {
@@ -1051,12 +1049,12 @@ class  Dbp_pro_list_loader {
 
 	function sql_query_delete() {
 		global $wpdb;
-		dbp_fn::require_init();
-		$filename = dbp_fn::get_request('dbp_filename', '');
-		$temporaly_file = new Dbp_temporaly_files();
+		ADFO_fn::require_init();
+		$filename = ADFO_fn::get_request('dbp_filename', '');
+		$temporaly_file = new ADFO_temporaly_files();
 		$data_to_delete = $temporaly_file->read($filename);
-		$total = dbp_fn::get_request('total', 0);
-		$base_executed = $executed = dbp_fn::get_request('executed', 0);
+		$total = ADFO_fn::get_request('total', 0);
+		$base_executed = $executed = ADFO_fn::get_request('executed', 0);
 		$limit = 1000;
 		//$data_to_delete[$th->original_table."|".$th->original_name] 
 		if ($total == 0) {
@@ -1096,7 +1094,7 @@ class  Dbp_pro_list_loader {
 	function list_browse_after_content($table_bulk_ok, $table_model) {
 		if ($table_model->last_error === false) : ?>
 			<?php 
-			$max_input_vars = (int)dbp_fn::get_max_input_vars();
+			$max_input_vars = (int)ADFO_fn::get_max_input_vars();
 			?>
 			<div class="dbp-table-footer">
 				<div class="tablenav-pages dbp-table-footer-left">
@@ -1119,7 +1117,7 @@ class  Dbp_pro_list_loader {
 					</div>
 				</div>
 				<div class="tablenav-pages dbp-table-footer-right">
-					<?php dbp_fn::get_pagination($table_model->total_items, $table_model->limit_start, $table_model->limit); ?>
+					<?php ADFO_fn::get_pagination($table_model->total_items, $table_model->limit_start, $table_model->limit); ?>
 				</div>
 				<br class="clear">
 			</div>
@@ -1131,15 +1129,15 @@ class  Dbp_pro_list_loader {
       * Testo una formula pinacode
       */
 	  function test_formula() {
-        dbp_fn::require_init();
+        ADFO_fn::require_init();
 		$formula = (isset($_REQUEST['formula'])) ? wp_kses_post( wp_unslash($_REQUEST['formula'])) : '';
      
         $post_id = absint($_REQUEST['dbp_id']);
         $row     = absint($_REQUEST['row']);
         $json_result = ['formula'=>$formula, 'id'=>$post_id, 'row'=>$row, 'error'=>[], 'warning'=>[],'notice'=>[], 'response'=>'', 'typeof'=>'NULL', 'pinacode_data'=>[] ];
         if ($formula != "" && $post_id > 0 && $row > 0) {
-            $post        = dbp_functions_list::get_post_dbp($post_id);
-            $table_model = new Dbp_model();
+            $post        = ADFO_functions_list::get_post_dbp($post_id);
+            $table_model = new ADFO_model();
             if (isset($post->post_content['sql'])) {
                 $table_model->prepare($post->post_content['sql']);
             } else {
@@ -1149,17 +1147,17 @@ class  Dbp_pro_list_loader {
                 $table_model->list_add_limit($row -1 ,1);
                 $table_model->add_primary_ids();
                 $table_items = $table_model->get_list();
-                //dbp_fn::add_primary_ids_to_sql($table_model, $table_items);
+                //ADFO_fn::add_primary_ids_to_sql($table_model, $table_items);
                 // Preparo i dati da editare a seconda di quanti sono i risultati
                 if (is_countable($table_items) && count($table_items) > 1) {
                     $header = reset($table_items);
-                    $items = dbp_fn::convert_table_items_to_group($table_items, false);
+                    $items = ADFO_fn::convert_table_items_to_group($table_items, false);
                     //var_dump ($items);
                     foreach ($items as $item_key=>$item) {
                         foreach ($item as $key=>$value_item) {
-                            //echo " SET PINACODE:".dbp_fn::clean_string($header[$key]['schema']->table).".".dbp_fn::clean_string($header[$key]['schema']->name)." = ".$value_item."\n ";
-                            PinaCode::set_var(dbp_fn::clean_string($header[$key]['schema']->table).".".dbp_fn::clean_string($header[$key]['schema']->name), $value_item);
-                            PinaCode::set_var("data.".dbp_fn::clean_string($header[$key]['schema']->name), $value_item);
+                            //echo " SET PINACODE:".ADFO_fn::clean_string($header[$key]['schema']->table).".".ADFO_fn::clean_string($header[$key]['schema']->name)." = ".$value_item."\n ";
+                            PinaCode::set_var(ADFO_fn::clean_string($header[$key]['schema']->table).".".ADFO_fn::clean_string($header[$key]['schema']->name), $value_item);
+                            PinaCode::set_var("data.".ADFO_fn::clean_string($header[$key]['schema']->name), $value_item);
                         }
                     }
                 }
@@ -1179,17 +1177,17 @@ class  Dbp_pro_list_loader {
       */
     function recalculate_formula() {
         global $wpdb;
-        dbp_fn::require_init();
+        ADFO_fn::require_init();
         $formula = (isset($_REQUEST['formula'])) ? wp_kses_post( wp_unslash($_REQUEST['formula'])) : '';
-        $el_id    =   dbp_fn::get_request('el_id');
+        $el_id    =   ADFO_fn::get_request('el_id');
 		$post_id  = 	absint($_REQUEST['dbp_id']);
         $limit_start = isset($_REQUEST['limit_start']) ? absint($_REQUEST['limit_start']) : 0;
         $limit = 3;
         $errors = [];
-        $json_result = ['formula'=>$formula, 'el_id'=>$el_id, 'total'=>absint(@$_REQUEST['total']), 'limit_start'=>$limit_start+$limit, 'msgs'=>[],  'success_count'=>absint(@$_REQUEST['success_count']), 'error_count' => dbp_fn::get_request('error_count', 0, 'absint') ];
+        $json_result = ['formula'=>$formula, 'el_id'=>$el_id, 'total'=>absint(@$_REQUEST['total']), 'limit_start'=>$limit_start+$limit, 'msgs'=>[],  'success_count'=>absint(@$_REQUEST['success_count']), 'error_count' => ADFO_fn::get_request('error_count', 0, 'absint') ];
         if ($formula != "" && $post_id > 0) {
-            $post        = dbp_functions_list::get_post_dbp($post_id);
-            $table_model = new Dbp_model();
+            $post        = ADFO_functions_list::get_post_dbp($post_id);
+            $table_model = new ADFO_model();
             if (isset($post->post_content['sql'])) {
                 $table_model->prepare($post->post_content['sql']);
             } else {
@@ -1208,11 +1206,11 @@ class  Dbp_pro_list_loader {
                 // Preparo i dati da editare a seconda di quanti sono i risultati
                 if (is_countable($table_items) && count($table_items) > 1) {
                     $header = array_shift($table_items);
-                   // $items = dbp_fn::convert_table_items_to_group($table_items, false);
+                   // $items = ADFO_fn::convert_table_items_to_group($table_items, false);
                     
                     $row = $limit_start;
                     foreach ($table_items as $item_key=>$itemt) {
-                        $item = dbp_fn::convert_table_items_to_group([$header, $itemt], false);
+                        $item = ADFO_fn::convert_table_items_to_group([$header, $itemt], false);
                         $row++;
                         //PinaCode::clean_var();
                         $primary_value = -1;
@@ -1224,12 +1222,12 @@ class  Dbp_pro_list_loader {
                           
                             foreach ($v_item as $key=>$value_item) {
                                // print ($key."=".$value_item."\n");
-                                //echo " SET PINACODE:".dbp_fn::clean_string($header[$key]['schema']->table).".".dbp_fn::clean_string($header[$key]['schema']->name)." = ".$value_item."\n ";
+                                //echo " SET PINACODE:".ADFO_fn::clean_string($header[$key]['schema']->table).".".ADFO_fn::clean_string($header[$key]['schema']->name)." = ".$value_item."\n ";
                               
-                                PinaCode::set_var(dbp_fn::clean_string($header[$key]['schema']->table).".".dbp_fn::clean_string($header[$key]['schema']->name), $value_item);
-                                PinaCode::set_var("data.".dbp_fn::clean_string($header[$key]['schema']->name), $value_item);
+                                PinaCode::set_var(ADFO_fn::clean_string($header[$key]['schema']->table).".".ADFO_fn::clean_string($header[$key]['schema']->name), $value_item);
+                                PinaCode::set_var("data.".ADFO_fn::clean_string($header[$key]['schema']->name), $value_item);
 
-                                $primary_key = dbp_fn::get_primary_key($header[$key]['schema']->orgtable);
+                                $primary_key = ADFO_fn::get_primary_key($header[$key]['schema']->orgtable);
                                 if ($_REQUEST['field_name'] == $header[$key]['schema']->orgname) {
                                     $insert_field = $header[$key]['schema']->orgname;
                                 }
@@ -1255,7 +1253,7 @@ class  Dbp_pro_list_loader {
                                 $errors[] = sprintf(__("row ID %s: The template engine gave an error: %s", 'admin_form'), $primary_value, array_shift($pina_error));
                                 $json_result['error_count']++;
                             } else {
-                                $sql = 'UPDATE `'. Dbp_fn::sanitize_key($insert_table) . '` SET `'.$insert_field.'` = "' . esc_sql($response) . '" WHERE `' . Dbp_fn::sanitize_key($primary_key) .'` = "'.absint($primary_value).'" LIMIT 1; ';
+                                $sql = 'UPDATE `'. ADFO_fn::sanitize_key($insert_table) . '` SET `'.$insert_field.'` = "' . esc_sql($response) . '" WHERE `' . ADFO_fn::sanitize_key($primary_key) .'` = "'.absint($primary_value).'" LIMIT 1; ';
                                 $json_result['sql'][] =  "row ID ".$row.": ".$sql ;
                                 if ($wpdb->query($sql) !== false) {
                                     $json_result['success_count']++;

@@ -23,8 +23,8 @@ class Dbp_fn_pro
 
 	static function dbp_delete_from_sql($sql, $table_choose) {
 		global $wpdb;
-		dbp_fn::require_init();
-		$table_model = new Dbp_model();
+		ADFO_fn::require_init();
+		$table_model = new ADFO_model();
         $error = __("There was an unexpected problem", 'admin_form'); 
 		$table_model->prepare($sql);
 		$table_items = $table_model->get_list();
@@ -40,16 +40,16 @@ class Dbp_fn_pro
 		foreach ($header as $key=>$th) {
 			if (isset($th['schema']->table) && isset($th['schema']->orgtable) && $th['schema']->table != "" && $th['schema']->orgtable != "") {
 				if (!isset($temp_groups[$th['schema']->table])) {
-					//$temp_groups[$th['schema']->table] =['table'=>$th['schema']->orgtable, 'pri' => dbp_fn::get_primary_key($th['schema']->orgtable)];
-					$id = dbp_fn::get_primary_key($th['schema']->orgtable);
-					$new_id_schema = dbp_fn::find_primary_key_from_header($header, $th['schema']->table, $id);
+					//$temp_groups[$th['schema']->table] =['table'=>$th['schema']->orgtable, 'pri' => ADFO_fn::get_primary_key($th['schema']->orgtable)];
+					$id = ADFO_fn::get_primary_key($th['schema']->orgtable);
+					$new_id_schema = ADFO_fn::find_primary_key_from_header($header, $th['schema']->table, $id);
 					if ($id != "" && $new_id_schema != false) {
 						$table_model->list_change_select('`'.$new_id_schema->table.'`.`'.$new_id_schema->name.'`');
                         $table_model->remove_limit();
                         $new_query = 	$table_model->get_current_query();
 						if ($new_query != "" && $new_id_schema->table == $table_choose) {
                             $error = '';
-                            $option = dbp_fn::get_dbp_option_table($th['schema']->orgtable);
+                            $option = ADFO_fn::get_dbp_option_table($th['schema']->orgtable);
                             if ($option['status'] != "CLOSE") {
                                 $sql_to_del = 'DELETE FROM `'.$th['schema']->orgtable.'` WHERE `'.esc_sql($id).'` IN ('.$new_query.')';
                                 if (!$wpdb->query($sql_to_del)) {
