@@ -426,9 +426,7 @@ class  Dbp_loader_import {
 	 * carica un file sql
 	 */
 	public function import_sql_file() {
-		ini_set('display_errors', 1);
-		ini_set('display_startup_errors', 1);
-		error_reporting(E_ALL);
+	
 		if (!current_user_can('administrator')) die('no_access');
 		dbp_fn::require_init();
 		$temporaly_files = new Dbp_temporaly_files();
