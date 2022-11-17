@@ -2,7 +2,7 @@
 namespace DbPress;
 if (!defined('WPINC')) die;
 
-add_filter('pinacode_attribute_tmpl_table', 'DatabasePress\pinacode_attribute_tmpl_table', 10, 4 );
+add_filter('pinacode_attribute_tmpl_table', 'DbPress\pinacode_attribute_tmpl_table', 10, 4 );
 function pinacode_attribute_tmpl_table(  $gvalue,  $shortcode_obj ) {
 	
 		//$item = PinaCode::get_var('item');

@@ -1,6 +1,7 @@
 # Admin-Form-Pro
-The pro version of the plugin for wordpress admin-form.
+Manages database tables in the Wordpress Admin panel 
 
+The pro version of the plugin for wordpress [admin-form](https://wordpress.org/plugins/admin-form/).
 To work on the site, the admin-form downloaded from the official wordpress repository must be installed!
 
 # Installation

@@ -51,7 +51,7 @@ class  Dbp_html_table {
 
 	/**
 	 * Ritorna l'html Un div con un messaggio se c'è stato un errore o se il totale dei risultati è 0 oppure la tabella
-	 * @param \DatabasePress\dbp_model $table_model
+	 * @param \DbPress\dbp_model $table_model
 	 * @return String
 	 */
 	public function template_render($table_model) {

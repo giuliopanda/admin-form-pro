@@ -28,9 +28,9 @@ class  Dbp_pro_loader_list_sql_edit {
 	public function action_list_sql_edit_html_sql($table_model, $show_query) {
 		?>
          <div>
-            <h3 class="dbp-h3 dbp-margin-top"><?php _e('Query', 'database_press'); ?></h3>
+            <h3 class="dbp-h3 dbp-margin-top"><?php _e('Query', 'admin_form'); ?></h3>
             <p class="dbp-alert-gray" style="margin-top:-1rem">
-                <?php _e('How the data is extracted','database_press'); 
+                <?php _e('How the data is extracted','admin_form'); 
                 ADFO_fn::echo_html_icon_help('dbp_list-list-sql-edit','admin_query');
                 ?>
             </p>
@@ -89,7 +89,7 @@ class  Dbp_pro_loader_list_sql_edit {
 				$table_model = new ADFO_model();
 				$table_model->prepare(wp_kses_post((wp_unslash($_REQUEST['custom_query']))));
 				if ($table_model->sql_type() != "select") {
-					$error_query = __('Only a single select query is allowed in the lists', 'database_press');
+					$error_query = __('Only a single select query is allowed in the lists', 'admin_form');
 					$show_query = true;
 				} else {
 					$table_model->add_primary_ids();
@@ -99,11 +99,11 @@ class  Dbp_pro_loader_list_sql_edit {
 					if ($table_model->last_error == "") {
 						$post->post_content['sql'] = html_entity_decode($table_model->get_current_query());
 					} else {
-						$error_query = sprintf(__("I didn't save the query because it was wrong!.<br><h3>Error:</h3>%s<h3>Query:</h3>%s",'database_press'), $table_model->last_error, nl2br(wp_kses_post( wp_unslash( $_REQUEST['custom_query'] )) ));
+						$error_query = sprintf(__("I didn't save the query because it was wrong!.<br><h3>Error:</h3>%s<h3>Query:</h3>%s",'admin_form'), $table_model->last_error, nl2br(wp_kses_post( wp_unslash( $_REQUEST['custom_query'] )) ));
 					}
 				}
 			} else {
-				$error_query = __('The query is required', 'database_press');
+				$error_query = __('The query is required', 'admin_form');
 			}
 			// TODO se metto il limit nella query vorrei che passasse qui!
 			$post->post_content['sql_limit'] = absint($_REQUEST['sql_limit']);
@@ -120,6 +120,8 @@ class  Dbp_pro_loader_list_sql_edit {
 			if (!isset($post->post_content['form_table']) || !is_array($post->post_content['form_table'])) {
 				$post->post_content['form_table'] = [];
 			}
+
+			$post->post_content['show_desc'] = isset($_REQUEST['show_desc']) ? absint($_REQUEST['show_desc']) : 0;
 		
 			$fields_from = $table_model->get_partial_query_from(true);
 		
@@ -152,9 +154,9 @@ class  Dbp_pro_loader_list_sql_edit {
 							'required' => sanitize_text_field($_REQUEST['sql_filter_required.'.$key])];
 					} else {
 						if ($_REQUEST['sql_filter_val'][$key] != "") {
-							$return[] = __('a filter could not be saved because a field was not chosen to associate it with', 'database_press');
+							$return[] = __('a filter could not be saved because a field was not chosen to associate it with', 'admin_form');
 						} else if ($field != "") {
-							$return[] = sprintf(__("I have not saved the filter associated with the <b>%s</b> field because it has no parameters to pass. If you want to filter the list by shortcode attributes use %s.", 'database_press'), $field, '[%params.attr_name]');
+							$return[] = sprintf(__("I have not saved the filter associated with the <b>%s</b> field because it has no parameters to pass. If you want to filter the list by shortcode attributes use %s.", 'admin_form'), $field, '[%params.attr_name]');
 						}
 					}
 				}
@@ -184,7 +186,7 @@ class  Dbp_pro_loader_list_sql_edit {
 							}
 						}
 						if (!$find) {
-							$return[] = sprintf(__('The settings have been saved, but you have changed the name of a query table (%s as %s). <br>This can cause an unexpected operation in the management of the list. <br>In these cases it is preferable to create a new form.', 'database_press'), $table, $table_alias);
+							$return[] = sprintf(__('The settings have been saved, but you have changed the name of a query table (%s as %s). <br>This can cause an unexpected operation in the management of the list. <br>In these cases it is preferable to create a new form.', 'admin_form'), $table, $table_alias);
 						}
 					}
 				} 
@@ -218,11 +220,11 @@ class  Dbp_pro_loader_list_sql_edit {
 				wp_update_post(array(
 					'ID'           => $id,
 					'post_title' 	=> $post_title,
-					'post_excerpt' 	=> sanitize_textarea_field($_REQUEST['post_excerpt'])
+					'post_excerpt' 	=> wp_kses_post( wp_unslash($_REQUEST['post_excerpt']))
 				));
-				update_post_meta($id, '_dbp_list_config', $post->post_content, true);
+				ADFO_fn::save_list_config($id, $post->post_content);
 			} else {
-				$return[] = __('The title is required', 'database_press');
+				$return[] = __('The title is required', 'admin_form');
 			}
 			
 
@@ -262,7 +264,7 @@ class  Dbp_pro_loader_list_sql_edit {
 			
 			
 		} else {
-			$return[] = __('You have not selected any list', 'database_press');
+			$return[] = __('You have not selected any list', 'admin_form');
 		}
 		if ($error_query != "") {
 			$return[] = $error_query;
