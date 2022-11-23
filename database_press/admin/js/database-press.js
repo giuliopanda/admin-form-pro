@@ -1027,7 +1027,7 @@ function dbp_show_save_sql_query() {
     dbp_close_sidebar_loading();
     let $form = jQuery('<form class="dbp-form-save-query dbp-form-edit-row" id="dbp_form_save_new_query" action="'+dbp_admin_post+'"></form>');
 
-    $form.append('<input type="hidden" name="page" value="database_press"><input type="hidden" name="section" value="list-add"><input type="hidden" name="action" value="dbp_create_list">');
+    $form.append('<input type="hidden" name="page" value="database_press"><input type="hidden" name="action" value="dbp_create_list_from_sql">');
 
     $form.append('<p class="dbp-alert-info">Save the query. Then you will have the shortcode to view the table on the website.</p>');
 

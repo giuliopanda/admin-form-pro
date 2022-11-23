@@ -172,6 +172,13 @@ class database_press_admin
     }
 
 	/**
+	 * Se admin form non è installato!
+	 */
+	public function show_install_admin_form_info() {
+		require dirname( __FILE__ ) . "/partials/dbp-page-show_install_admin_form_info.php";
+	}
+
+	/**
 	 * 
 	 */
 	private function information_schema() {

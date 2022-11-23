@@ -20,7 +20,7 @@ class  Dbp_loader {
 
 	public function __construct() {
 		self::$saved_queries = (object)[];
-		add_action( 'admin_menu', [$this, 'add_menu_page'],11 );
+		add_action( 'admin_menu', [$this, 'add_menu_page'],12 );
 		
 		add_action('admin_enqueue_scripts', [$this, 'codemirror_enqueue_scripts']);
 		// L'ajax per la richiesta dell'elenco dei valori unici per mostrarli nei filtri di ricerca
@@ -111,9 +111,23 @@ class  Dbp_loader {
 	 * Aggiunge la voce di menu e carica la classe che gestisce la pagina amministrativa
 	 */
 	public function add_menu_page() {
+		global $menu;
 		require_once DBP_DIR . "admin/class-dbp-table-admin.php";
 		$db_admin = new database_press_admin();
-		add_submenu_page(  'admin_form', 'Database', 'Database', 'manage_options', 'database_press', [$db_admin, 'controller']);
+
+		$menuExist = false;
+		foreach($menu as $item) {
+			if(isset($item[2]) && strtolower($item[2]) == strtolower('admin_form')) {
+				$menuExist = true;
+				break;
+			}
+		}
+		if(!$menuExist) {
+			add_menu_page( 'Admin Form', 'Admin Form', 'manage_options', 'admin_form', [$db_admin, 'show_install_admin_form_info'], 'dashicons-database-view');
+		} 
+
+			add_submenu_page(  'admin_form', 'Database', 'Database', 'manage_options', 'database_press', [$db_admin, 'controller']);
+		
 	}
 	/**
 	 * Gli script per far funzionare l'editor
@@ -1114,24 +1128,26 @@ class  Dbp_loader {
 		$sql_table = array_pop($sql_table_temp);
 	
 		$structure = dbp_fn::get_table_structure($sql_table);
+		
 		$table = substr($sql_table,strlen($wpdb->prefix));
 		$table = str_replace(["_meta","meta"],"", $table);
 		if (substr($table,-1) == "s") {
 			$table = substr($sql_table,0, -2);
 		}
 	//	print $table." ";
+	
 		$columns = ['pri'=>'','parent_id'=>''];
 		if (count($structure) > 3) {
-			foreach ($structure as $field) {
-				//var_dump ($field->Field);
+			foreach ($structure as $field) {	
 				//var_dump (stripos($field->Field, $table));
 				if ($field->Key == "PRI") {
 					$columns['pri'] = $field->Field;
-				} elseif ($field->Field != "meta_key" && $field->Field != "meta_value" && stripos($field->Field, $table) !== false) {
+				} elseif ($field->Field != "meta_key" && $field->Field != "meta_value" ) {
 					$columns['parent_id'] = $field->Field;
 				}
 			}
 		}
+	
 		$list = [];
 		// Aggiungo all'elenco ($list) i meta_key
 		if ($columns['pri'] != "" && $columns['parent_id'] != "") {

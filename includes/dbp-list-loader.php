@@ -14,8 +14,10 @@ class  Dbp_pro_list_loader {
 	 */
 
 	public function __construct() {
-        add_action( 'dbp_create_list_override', [$this, 'create_list']);
+        //add_action( 'dbp_create_list_override', [$this, 'create_list']);
+		add_action( 'admin_post_dbp_create_list_from_sql', [$this, 'create_list']);	
         // ???
+
         // add_action( 'dbp_list_form_single_table_query_part',  [$this, 'form_single_table_query_part'], 10, 2 );
     
         // nel tab list view formatting aggiungo tutti gli special fields
@@ -71,16 +73,29 @@ class  Dbp_pro_list_loader {
      */
     function create_list() {
         global $wpdb;
+		
         ADFO_fn::require_init();
         // SE c'è una query la scrivo
-        if (!isset($_REQUEST['table_choose']) && !isset($_REQUEST['new_sql'])) {
+        if (!isset($_REQUEST['new_sql']) || $_REQUEST['new_sql'] == "") {
             wp_redirect( admin_url("admin.php?page=admin_form&section=list-all&msg=create_list_error"));
+			die();
         }
         $title = wp_strip_all_tags( ADFO_fn::get_request('new_title'));
        // TODO: if (!is_admin()) return;
+	    $sql = html_entity_decode ( wp_kses_post(wp_unslash($_REQUEST['new_sql'])));
+		$post = ADFO_functions_list::get_post_dbp($id);
+		$table_model = new ADFO_model();
+		$table_model->prepare($sql);
+		if ($table_model->sql_type() != "select") {
+			//TODO Al momento il messaggio di errore non è usato da impostare con i cookie !!!!
+			$msg = __('Only a single select query is allowed in the lists', 'admin_form');
+			wp_redirect( admin_url("admin.php?page=admin_form&section=list-sql-edit&msg=list_created&dbp_id=".$id));
+			die();
+		}
         $create_list = array(
             'post_title'    => $title,
-            'post_content'  => '{}',
+            'post_content'  => '',
+			'post_excerpt'  => wp_kses_post(wp_unslash($_REQUEST['new_description'])),
             'post_status'   => 'publish',
             'comment_status' =>'closed',
             'post_author'   => get_current_user_id(),
@@ -89,94 +104,47 @@ class  Dbp_pro_list_loader {
         $id = wp_insert_post($create_list);
         if (is_wp_error($id) || $id == 0) {
             wp_redirect( admin_url("admin.php?page=admin_form&section=list-all&msg=create_list_error"));
-        } else {
-            if (isset($_REQUEST['new_sql'])) {
-                $sql = html_entity_decode ( ADFO_fn::get_request('new_sql'));
-            } else if (isset($_REQUEST['table_choose'])) {
-                if ($_REQUEST['table_choose'] == 'create_new_table') {
-                    // il nome della tabella
-                    $table_name = str_replace($wpdb->prefix, '', ADFO_fn::clean_string($title));
-                    $count = 0;
-                    if ($table_name == "") {
-                       $table_name = uniqid();
-                    }
-                    $table_name = $wpdb->prefix."dbp_".$table_name;
-                    $table_name_temp = $table_name;
-                    
-                    while (ADFO_fn::exists_table($table_name)) {
-                        $count ++;
-                        $table_name = $table_name_temp ."_". $count;
-                    }
-                    $table_as = substr(str_replace([$wpdb->prefix,"_","-"], '',  $table_name), 0, 3);
+			die();
+        } 
+		$limit = $table_model->remove_limit();
+		if ($limit > 0) {
+			$post->post_content['sql_limit'] = $limit;
+		}
+		$table_model->list_add_limit(0, 1);
+		$items = $table_model->get_list();
 
-                    $charset = $wpdb->get_var('SELECT @@character_set_database as cs');
-                    if ($charset == "") {
-                        $charset = 'utf8mb4';
-                    }
-                    $ris = $wpdb->query('CREATE TABLE `'.$table_name.'` ( `dbp_id` INT UNSIGNED NOT NULL AUTO_INCREMENT , PRIMARY KEY (`dbp_id`))   ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET='.$charset);
-                    
-                    $sql = 'SELECT `'.$table_as.'`.* FROM `'.$table_name.'` `'.$table_as.'`';
-                    // TODO METTO LA TABELLA IN DRAFT MODE!
-                    ADFO_fn::update_dbp_option_table_status($table_name, 'DRAFT');
+		$from_query = $table_model->get_partial_query_from(true);
+		$from = [];
+		foreach ($from_query as $f) {
+			$from[$f[1]] = $f[0]; 
+		}
+		$post->post_content['sql_from'] = $from;
 
-                } else {
-                    $table_name =  ADFO_fn::get_request('mysql_table_name');
-                    // ho già la tabella
-                    $table_as = substr(str_replace([$wpdb->prefix,"_","-"], '',  $table_name), 0, 3);
+		if (isset($post->post_content['list_setting'])) {
+			$list_setting = $post->post_content['list_setting'];
+		} else {
+			$list_setting = [];
+		}
+		$setting_custom_list =  ADFO_functions_list::get_list_structure_config($items, $list_setting);
+		$post->post_content['sql'] = $sql;
 
-                    $sql = 'SELECT `'.esc_sql($table_as).'`.* FROM `'. ADFO_fn::sanitize_key($table_name) .'` `'.esc_sql($table_as).'`';
-                }
-            }
-            $post = ADFO_functions_list::get_post_dbp($id);
-            if ($sql != "") {
-                $table_model = new ADFO_model();
-                $table_model->prepare($sql);
-                if ($table_model->sql_type() != "select") {
-                    //TODO Al momento il messaggio di errore non è usato da impostare con i cookie !!!!
-                    $msg = __('Only a single select query is allowed in the lists', 'admin_form');
-                    wp_redirect( admin_url("admin.php?page=admin_form&section=list-sql-edit&msg=list_created&dbp_id=".$id));
-                } else {
-                    $limit = $table_model->remove_limit();
-                    if ($limit > 0) {
-                        $post->post_content['sql_limit'] = $limit;
-                    }
-                    
-                  
-                    // Questo pezzo di codice è copiato pari pari da class-database-list-admin.php > list_sql_save()
-                    // Rigenero list_structure perché risalvando la query potrebbero essere cambiati i parametri!
-                    $table_model->list_add_limit(0, 1);
-                    $table_model->add_primary_ids();
-                    $items = $table_model->get_list();
-                    if (isset($post->post_content['list_setting'])) {
-                        $list_setting = $post->post_content['list_setting'];
-                    } else {
-                        $list_setting = [];
-                    }
-                    $setting_custom_list =  ADFO_functions_list::get_list_structure_config($items, $list_setting);
-                    $table_model->remove_limit();
-                    $table_model->remove_order();
-                    $post->post_content['sql'] = $table_model->get_current_query();
+		$post->post_content['list_setting'] = [];
+		foreach ($setting_custom_list as $column_key => $list) {
+			$post->post_content['list_setting'][$column_key] =  $list->get_for_saving_in_the_db();
+		}
 
-                    
-                    $post->post_content['list_setting'] = [];
-                    foreach ($setting_custom_list as $column_key => $list) {
-                        $post->post_content['list_setting'][$column_key] =  $list->get_for_saving_in_the_db();
-                    }
+		// Salvo le chiavi primarie e lo schema
+		$post->post_content['primaries'] = $table_model->get_pirmaries();	
+		$post->post_content['schema'] = reset($table_model->items);
 
-                    // Salvo le chiavi primarie e lo schema
-                    $post->post_content['primaries'] = $table_model->get_pirmaries();	
-                    $post->post_content['schema'] = reset($table_model->items);
-
-                    $dbp_admin_show  = ['page_title'=>sanitize_text_field($title), 'menu_title'=>sanitize_text_field($title), 'menu_icon'=>'dashicons-database', 'menu_position' => 120, 'capability'=>'dbp_manage_'.$id, 'slug'=> 'dbp_'.$id, 'show' => 1, 'status' => 'publish'];
-                    add_post_meta($id,'_dbp_admin_show', $dbp_admin_show, false);
-                    update_post_meta($id, '_dbp_list_config', $post->post_content, true);
-                    $role = get_role( 'administrator' );
-                    $role->add_cap( 'dbp_manage_'.$id, true );
-                }
-            }
-            // ridirigo alla gestione della form 
-            wp_redirect( admin_url("admin.php?page=admin_form&section=list-form&msg=list_created&dbp_id=".$id));
-        }
+		$dbp_admin_show  = ['page_title'=>sanitize_text_field($title), 'menu_title'=>sanitize_text_field($title), 'menu_icon'=>'dashicons-database', 'menu_position' => 120, 'capability'=>'dbp_manage_'.$id, 'slug'=> 'dbp_'.$id, 'show' => 1, 'status' => 'publish'];
+		add_post_meta($id,'_dbp_admin_show', $dbp_admin_show, false);
+		update_post_meta($id, '_dbp_list_config', $post->post_content, true);
+		$role = get_role( 'administrator' );
+		$role->add_cap( 'dbp_manage_'.$id, true );
+		// ridirigo alla gestione della form 
+		wp_redirect( admin_url("admin.php?page=admin_form&section=list-form&msg=list_created&dbp_id=".$id));
+        
         die;
     }
 
@@ -376,7 +344,7 @@ class  Dbp_pro_list_loader {
 	 */
 	function af_download_csv() {
 		ADFO_fn::require_init();
-		$temporaly_files = ADFO_temporaly_files();
+		$temporaly_files = new ADFO_temporaly_files();
 		$csv_filename = ADFO_fn::get_request('csv_filename', '');
 		$request_ids = ADFO_fn::get_request('ids', false);
 		$limit_start = ADFO_fn::get_request('limit_start', 0);
@@ -392,6 +360,7 @@ class  Dbp_pro_list_loader {
 			$line = 2000;
 			$next_limit_start = $limit_start + $line;
 			$table_model = new ADFO_model();
+			// solo se c'è...
 			$table_model->prepare(ADFO_fn::get_request('sql', ''));
 			$table_model->list_add_limit($limit_start, $line);
 			if ($dbp_id > 0) {

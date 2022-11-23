@@ -15,11 +15,6 @@ jQuery(document).ready(function () {
             jQuery(this).addClass('dbp-open-sidebar');
         }
     });
-    jQuery('#sidebar-tabs .js-sidebar-title').click(function() {
-        jQuery('#sidebar-tabs .js-sidebar-block').removeClass('dbp-open-sidebar');
-        jQuery(this).parents('.js-sidebar-block').addClass('dbp-open-sidebar');
-		set_cookie('_dbp_sidebar_open', jQuery(this).data('dbpname'));
-    });
 
 	/**
 	 * Vedo se la sidebar deve essere visibile o no
@@ -28,16 +23,6 @@ jQuery(document).ready(function () {
 	 if (sidebar == 'hide') {
 		dbp_click_toggle_sidebar();
 	 }
-	/**
-	 * Apro la disebar settata dal cookie
-	 */
-	//console.log ("_dbp_sidebar_open: "+get_cookie('_dbp_sidebar_open'));
-	let open_sidebar = get_cookie('_dbp_sidebar_open');
-	if (open_sidebar != '') {
-		console.log ('APRO LA SIDEBAR '+open_sidebar);
-		jQuery('#sidebar-tabs .js-dbpblock-'+open_sidebar+' > .js-sidebar-title').click();
-	}
-
 
    
 	// quando la sidebar è aperta i link devono essere controllati con un confirm

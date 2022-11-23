@@ -166,9 +166,6 @@
 }
 .dbp-sidebar-content {
     transition: all .3s ease-in-out;
-    max-height:0;
-    overflow: hidden;
-    /*display:none;*/
 }
 
 .dbp-docs-content {
