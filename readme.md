@@ -36,7 +36,7 @@ The plugin must be placed inside yoursite/wp-content/plugins.
 
 # changelog
 
-V.1.3.0 2022-12-05
+### V.1.3.0 2022-12-05
 FEAT: [Only for PRO]: A system for importing data from a form. Now you can export, edit and re-import your data. Before importing the data, these are verified using a check system. 
 IMPROVEMENT [Only for PRO]: Added 'show all text' checkbox in broswer data
 IMPROVEMENT (Code) ADFO:get_detail added raw_data:boolean parameter
@@ -45,8 +45,7 @@ IMPROVEMENT (Code) ADFO:save_data if all fields are null or empty, but id is the
 FIXBUG: The plugin miscounted the total number of records when the group by was present
 FIXBUG: On import it does not recalculate CALCULATED FIELD type fields
 
-
-V.1.2.0 2022-11-23
+### V.1.2.0 2022-11-23
 FIXBUG: saving text remove html.
 FIXBUG: (database_press) button create list from query, the list it creates doesn't work!
 IMPROVEMENT: new hooks to add new functionality when creating a new form.
@@ -56,7 +55,7 @@ IMPROVEMENT: Possibility to use the database in the Pro version even if the admi
 FEAT: new fields: color picker and range
 DOCS: list_view_formatting.
 
-V.1.1.0 2022-11-17
+### V.1.1.0 2022-11-17
 FIXBUG: (list-form) When I create a new field the autoincrement doesn't appear
 FEAT: (list-form) new field: field email, link
 FEAT: (list-form) when you create a field it also creates a default in the list view. In lookups it doesn't create the additional field and it doesn't hide the main one
@@ -69,6 +68,6 @@ FIXBUG: if I remove a field in the list-form it doesn't remove the field(s) of l
 FIXBUG: on list-structure custom column has label column type instead of custom code
 IMPROVEMENT: in the column type list view (Show checkbox values) I divided the various results with a graphic element.
 
-V.1.0.1 2022-11-12
+### V.1.0.1 2022-11-12
 FIXBUG: list description.
 FIXBUG: show php error.
