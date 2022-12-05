@@ -13,7 +13,7 @@
  * Plugin Name:       Database Press
  * Plugin URI:        https://github.com/giuliopanda/database_press
  * Description:       Db Press is a tool designed to show MySQL tables.
- * Version:           2.0.0
+ * Version:           2.1.0
  * Requires at least: 5.9
  * Requires PHP:      7.2
  * Author:            Giulio Pandolfelli
@@ -30,7 +30,6 @@ if (!defined('WPINC')) {
 }
 define('DB_PRESS_VERSION', rand());
 define('DBP_DIR',   __DIR__ . "/");
-
 
 
 require_once DBP_DIR . "includes/dbp-functions.php" ;

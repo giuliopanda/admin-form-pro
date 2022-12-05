@@ -741,10 +741,10 @@ class  Dbp_model {
         return ($result);
     }
 
-    /**
+   /**
      * Conta il numero di risultati della query attiva e lo mette dentro $this->total_items
      * @param Booleam $remove_limit
-     * @return Integer -1 se non ha potuto contare il numero di righe
+     * @return Integer |-1 se non ha potuto contare il numero di righe
      */
     public function get_count($remove_limit = true) {
         global $wpdb;
@@ -754,10 +754,15 @@ class  Dbp_model {
             $select = substr($sql, 0, $from);
             $select = substr($select, stripos($select, 'select') + 6);
             if ($from > 0) {
-                if (stripos($select,'distinct') !== false) {
-                    $new_sql = "SELECT count($select) ".substr($sql, $from);
+                $having = strripos($sql, ' HAVING ');
+                if ($having == 0) {
+                    if (stripos($select,'distinct') !== false) {
+                        $new_sql = "SELECT count($select) ".substr($sql, $from);
+                    } else {
+                        $new_sql = "SELECT count(*) ".substr($sql, $from);
+                    }
                 } else {
-                    $new_sql = "SELECT count(*) ".substr($sql, $from);
+                    $new_sql = $sql;
                 }
                 if ($remove_limit) {
                     $limit = strripos($new_sql, ' LIMIT ');
@@ -769,8 +774,12 @@ class  Dbp_model {
                 if ($order > 0) {
                     $new_sql = substr($new_sql, 0, $order);
                 }
+                $groupby = strripos($new_sql, ' GROUP BY ');
                 $new_sql = $this->ulitities_marks->restore($new_sql);
-               // print ("<p>count: ".$new_sql."</p>");
+                if ($groupby > 0 || $having > 0) {
+                    $new_sql = "SELECT count(*) FROM (".$new_sql.") AS tot;";
+                }
+                //print ("<p>COUNT: ".$new_sql."</p>");
                 $result = $wpdb->get_var($new_sql);
                 if (is_wp_error($result) || !empty($wpdb->last_error)) {
                     $this->last_error = $wpdb->last_error;
@@ -1057,10 +1066,12 @@ class  Dbp_model {
             $sql = substr($sql, 0, $group_position);
         } 
         $have_position = strripos($sql, ' HAVING '); // trovo l'ultima occorrenza
+        $having = '';
         if ($have_position > 0) {
+            $having = substr($sql,$have_position);
             $sql = substr($sql, 0, $have_position);
         } 
-        $sql .=' GROUP BY '.esc_sql($column).' LIMIT 0, 50000';
+        $sql .=' GROUP BY '.esc_sql($column).$having.' LIMIT 0, 50000';
         $sql = $this->ulitities_marks->restore($sql);
         $result = $wpdb->get_results($sql);
         

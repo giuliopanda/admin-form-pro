@@ -109,32 +109,15 @@ class database_press_admin
 			case 'home' :
 				//TODO Aggiungere un popup introduttivo
 				// https://www.designbombs.com/adding-modal-windows-in-the-wordpress-admin/
+	//TODO Aggiungere un popup introduttivo
+				// https://www.designbombs.com/adding-modal-windows-in-the-wordpress-admin/
 
 				wp_enqueue_script( 'jquery-ui-sortable' );
 				wp_enqueue_script( 'database-sql-editor-js', plugin_dir_url( __FILE__ ) . 'js/database-sql-editor.js',[], DB_PRESS_VERSION);
 				add_filter('dbp_render_sql_height', function () {return 100;} );
 
 				add_filter( 'dbp_render_sql_btns', [$this, 'home_render_sql_btns'] );
-
-				$permission_list = ['SELECT', 'INSERT', 'UPDATE', 'DELETE', 'CREATE', 'DROP', 'RELOAD', 'INDEX', 'ALTER', 'SHOW DATABASES', 'CREATE TEMPORARY TABLES', 'CREATE VIEW', 'SHOW VIEW'];
-				$user_permission = $wpdb->get_results("SHOW GRANTS");
-				if (!is_array($user_permission) || count($user_permission) >0) {
-					$user_permission = $wpdb->get_results("SHOW GRANTS FOR '".esc_sql(DB_USER)."'@'localhost'");
-				} 
-				if (is_array($user_permission) && count($user_permission) > 0) {
-				
-					foreach ($user_permission as $up1) {
-						foreach ($up1 as $up) {
-							foreach ($permission_list as $k=>$pl) {
-								if (stripos($up, $pl) !== false) {
-									unset($permission_list[$k]);
-								}
-							}
-						}
-					}
-				} else {
-					$permission_list = false;
-				}
+		
 				$processlist = [];
 				$processlist_sql = $wpdb->get_results("SHOW processlist;");
 				foreach ($processlist_sql as $pl) {
@@ -143,21 +126,22 @@ class database_press_admin
 					}
 				}
 
-				$variables = $wpdb->get_row('SHOW VARIABLES WHERE Variable_name = "version_comment";');
+				$version = $wpdb->get_var('SELECT VERSION();');
 				$info_db = "";
-				if (stripos($variables->Value, 'MySQL ') !== false) {
-					$info_db = "MYSQL ".$wpdb->get_var('SELECT VERSION();');
+				$db_engine = '';
+				if (stripos($version, 'MySQL') !== false || stripos($version, 'ubuntu') !== false || stripos($version, 'debian') !== false) {
+					$db_engine = 'MYSQL';
+					$info_db = "Version: <b>MYSQL ".$version."</b>";
 				} else {
-					$vers = $wpdb->get_var('SELECT VERSION();');
-					if (stripos($variables->Value, 'MariaDB') > 0) {
-						$info_db = $vers; 
-					}
-				}
-				$database_size = 0;
+					$db_engine = 'MARIADB';
+					$info_db =  "Version: <b>".$version."</b>";	
+				} 
 				$database_name = $wpdb->get_var('SELECT DATABASE();');
+				$database_size = 0;
 				if ($database_name != "") {
-					$database_size = $wpdb->get_var('SELECT  sys.FORMAT_BYTES(SUM(data_length + index_length)) `size` FROM information_schema.tables WHERE table_schema = "'.$database_name.'" GROUP BY table_schema');
+					$database_size = $wpdb->get_var('SELECT SUM(data_length + index_length) AS size FROM information_schema.TABLES WHERE `table_schema` = "'.esc_sql($database_name).'" GROUP BY table_schema;');
 				}
+				
 				$temporaly = new Dbp_temporaly_files();
 				$dir = $temporaly->get_dir();
 				
@@ -422,7 +406,8 @@ class database_press_admin
 		$table_model->prepare(dbp_fn::req('custom_query', ''));
 		
 		$_REQUEST['table'] = $table_model->get_table();
-		
+	
+	
 		if ($table_model->sql_type() == "multiqueries") {
 			$queries = $table_model->get_current_query();
 			$ajax_continue = $temporaly_files->store(['total_queries' => count($queries), 'queries_filename' => $temporaly_files->store($queries), 'last_error' => '', 'error_count' => 0, 'report_queries' => [] ]); 
@@ -433,7 +418,6 @@ class database_press_admin
 			}
 			$render_content = "/dbp-content-multiquery.php";
 		} else {
-
 			// SEARCH in all columns
 			$search = dbp_fn::req('search', false, 'remove_slashes'); 
 			if ($search && $search != "" &&  in_array($action, ['search','order','limit_start','change_limit'])) {
@@ -455,7 +439,12 @@ class database_press_admin
 			$table_model->add_primary_ids();
 
 			$table_items = $table_model->get_list(true, false);
-			$table_model->update_items_with_setting();
+			if (isset($_REQUEST['dbp-show-all-text']) && $_REQUEST['dbp-show-all-text'] == 1) {
+				$table_model->update_items_with_setting(false, true, 99999);
+			} else {
+				$table_model->update_items_with_setting();
+			}
+		
 		
 			dbp_fn::items_add_action($table_model);
 		

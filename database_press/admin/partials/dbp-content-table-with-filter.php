@@ -23,7 +23,6 @@ $some_error = $table_model->last_error || @$msg_error != "";
 
  <div class="dbp-content-table js-id-dbp-content" >
     <form id="table_filter" method="post" action="<?php echo $my_custom_link; ?>">
-
         <input type="hidden" id="dbp_table_sort_field" name="filter[sort][field]" value="<?php echo esc_attr(dbp_fn::esc_request('filter.sort.field')); ?>">
         <input type="hidden" id="dbp_table_sort_order"  name="filter[sort][order]" value="<?php echo esc_attr(dbp_fn::esc_request('filter.sort.order')); ?>">
         <input type="hidden" id="dbp_table_filter_limit_start" name="filter[limit_start]" value="<?php echo esc_attr($table_model->limit_start); ?>">
@@ -62,7 +61,10 @@ $some_error = $table_model->last_error || @$msg_error != "";
                         <?php endif; ?>
                     </div>
                 <?php endif; ?>
-               
+                    <div style="float: left; margin-left: 1rem; line-height: 1.6rem;">
+                        <label>
+                            <input type="checkbox" name="dbp-show-all-text" value="1" onchange="dbp_submit_table_filter()"<?php echo(isset($_REQUEST['dbp-show-all-text']) && $_REQUEST['dbp-show-all-text'] == 1) ? 'checked="checked"' : ''; ?>><?php _e('Show all text', 'admin_form'); ?></label>
+                    </div>
                 <?php if (count($table_model->tables_primaries) > 0) : ?>
                 <div class="alignright">
                     <div class="dbp-submit" onclick="dbp_edit_details_v2()"><?php _e('Add New record','db_press'); ?></div>

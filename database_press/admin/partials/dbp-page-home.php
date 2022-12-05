@@ -9,8 +9,7 @@ if (!defined('WPINC')) die;
 if (!current_user_can('administrator'))  return;
 ?>
 <div class="wrap">
-    <div id="dbp_container" class="dbp-grid-container">
-       
+    <div id="dbp_container" class="dbp-grid-container" style="display:none; position:fixed; width: inherit;">
         <div class="dbp-column-content">
             <div class="dbp-content-header">
                 <?php require dirname(__FILE__).'/dbp-partial-tabs.php'; ?>
@@ -40,7 +39,7 @@ if (!current_user_can('administrator'))  return;
                                     if ($database_name != '') {
                                         echo '<div class="dbp-color-info">&bull; Database Name: <b>' . $database_name . '</b></div>';
                                     }
-                                    echo '<div class="dbp-color-info">&bull; Database Size: <b>' . $database_size . '</b></div>';
+                                    echo '<div class="dbp-color-info">&bull; Database Size: <b>' . size_format($database_size) . '</b></div>';
                                     ?>
                                
                             <?php 
@@ -56,13 +55,7 @@ if (!current_user_can('administrator'))  return;
                                     }
                                     ?></div><?php 
                                 }
-                                if (is_array($permission_list)) {
-                                    if (count($permission_list) > 0) {
-                                        ?><div class="dbp-color-error">&bull; <?php echo  sprintf(__('The mysql user does not have enough permissions to manage this plugin. Missing: <b>%s</b>', 'db_press'), implode(", ", $permission_list)); ?></div> <?php 
-                                    } else {
-                                        ?><div class="dbp-color-info">&bull; <?php _e('The permissions of the mysql user are correct','db_press'); ?></div> <?php 
-                                    }
-                                }
+                              
                                 $max_input_vars = dbp_fn::get_max_input_vars();
                                 if ($max_input_vars  < 3000) {
                                     if ($max_input_vars >= 1000) {

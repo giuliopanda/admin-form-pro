@@ -87,9 +87,9 @@ class  Dbp_pro_loader_list_sql_edit {
 			if (isset($_REQUEST['custom_query']) && $_REQUEST['custom_query'] !== '') {
 				// aggiungo tutti i primary id e li salvo a parte 
 				$table_model = new ADFO_model();
-				$table_model->prepare(wp_kses_post((wp_unslash($_REQUEST['custom_query']))));
+				$table_model->prepare(wp_unslash($_REQUEST['custom_query']));
 				if ($table_model->sql_type() != "select") {
-					$error_query = __('Only a single select query is allowed in the lists', 'admin_form');
+					$error_query = sprintf(__('Only a single select query is allowed in the lists %s', 'admin_form'), $table_model->get_current_query());
 					$show_query = true;
 				} else {
 					$table_model->add_primary_ids();

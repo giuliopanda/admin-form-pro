@@ -88,7 +88,8 @@ class  Dbp_pro_list_loader {
 		$table_model->prepare($sql);
 		if ($table_model->sql_type() != "select") {
 			//TODO Al momento il messaggio di errore non è usato da impostare con i cookie !!!!
-			$msg = __('Only a single select query is allowed in the lists', 'admin_form');
+			$msg = sprintf(__('1 Only a single select query is allowed in the lists %s', 'admin_form'), $table_model->get_current_query());
+
 			wp_redirect( admin_url("admin.php?page=admin_form&section=list-sql-edit&msg=list_created&dbp_id=".$id));
 			die();
 		}
@@ -338,17 +339,17 @@ class  Dbp_pro_list_loader {
 		die();
 	}
 
-
     /**
 	 * Prepara il csv 
 	 */
 	function af_download_csv() {
 		ADFO_fn::require_init();
 		$temporaly_files = new ADFO_temporaly_files();
-		$csv_filename = ADFO_fn::get_request('csv_filename', '');
-		$request_ids = ADFO_fn::get_request('ids', false);
-		$limit_start = ADFO_fn::get_request('limit_start', 0);
-		$dbp_id		 = ADFO_fn::get_request('dbp_id', 0);
+		$csv_filename 	= ADFO_fn::get_request('csv_filename', '');
+		$request_ids 	= ADFO_fn::get_request('ids', false);
+		$limit_start 	= ADFO_fn::get_request('limit_start', 0);
+		$dbp_id		 	= isset($_REQUEST['dbp_id']) ? absint($_REQUEST['dbp_id']) : 0;
+		$data_type		= isset($_REQUEST['data_type']) ? sanitize_text_field($_REQUEST['data_type']) : '';
 		if ($dbp_id > 0) {
 			$post = ADFO_functions_list::get_post_dbp($dbp_id);
 		}
@@ -359,9 +360,19 @@ class  Dbp_pro_list_loader {
 			// estraggo i dati dalla query
 			$line = 2000;
 			$next_limit_start = $limit_start + $line;
-			$table_model = new ADFO_model();
-			// solo se c'è...
-			$table_model->prepare(ADFO_fn::get_request('sql', ''));
+			
+			$sql = ADFO_fn::get_request('sql', '');
+			if ($data_type == 'raw') {
+				$form = new ADFO_class_form($dbp_id);
+				$table_model = $form->table_model;
+				
+			} else {
+				$table_model = new ADFO_model();
+				if ($sql == '' && $dbp_id > 0) {
+					$sql = $post->post_content['sql'];
+				} 
+				$table_model->prepare($sql);
+			}
 			$table_model->list_add_limit($limit_start, $line);
 			if ($dbp_id > 0) {
 				if (isset($post->post_content['sql_order']['sort']) &&  isset($post->post_content['sql_order']['field'])) {
@@ -371,22 +382,10 @@ class  Dbp_pro_list_loader {
 			}
 			$table_items = $table_model->get_list();
 			$count = $table_model->get_count();
-			if ($dbp_id > 0) {
+			if ($dbp_id > 0 && $data_type != 'raw') {
 				$table_model->update_items_with_setting($post);
 				ADFO_fn::remove_hide_columns($table_model);
 				$table_items = [];
-				/*
-				// TODO come lo gestisco?
-				// se modifichi una tabella e non risalvi list_setting questa non sarà allineata con i risultati!!
-				foreach ($table_model->items as $key => $column) {
-					$temp_item = [];
-					// rimuovo i campi delle chiavi primarie aggiunte di nascosto nelle query e cambio il nome delle colonne
-					foreach ($post->post_content['list_setting'] as $name_key => $header_col) {
-						$temp_item[$header_col->title] = $column->$name_key;
-					}
-					$table_items[] = $temp_item;
-				}
-				*/
 				$table_items = $table_model->items;
 			}
 			// verifico che la query non abbia dato errore
@@ -1028,8 +1027,9 @@ class  Dbp_pro_list_loader {
                     foreach ($items as $item_key=>$item) {
                         foreach ($item as $key=>$value_item) {
                             //echo " SET PINACODE:".ADFO_fn::clean_string($header[$key]['schema']->table).".".ADFO_fn::clean_string($header[$key]['schema']->name)." = ".$value_item."\n ";
-                            PinaCode::set_var(ADFO_fn::clean_string($header[$key]['schema']->table).".".ADFO_fn::clean_string($header[$key]['schema']->name), $value_item);
-                            PinaCode::set_var("data.".ADFO_fn::clean_string($header[$key]['schema']->name), $value_item);
+							//@TODO da decidere se il secondo parametro deve avere il clean_string (ma allora lo devo mettere ovunque!!!)
+                            PinaCode::set_var(ADFO_fn::clean_string($header[$key]['schema']->table).".".$header[$key]['schema']->name, $value_item);
+                          //  PinaCode::set_var("data.".ADFO_fn::clean_string($header[$key]['schema']->name), $value_item);
                         }
                     }
                 }

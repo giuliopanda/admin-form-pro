@@ -4,8 +4,26 @@ Manages database tables in the Wordpress Admin panel
 The pro version of the plugin for wordpress [admin-form](https://wordpress.org/plugins/admin-form/).
 To work on the site, the admin-form downloaded from the official wordpress repository must be installed!
 
+# Database
+By installing the pro version you will have an easy and fast system to manage database tables directly from the wordpress administration.
+
+Write queries without errors thanks to automatic suggestions.
+![Write queries without errors thanks to automatic suggestions](https://github.com/giuliopanda/admin-form-pro/repo/main/database_press_screenshot01.png)
+
+Speed up your work with query-building assistance tools.
+![Speed up your work with query-building assistance tools](https://github.com/giuliopanda/admin-form-pro/repo/main/database_press_screenshot02.png)
+
+Filter the results as if you were on an excel table.
+![Filter the results as if you were on an excel table.](https://github.com/giuliopanda/admin-form-pro/repo/main/database_press_screenshot03.png)
+
+# Import export
+
+[Here the guide to export or import data.](https://github.com/giuliopanda/admin-form-pro/wiki/Import-Export)
+
+
 # Installation
-Download the plugin, if it's in a compressed folder unzip first. The plugin must be placed inside yoursite/wp-content/plugins
+Download the plugin, if it's in a compressed folder unzip first. 
+The plugin must be placed inside yoursite/wp-content/plugins.
 
 # The pro version adds:
 - The calculated fields
@@ -14,14 +32,25 @@ Download the plugin, if it's in a compressed folder unzip first. The plugin must
 - The ability to create query forms (LAB).
 - Advanced management in the creation of tables
 - Import and export of data in mysql / csv.
+- Import export data of a specific form.
 
 # changelog
+
+V.1.3.0 2022-12-05
+FEAT: [Only for PRO]: A system for importing data from a form. Now you can export, edit and re-import your data. Before importing the data, these are verified using a check system. 
+IMPROVEMENT [Only for PRO]: Added 'show all text' checkbox in broswer data
+IMPROVEMENT (Code) ADFO:get_detail added raw_data:boolean parameter
+IMPROVEMENT (Code) ADFO:get_data added the raw type return that is used to save the query
+IMPROVEMENT (Code) ADFO:save_data if all fields are null or empty, but id is there i added delete row action.
+FIXBUG: The plugin miscounted the total number of records when the group by was present
+FIXBUG: On import it does not recalculate CALCULATED FIELD type fields
+
 
 V.1.2.0 2022-11-23
 FIXBUG: saving text remove html.
 FIXBUG: (database_press) button create list from query, the list it creates doesn't work!
 IMPROVEMENT: new hooks to add new functionality when creating a new form.
-FIXBUG [PRO] (list-browse) csv download didn't work.
+FIXBUG [Only for PRO] (list-browse) csv download didn't work.
 REFACTOR: renamed the other hooks and created the legacy for the old hooks
 IMPROVEMENT: Possibility to use the database in the Pro version even if the admin form is not installed
 FEAT: new fields: color picker and range

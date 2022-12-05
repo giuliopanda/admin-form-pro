@@ -14,6 +14,7 @@
 namespace DbPress;
 if (!defined('WPINC')) die;
 if (!current_user_can('administrator'))  return;
+
 foreach ($items as $item) {
     echo '<div class="dbp-result-query dbp-css-mb-1 js-dbp-mysql-query-text">'.$item->model->get_default_query().'</div>';
     ?>

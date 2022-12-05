@@ -26,4 +26,3 @@ if (!current_user_can('administrator'))  return;
         <?php dbp_html_sql::render_sql_from($table_model, true); ?>
     </form>
 </div>
-    

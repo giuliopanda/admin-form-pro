@@ -35,7 +35,7 @@ class  Dbp_items_list_setting {
 		
         $this->settings_fields = $settings_fields;
 		
-		$this->general_settings = [];
+		$this->general_settings = $general_settings;
 		
 		$items = array_map(function ($object) {
 			if (is_object($object)) {
@@ -275,7 +275,11 @@ class  Dbp_items_list_setting {
 	 * Trovo la lunghezza massima dei testi da visualizzare
 	 */
 	private function max_text_length() {
-		return 80;
+		if (isset($this->general_settings['text_length']) && absint($this->general_settings['text_length']) > 1) {
+			return absint($this->general_settings['text_length']);
+		} else {
+			return 80;
+		}
 	}
 
 	private function html_entities($text) {

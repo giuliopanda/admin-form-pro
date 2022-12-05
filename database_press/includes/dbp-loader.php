@@ -228,8 +228,8 @@ class  Dbp_loader {
 		$model = new Dbp_model($params['table']); // è la tabella a cui appartiene il singolo campo!
 		//TODO questo lo prendo da dbp_id se è presente altrimenti dalla query
 		if (isset($_REQUEST['sql'])) {
-
-		$model->prepare(wp_kses_post((html_entity_decode($_REQUEST['sql']))));
+			// rimuovo wp_kses_post perché converte > in &lt;
+			$model->prepare(wp_unslash($_REQUEST['sql']));
 		}
 		$result = $model->distinct($params['column'], $filter_distinct);
 		
@@ -1438,8 +1438,8 @@ class  Dbp_loader {
 					$form = new Dbp_class_form($sql);
 					$ris = $form->save_data($item, false);
 
-					var_dump ($ris);
-					die;
+					//var_dump ($ris);
+					//die;
 				}
 			}
 		} else {
