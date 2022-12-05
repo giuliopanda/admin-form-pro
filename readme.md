@@ -8,7 +8,7 @@ To work on the site, the admin-form downloaded from the official wordpress repos
 By installing the pro version you will have an easy and fast system to manage database tables directly from the wordpress administration.
 
 Write queries without errors thanks to automatic suggestions.
-![Write queries without errors thanks to automatic suggestions]https://github.com/giuliopanda/repo/blob/main/database_press_screenshot01.png)
+![Write queries without errors thanks to automatic suggestions](https://github.com/giuliopanda/repo/blob/main/database_press_screenshot01.png)
 
 Speed up your work with query-building assistance tools.
 ![Speed up your work with query-building assistance tools](https://github.com/giuliopanda/repo/blob/main/database_press_screenshot02.png)
