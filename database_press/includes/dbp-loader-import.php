@@ -418,7 +418,11 @@ class  Dbp_loader_import {
 		}
 		$temporaly_files = new Dbp_temporaly_files();
 		$temporaly_files->append($file_data, $file_name);
-		wp_send_json(['file_name'=> $file_name, 'ext'=>$ext, 'org_name' =>$_POST['file']]);
+		$result = ['file_name'=> $file_name, 'ext'=>$ext, 'org_name' =>$_POST['file']];
+		if (isset($_REQUEST['dbp_id']) && absint($_REQUEST['dbp_id']) > 0) {
+			$result['dbp_id'] = absint($_REQUEST['dbp_id']);
+		}
+		wp_send_json($result);
 		die;
 	}
 

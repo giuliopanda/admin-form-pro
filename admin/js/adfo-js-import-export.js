@@ -1,6 +1,5 @@
 
 function adfo_download_raw_csv(dbp_id) {
-    // console.log ('dbp_bulk_actions');
     let action = jQuery('#dbp_bulk_action_selector_bottom').val();
     let mwith = jQuery('#dbp_bulk_on_selector_bottom').val();
 
@@ -19,7 +18,6 @@ function adfo_download_raw_csv(dbp_id) {
  */
 function adfo_ajax_download_raw_csv(dbp_id, limit_start, csv_filename) {
     data = {'sql':'', 'dbp_id': dbp_id, 'ids':false, 'limit_start':limit_start, 'csv_filename':csv_filename, 'action':'af_download_csv', 'section':'table-browse', 'data_type':'raw'};
-    console.log (data);
     jQuery.ajax({
         type : "post",
         dataType : "json",
@@ -48,7 +46,6 @@ function adfo_ajax_download_raw_csv(dbp_id, limit_start, csv_filename) {
 
 
 function adfo_download_csv(dbp_id) {
-    // console.log ('dbp_bulk_actions');
     let action = jQuery('#dbp_bulk_action_selector_bottom').val();
     let mwith = jQuery('#dbp_bulk_on_selector_bottom').val();
 
@@ -67,7 +64,6 @@ function adfo_download_csv(dbp_id) {
  */
 function adfo_ajax_download_csv(dbp_id, limit_start, csv_filename) {
     data = {'sql':'', 'dbp_id': dbp_id, 'ids':false, 'limit_start':limit_start, 'csv_filename':csv_filename, 'action':'af_download_csv', 'section':'table-browse'};
-    console.log (data);
     jQuery.ajax({
         type : "post",
         dataType : "json",
@@ -98,7 +94,6 @@ function adfo_ajax_download_csv(dbp_id, limit_start, csv_filename) {
  * IMPORT BIG DATA
  */
 
-
     var dbp_reader = {};
     var dbp_file_upl = {};
     var slice_size = 1900 * 1024;
@@ -110,7 +105,6 @@ function adfo_ajax_download_csv(dbp_id, limit_start, csv_filename) {
         dbp_file_upl = document.getElementById('dbi_import_file').files[0];
         if (dbp_file_upl == undefined) return;
         if (dbp_file_upl.size > 0 ) {
-            console.log ("file.size");
             jQuery('#dbi-file-upload-submit').addClass('dbp-btn-disabled');
             jQuery('#dbi_import_file').prop('disabled', true);
             upload_file( 0, '', dbp_id );
@@ -123,7 +117,6 @@ function adfo_ajax_download_csv(dbp_id, limit_start, csv_filename) {
     function upload_file( start, filename, dbp_id ) {
         var next_slice = start + slice_size + 1;
         var blob = dbp_file_upl.slice( start, next_slice );
-        
         dbp_reader.onloadend = function( event ) {
             if ( event.target.readyState !== FileReader.DONE ) {
                 return;
@@ -140,34 +133,30 @@ function adfo_ajax_download_csv(dbp_id, limit_start, csv_filename) {
                     file: dbp_file_upl.name,
                     file_name: filename,
                     file_type: dbp_file_upl.type,
-                    nonce: dbi_vars.upload_file_nonce
+                    nonce: dbi_vars.upload_file_nonce,
+                    dbp_id: dbp_id
                 },
                 error: function( jqXHR, textStatus, errorThrown ) {
-                    console.log( jqXHR, textStatus, errorThrown );
+                    jQuery( '#dbpUploadProgress' ).html( 'Upload ERROR '+textStatus );
                 },
                 success: function( data ) {
                     var size_done = start + slice_size;
                     var percent_done = Math.floor( ( size_done / dbp_file_upl.size ) * 100 );
-
                     if ( next_slice < dbp_file_upl.size ) {
                         // Update upload progress
                         jQuery( '#dbpUploadProgress' ).html( 'Uploading File - '+ percent_done+'%');
                         // More to upload, call function recursively
-                        upload_file( next_slice, data.file_name );
+                        upload_file( next_slice, data.file_name, dbp_id );
                     } else {
                         jQuery('#dbi-file-upload-submit').addClass('dbp-btn-disabled');
                         // Update upload progress
                         jQuery( '#dbpUploadProgress' ).html( 'Upload Complete' );
-                        jQuery('#dbi-file-upload-submit').removeClass('dbp-btn-disabled');
-                        jQuery('#dbi_import_file').prop('disabled', false);
-                        jQuery('#container_step2').empty();
+                        jQuery('#container_step2').empty().append('<div id="analysis_perc"></div>');
                         adfo_check_data(data.file_name, data.org_name, dbp_id, 0);
-                       
                     }
                 }
             } );
         };
-
         dbp_reader.readAsDataURL( blob );
     }
 
@@ -178,7 +167,6 @@ function adfo_ajax_download_csv(dbp_id, limit_start, csv_filename) {
  * Step 2 i dati sono stati caricati ora li provo su una tabella temporanea e mostro il risultato
  */
 function adfo_check_data(filename, orgname, dbp_id, limit_start) {
-    console.log ("dbp_id: "+dbp_id)
     jQuery.ajax( {
         url: ajaxurl,
         type: 'POST',
@@ -196,9 +184,15 @@ function adfo_check_data(filename, orgname, dbp_id, limit_start) {
             jQuery('#container_step2').append('<div class="dbp-alert-warning">ERROR: '+ textStatus+': '+ errorThrown +'</div>');
         },
         success: function( data ) {
-            if (data.hasOwnProperty('table_array')) {
-                $table =  gp_draw_table(data.table_array, data.table_data);
-                jQuery('#container_step2').append($table);
+            if (data.error != '') {
+                jQuery('#container_step2').append('<div class="dbp-alert-warning">ERROR: '+ data.error +'</div>');
+            } else if (data.hasOwnProperty('table_array')) {
+                perc = Math.round(((data.limit+data.limit_start) / data.total_row ) * 100);
+                jQuery('#analysis_perc').empty().html(perc + "% data analysis in progress");
+                if (data.table_data > 0) {
+                    $table =  gp_draw_table(data.table_array, data.table_data);
+                    jQuery('#container_step2').append($table);
+                }
               
                 if (data.import_table) {
                     if (data.limit_start+data.limit < data.total_row) {
@@ -219,7 +213,7 @@ function adfo_check_data(filename, orgname, dbp_id, limit_start) {
                     jQuery('#container_step2').prepend($msg).append($msg.clone());
                 }
             }
-            console.log(data);
+           
         }
     });
 }
@@ -241,7 +235,6 @@ var adfo_import_update = 0;
 var adfo_import_error = 0;
 
 function adfo_import_csv(filename, dbp_id, limit_start) {
-    console.log ("dbp_id: "+dbp_id)
     if ( jQuery('.js-btn-exec-import').prop('disabled')) return;
     jQuery('.js-btn-exec-import').prop('disabled', true);
     jQuery.ajax( {
@@ -257,18 +250,17 @@ function adfo_import_csv(filename, dbp_id, limit_start) {
             dbp_id: dbp_id
         },
         error: function( jqXHR, textStatus, errorThrown ) {
-            console.log( jqXHR, textStatus, errorThrown );
+            jQuery('#msg_importing').empty().html("ERROR: "+textStatus).removeClass('dbp-alert-info').addClass('dbp-alert-warning');
         },
         success: function( data ) {
             if (data.error != "") {
-                jQuery('#msg_importing').empty().html('Import finished').removeClass('dbp-alert-info').addClass('dbp-alert-warning');
+                jQuery('#msg_importing').empty().html(data.error).removeClass('dbp-alert-info').addClass('dbp-alert-warning');
                 return;
             }
            
             for (i in data.result)  {
                 let row = data.result[i];
                 if (row.execute) {
-                    console.log ("EXECUTE OK");
                     temp_import = '';
                     for (d in row.details) {
                         let detail = row.details[d];
@@ -291,7 +283,6 @@ function adfo_import_csv(filename, dbp_id, limit_start) {
                         adfo_import_error++;
                     }
                 } else {
-                    console.log ("EXECUTE ERROR");
                     adfo_import_error++;
                 }
                 $table =  jQuery('<table class="dbp-table-import-check" id="adfo_import_data_result"></table>');
@@ -299,7 +290,7 @@ function adfo_import_csv(filename, dbp_id, limit_start) {
                 $table.append('<tr><td>Update</td><td>'+adfo_import_update+'</td></tr>');
                 $table.append('<tr><td>Errors</td><td>'+adfo_import_error+'</td></tr>');
                 jQuery('#container_step3').empty().append($table);
-                jQuery('#msg_importing').empty().html('Import finished').removeClass('dbp-alert-warning').addClass('dbp-alert-info');
+             
             }
             if (data.limit_start+data.limit < data.total_row) {
             // check in paginazione
@@ -308,6 +299,7 @@ function adfo_import_csv(filename, dbp_id, limit_start) {
                         
                 adfo_import_csv(filename, dbp_id,  data.limit_start+data.limit);                           
             } else {
+                jQuery('#msg_importing').empty().html('Import finished').removeClass('dbp-alert-warning').addClass('dbp-alert-info');
                 $table.append('<tr><td>Total Row</td><td>'+(data.total_row)+'</td></tr>');        
             }
         }

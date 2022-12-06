@@ -65,12 +65,12 @@ class  Dbp_pro_import_export_list {
         ADFO_fn::require_init();
         $json_send = ['error'=>''];
         if (!isset($_REQUEST['dbp_id']) || !isset($_REQUEST['filename']) || !isset($_REQUEST['orgname'])) {
-            $json_send['error'] = __('c\'è stato un problema inatteso', 'admin_form');
+            $json_send['error'] = __('There was an unexpected problem', 'admin_form');
 			wp_send_json($json_send);
 			die();
         }
         $limit_start = isset($_REQUEST['limit_start']) ? absint($_REQUEST['limit_start']) : 0;
-        $limit = 10;
+        $limit = 10000;
       
         //var_dump ($tables_strucutes);
         $temporaly_files = new ADFO_temporaly_files();
@@ -78,7 +78,7 @@ class  Dbp_pro_import_export_list {
         
        // var_dump ($csv_items);
         if (!is_array($csv_items)) {
-            $json_send['error'] = __('Il file non era un csv valido', 'admin_form');
+            $json_send['error'] = __('The file was not a valid csv', 'admin_form');
 			wp_send_json($json_send);
 			die();
         }
@@ -87,7 +87,9 @@ class  Dbp_pro_import_export_list {
         $res_data = [[]];
         $result[] = array_shift($csv_items);
         $import_table = true;
+        $real_limit = 0;
         foreach ($csv_items as $item) {
+            $real_limit ++;
             $temp_result = $form->check_data_to_save($item);
             if ($temp_result['___result___'] == false ) $import_table = false;
             if ($temp_result['___result___'] == false || $temporaly_files->csv_total_row < 300 ) {
@@ -109,19 +111,19 @@ class  Dbp_pro_import_export_list {
                 }
             }
         }
-		wp_send_json(['import_table'=> $import_table, 'table_array' => $result, 'table_data' => $res_data, 'total_row' => $temporaly_files->csv_total_row, 'checked' => count($result), 'limit_start'=>$limit_start, 'limit'=>$limit]);
+		wp_send_json(['import_table'=> $import_table, 'table_array' => $result, 'table_data' => $res_data, 'total_row' => $temporaly_files->csv_total_row, 'checked' => count($result), 'limit_start'=>$limit_start, 'limit'=>$real_limit, 'error' => '']);
         die;
     }
 
     function ajax_list_import_data() {
         ADFO_fn::require_init();
         $limit_start = isset($_REQUEST['limit_start']) ? absint($_REQUEST['limit_start']) : 0;
-        $limit = 10;
+        $limit = 3000;
         $temporaly_files = new ADFO_temporaly_files();
         $csv_items = $temporaly_files->read_csv(sanitize_text_field($_REQUEST['filename']), ';', true, $limit, $limit_start);
        // var_dump ($csv_items);
         if (!is_array($csv_items)) {
-            $json_send['error'] = __('Il file non era un csv valido', 'admin_form');
+            $json_send['error'] = __('The file was not a valid csv', 'admin_form');
 			wp_send_json($json_send);
 			die();
         }
@@ -129,13 +131,18 @@ class  Dbp_pro_import_export_list {
         $result = [];
         $res_data = [[]];
         $total = count ($csv_items);
+        $real_limit = 0;
         array_shift($csv_items);
         foreach ($csv_items as $item) {
+            $real_limit++;
             $res_save_data = $form->save_data([(object)$item]);
             $report = array_merge($item, $res_save_data);
             $result[] = $res_save_data;
+            if (!ADFO_fn::get_max_execution_time()) {
+                break;
+            }
         }
-        wp_send_json(['result' => $result, 'limit_start'=>$limit_start, 'limit'=>$limit, 'total_row' => $temporaly_files->csv_total_row, 'error'=>'']);
+        wp_send_json(['result' => $result, 'limit_start'=>$limit_start, 'limit'=>$real_limit, 'total_row' => $temporaly_files->csv_total_row, 'error'=>'']);
         die;
     }
 

@@ -38,7 +38,7 @@ The plugin must be placed inside yoursite/wp-content/plugins.
 
 V.1.3.0 2022-12-05
 FEAT: [Only for PRO]: A system for importing data from a form. Now you can export, edit and re-import your data. Before importing the data, these are verified using a check system. 
-IMPROVEMENT [Only for PRO]: Added 'show all text' checkbox in broswer data
+IMPROVEMENT (database browse query) [Only for PRO]: Added 'show all text' checkbox in broswer data
 IMPROVEMENT (Code) ADFO:get_detail added raw_data:boolean parameter
 IMPROVEMENT (Code) ADFO:get_data added the raw type return that is used to save the query
 IMPROVEMENT (Code) ADFO:save_data if all fields are null or empty, but id is there i added delete row action.
