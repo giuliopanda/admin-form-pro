@@ -296,14 +296,12 @@ function gp_form_field(label, field_name, val, type, param, count_block) {
             if (typeof(param) == 'object') {
                 $field = jQuery('<input type="text" autocomplete="off" class="form-input-edit js-dbp-autocoplete js-dbp-autocoplete-id-title">');
                 $field_id = jQuery('<input type="hidden" autocomplete="off" class="js-dbp-autocoplete-id" name="'+field_name+'" >');
-                console.log (type+" MY VAL ");
-                console.log (typeof val);
+
                 if (typeof val == 'object') {
                     $field_id.val(val.id);
                     param.custom_value = val.label;
                     val = val.id;
                 } else {
-                    console.log (' DEFAULT VAL : '+ val);
                     $field_id.val(val);
                 }
                 $field.data('dbp-autocomplete-id', $field_id);
@@ -612,7 +610,7 @@ function gp_form_field(label, field_name, val, type, param, count_block) {
                 $field.data('dbp_fn', new Function('field','form','status', param.js_script));
                 $field.addClass('js-dbp-fn-set');
                 $field.on('keyup change', function() {
-                    console.log ("keyUP change "+this);
+
                     let __custom_fn = jQuery(this).data('dbp_fn');
                     if (__custom_fn instanceof Function) {
                         dbp_exec_fn(__custom_fn, this, 'field_change');

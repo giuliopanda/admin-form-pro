@@ -144,7 +144,6 @@ jQuery(document).ready(function ($) {
                                 }
                             });
                             response.table_link = response.table_link.replace(row.old_table, row.new_table);
-                            console.log ("response.table_link2 "+response.table_link);
                         }
                     }
 

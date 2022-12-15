@@ -287,7 +287,7 @@ function remove_select_option($option) {
  * Un ajax che prova a creare una tabella temporanea e a fare gli insert richiesti
  */
 function dbp_csv_test_import() {
-    console.log ('dbp_csv_test_import');
+
     jQuery('#dbp_result_test_import_csv').empty().css('display','none');
     jQuery('#dbp_import_csv_exec_import').css('display','none');
     jQuery('#dbp_result_import_box').css('display','block');
@@ -391,7 +391,6 @@ function dbp_csv_test_import() {
         file = document.getElementById('dbi_import_file').files[0];
         if (file == undefined) return;
         if (file.size > 0 ) {
-            console.log ("file.size");
             jQuery('#dbi-file-upload-submit').addClass('dbp-btn-disabled');
             jQuery('#dbi_import_file').prop('disabled', true);
             upload_file( 0, '' );

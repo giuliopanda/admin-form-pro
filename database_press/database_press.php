@@ -8,19 +8,6 @@
  * @author   Giulio Pandolfelli <giuliopanda@gmail.com>
  * @license  GPL v2 or later
  * @link     https://github.com/giuliopanda/database_press
- * 
- * @wordpress-plugin     
- * Plugin Name:       Database Press
- * Plugin URI:        https://github.com/giuliopanda/database_press
- * Description:       Db Press is a tool designed to show MySQL tables.
- * Version:           2.1.0
- * Requires at least: 5.9
- * Requires PHP:      7.2
- * Author:            Giulio Pandolfelli
- * License:           GPL v2 or later
- * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
- * Text Domain:       db_press
- * Domain Path:       /languages
  */
 
 namespace DbPress;

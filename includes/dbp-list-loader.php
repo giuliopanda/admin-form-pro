@@ -987,9 +987,7 @@ class  Dbp_pro_list_loader {
 						<div class="button" onclick="dbp_bulk_actions()"><?php _e('Apply'); ?></div>
 					</div>
 				</div>
-				<div class="tablenav-pages dbp-table-footer-right">
-					<?php ADFO_fn::get_pagination($table_model->total_items, $table_model->limit_start, $table_model->limit); ?>
-				</div>
+			
 				<br class="clear">
 			</div>
 		<?php endif;

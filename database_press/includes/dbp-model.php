@@ -1599,10 +1599,18 @@ class  Dbp_model {
                    
                     case "IN":
                     case "NOT IN":
-                        if (is_string($f['value'])) {
-                            $value = explode(",", $f['value']);
+                        if (stripos($f['value'], '__#JSON#__') === false) {
+                            if (is_string($f['value'])) {
+                                $value = explode(",", $f['value']);
+                            } else {
+                                $value = (array)$f['value'];
+                            }
                         } else {
-                            $value = (array)$f['value'];
+                            $value_temp = str_replace("__#JSON#__", "", $f['value']);
+                            $value = json_decode(wp_unslash($value_temp));
+                            if (json_last_error() != JSON_ERROR_NONE) {  
+                                $value = $value_temp;
+                            }
                         }
                         $array_or = $new_v = $new_ids = $new_sel = [];
                         // qui divido per vari tipi: 

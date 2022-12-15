@@ -415,6 +415,31 @@ class  Dbp_loader {
 		$json_send['params'] = $form->data_structures_to_array($settings);
 		$json_send['table_options'] = $form->data_structures_to_array($table_options);	
 		$json_send['buttons'] =  $form->get_btns_allow(); //['save'=>false,'delete'=>true];
+
+
+		// serve per clonare un record
+		foreach ($json_send['params'] as $group_key => &$group_param) {
+			foreach ($group_param as $field_key => &$field_param) {
+				if (isset($_REQUEST['clone_record']) && $_REQUEST['clone_record'] == 'clone' ) {
+					foreach ($json_send['items'] as $key=>&$item) {
+						$remove = (isset($field_param['is_pri']) && $field_param['is_pri'] === 1);
+						$remove =  ($remove || (isset($field_param['form_type']) && $field_param['form_type'] == 'CALCULATED_FIELD'));
+						if (!$remove) continue;
+						if ( array_key_exists($group_key,$item) && is_object($item[$group_key])) {
+							$field_param['default_value'] ='';
+							$item[$group_key]->$field_key = '';
+						}
+						if ( array_key_exists($group_key,$item) && is_array($item[$group_key])) {
+						
+							$field_param['default_value'] ='';
+							$item[$group_key][$field_key] = '';
+						}
+					}
+				}
+			}
+		}
+
+	
 		wp_send_json($json_send);
 		die();
 	}

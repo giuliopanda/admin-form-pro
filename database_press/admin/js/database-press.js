@@ -208,6 +208,11 @@ jQuery(document).ready(function ($) {
         //$('#dbp_dropdown_search_value_'+ rif).val();
         if (clean) {
             jQuery('#dbp_dropdown_search_value_'+rif).val('');
+            if (val == "IN" || val == "NOT IN" ) {
+                if (jQuery('#dbp_checkboxes_value_' + rif +' > ul .js-dbp-cb').length > 0) {
+                    add_serialize_checkboxes( jQuery('#dbp_checkboxes_value_' + rif +' > ul .js-dbp-cb').get(0));
+                }
+            }
         }
         if (val != "NULL" && jQuery('#dbp_input_value_'+rif).val() == '##EMPTYVALUES##' ) {
             jQuery('#dbp_input_value_'+rif).val('');
@@ -309,7 +314,11 @@ function populate_drowdown_checkboxes($ul_box, response) {
     let checkbox_selected_count = 0;
     let def_values = [];
     if (def_val != "") {
-        def_values = def_val.split(',');
+        if (def_val.substr(0, 10) == '__#JSON#__') {
+            def_values = JSON.parse(def_val.substr(10));
+        } else {
+            def_values = [def_val];
+        }
     }
     // i checkbox checked non trovati poi li devo mostrare
     let left_checkbox = def_values;
@@ -397,7 +406,7 @@ function update_dropdown_footer_checkboxes(rif, text_selected, text_total) {
         if (count == result.length && jQuery('#dbp_input_filter_checkboxes_'+rif).val() == '') {
             jQuery('#dbp_dropdown_search_value_'+rif).val('');
         } else {
-            jQuery('#dbp_dropdown_search_value_'+rif).val(result.join(','));
+            jQuery('#dbp_dropdown_search_value_'+rif).val("__#JSON#__"+JSON.stringify(result));
         }
         jQuery('#dbp_dd_count-cb_'+rif+" > .js-dbp-cb-count-selected").text(result.length);
     }
@@ -658,7 +667,6 @@ function dbp_ajax_detete_from_query(limit_start,total,filename) {
  * Rimuove effettivamente i records
  */
  function dbp_ajax_detete_from_query2(executed,total,filename) {
-    console.log ('dbp_ajax_detete_from_query2 !!!');
     jQuery.ajax({
         type : "post",
         dataType : "json",
@@ -872,6 +880,50 @@ function dbp_view_details(json) {
     })
  }
 
+ function af_clone_details(json, el) {
+    let color_list = ['white', 'green','yellow','blue','red','purple', 'brown'];
+    data_to_send = {'action':'dbp_edit_details_v2', 'section':'table-browse','clone_record':'clone'};
+    if (el instanceof HTMLElement) {
+        data_to_send.div_id = jQuery(el).parents('tr').first().prop('id');
+    }
+   
+    data_to_send.sql = jQuery('#sql_query_executed').val();
+    
+    dbp_open_sidebar_popup('edit');
+    if (json != "") {
+        data_to_send.ids = json;
+    } 
+    if (jQuery('#dbp_extra_attr').length == 1) {
+        data_to_send.dbp_extra_attr = jQuery('#dbp_extra_attr').val();
+    }
+
+    jQuery.ajax({
+        type : "post",
+        dataType : "json",
+        url : ajaxurl,
+        cache: false,
+        data : data_to_send,
+        success: function(response) {
+            dbp_close_sidebar_loading();
+            if (response.error != "") {
+                jQuery('#dbp_dbp_content').append('<div class="dbp-alert-sql-error" style="margin-top:0; margin-right:.4rem">'+response.error+'</div>');
+            } else {
+                $form = dbp_build_form(jQuery('#dbp_dbp_content'), response);
+                if (response.edit_ids) {
+                    $form.data('edit_ids', response.edit_ids);
+                }
+                if (response.div_id) {
+
+                    $form.append('<input type="hidden" name="div_id" value="'+response.div_id+'">');
+                    jQuery('#dbp_dbp_title').append(gp_form_btns_edit(response.buttons));
+                } else {
+                    jQuery('#dbp_dbp_title').append(gp_form_btns_new());
+                }
+            }
+        }
+    })
+ }
+
 
 function gp_form_btns_new() {
     jQuery('#dbp_dbp_title > .dbp-edit-btns').remove();
@@ -978,8 +1030,6 @@ function gp_submit_form() {
         processData: false,
         contentType: false,
         success: function(response) {
-            console.log ("RESPONSE: ");
-            console.log (response);
             
             let $form = jQuery('#dbp_edit_details');
             if (response.error != "") {

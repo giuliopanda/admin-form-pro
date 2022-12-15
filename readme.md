@@ -4,23 +4,6 @@ Manages database tables in the Wordpress Admin panel
 The pro version of the plugin for wordpress [admin-form](https://wordpress.org/plugins/admin-form/).
 To work on the site, the admin-form downloaded from the official wordpress repository must be installed!
 
-# Database
-By installing the pro version you will have an easy and fast system to manage database tables directly from the wordpress administration.
-
-Write queries without errors thanks to automatic suggestions.
-![Write queries without errors thanks to automatic suggestions](https://github.com/giuliopanda/repo/blob/main/database_press_screenshot01.png)
-
-Speed up your work with query-building assistance tools.
-![Speed up your work with query-building assistance tools](https://github.com/giuliopanda/repo/blob/main/database_press_screenshot02.png)
-
-Filter the results as if you were on an excel table.
-![Filter the results as if you were on an excel table.](https://github.com/giuliopanda/repo/blob/main/database_press_screenshot03.png)
-
-# Import export
-
-[Here the guide to export or import data.](https://github.com/giuliopanda/admin-form-pro/wiki/Import-Export)
-
-
 # Installation
 Download the plugin, if it's in a compressed folder unzip first. 
 The plugin must be placed inside yoursite/wp-content/plugins.
@@ -36,8 +19,23 @@ The plugin must be placed inside yoursite/wp-content/plugins.
 
 # changelog
 
-### V.1.3.0 2022-12-05
-- FEAT: [Only for PRO]: A system for importing data from a form. Now you can export, edit and re-import your data. Before importing the data, these are verified using a check system. 
+### V.1.4.0 2022-12-15 - Clone list
+- NEW: (list-all) Clone list: it is now possible to clone a list.
+- NEW: (Browse-list) The ability to clone a record has been added to lists.
+- NEW: Added function ADFO::get_clone_detail(); Returns the data to clone a record
+- NEW: (PRO list all tables) Add Clone table action
+- NEW: (PRO) Now it is also possible to update the PRO version directly from the plugins page
+- IMPROVEMENT: (list view formatting) Add checkbox Keeps settings aligned with information from the same field in tab 'Form'. 
+- FIXBUG: notice in list_browse (wpdb->prepare)
+- FIXBUG: (dropdown filter) checboxes with comma 
+- FIXBUG: remove sanitize in get_request
+- FIXBUG: (admin-list) Remove pagination html after bulk actions.
+- FIXBUG: (dropdown filter) Results were not corrected when filtering by operators: '> < >= <='
+- FIXBUG: The lookup filters with the column filters didn't work together. With search the drop down menu was not working properly
+- FIXBUG: Did not show title and description of table attributes when managed table is only one.
+
+### V.1.3.0 2022-12-05 IMPORT/EXPORT
+- NEW: [Only for PRO]: A system for importing data from a form. Now you can export, edit and re-import your data. Before importing the data, these are verified using a check system. 
 - IMPROVEMENT (database browse query) [Only for PRO]: Added 'show all text' checkbox in broswer data
 - IMPROVEMENT (Code) ADFO:get_detail added raw_data:boolean parameter
 - IMPROVEMENT (Code) ADFO:get_data added the raw type return that is used to save the query
@@ -45,20 +43,20 @@ The plugin must be placed inside yoursite/wp-content/plugins.
 - FIXBUG: The plugin miscounted the total number of records when the group by was present
 - FIXBUG: On import it does not recalculate CALCULATED FIELD type fields
 
-### V.1.2.0 2022-11-23
+### V.1.2.0 2022-11-23 NEW FIELDS
 - FIXBUG: saving text remove html.
 - FIXBUG: (database_press) button create list from query, the list it creates doesn't work!
 - IMPROVEMENT: new hooks to add new functionality when creating a new form.
 - FIXBUG [Only for PRO] (list-browse) csv download didn't work.
 - REFACTOR: renamed the other hooks and created the legacy for the old hooks
 - IMPROVEMENT: Possibility to use the database in the Pro version even if the admin form is not installed
-- FEAT: new fields: color picker and range
+- NEW: new fields: color picker and range
 - DOCS: list_view_formatting.
 
 ### V.1.1.0 2022-11-17
 - FIXBUG: (list-form) When I create a new field the autoincrement doesn't appear
-- FEAT: (list-form) new field: field email, link
-- FEAT: (list-form) when you create a field it also creates a default in the list view. In lookups it doesn't create the additional field and it doesn't hide the main one
+- NEW: (list-form) new field: field email, link
+- NEW: (list-form) when you create a field it also creates a default in the list view. In lookups it doesn't create the additional field and it doesn't hide the main one
 - FIX MAJOR BUG: (list-structure) If I save a lookup without primary the query gives an error.
 - IMPROVEMENT: Documentation of field types
 - FIXBUG: the namespaces referring to object verification were wrong. Discovered on calculated field

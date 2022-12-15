@@ -28,7 +28,6 @@ jQuery(document).ready(function () {
 	// quando la sidebar è aperta i link devono essere controllati con un confirm
 	jQuery('a').click(function() {
 		sidebar_status = jQuery('#dbp_dbp_content').data('dbpstatus');
-		console.log ("sidebar_status  "+sidebar_status+" Typeof "+(typeof  sidebar_status));
 		if (sidebar_status != "" && typeof sidebar_status != 'undefined') {
 			return confirm( "Do you want to leave the page? any changes will be lost" );
 		}
@@ -156,7 +155,6 @@ function anchor_help_scroll(anchor) {
  * Chiude il popup della sidebar
  */
 function dbp_close_sidebar_popup() {
-	console.log ('dbp_close_sidebar_popup');
 	jQuery('#dbp_container').css('overflow','hidden');
  	jQuery('#dbp_sidebar_popup').animate({'right':'-200px', 'opacity':0}, 200, function() {jQuery(this).css('display','none');  jQuery('#dbp_container').css('overflow','');});
 	jQuery('#dbp_dbp_content').data('dbpstatus','');
@@ -226,7 +224,6 @@ function dbp_open_sidebar_loading(show_title = false) {
 jQuery(document).ready(function () {
 	let ck_msg = get_cookie('dbp_msg');
 	if (! (ck_msg === null)) {
-		console.log ("TODO SISTEMARE LA GESTIONE DEI MESSAGGI CON COOKIE ck_msg: "+ck_msg);
 		if (jQuery('#dbp_cookie_msg').length == 1) {
 			jQuery('#dbp_cookie_msg').html(ck_msg);
 		}

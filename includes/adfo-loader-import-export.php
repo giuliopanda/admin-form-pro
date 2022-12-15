@@ -26,7 +26,7 @@ class  Dbp_pro_import_export_list {
     }
 
     public function partial_list_add_tabs() {
-        if (isset($_REQUEST['dbp_id']) && absint($_REQUEST['dbp_id']) > 0) {
+        if (isset($_REQUEST['dbp_id']) && absint($_REQUEST['dbp_id']) > 0 && ( (isset($_REQUEST['section']) && $_REQUEST['section'] != 'list-all') || !isset($_REQUEST['section']) )) {
             $base_link = admin_url("admin.php?page=admin_form"); 
             $link = add_query_arg(['section' => 'import-export','dbp_id' => absint($_REQUEST['dbp_id'])], $base_link);
             $selected_class = ($_REQUEST['section'] == 'import-export') ? 'dbp-tab-active' : '';

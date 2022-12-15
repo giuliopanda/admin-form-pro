@@ -10,7 +10,6 @@ jQuery(document).ready(function () {
  * Verifica se l'editor deve essere aperto o chiuso dalla classe di default
  */
 function check_toggle_sql_query_edit()  {
-    console.log ('check_toggle_sql_query_edit');
     if (jQuery('#dbp_content_query_edit').hasClass('js-default-show-editor')) {
         show_sql_query_edit(dbp_sql_editor_height);
     } else {
@@ -561,7 +560,6 @@ function columns_sql_query_apply() {
             }
             dbp_close_sidebar_popup();
             jQuery('#result_query').html(query_color(jQuery('#result_query').text()));
-            console.log ('evento inviato');
             // i trigger qui non sono riuscito a farli funzionare !?!?!
             if (typeof dbp_list_structure_query_apply === "function") {
                 dbp_list_structure_query_apply();

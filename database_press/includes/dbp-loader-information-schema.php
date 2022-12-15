@@ -13,6 +13,8 @@ class  Dbp_loader_information_schema {
 		add_action( 'admin_post_dbp_create_table', [$this, 'create_table']);	
 		// svuota una tabella
 		add_action( 'admin_post_dbp_empty_table', [$this, 'empty_table']);	
+        // clona una tabella
+		add_action( 'admin_post_dbp_clone_table', [$this, 'clone_table']);	
 		// elimina una tabella
 		add_action( 'admin_post_dbp_drop_table', [$this, 'drop_table']);	
 		// elimina una tabella
@@ -67,6 +69,42 @@ class  Dbp_loader_information_schema {
         } else {
             wp_redirect( admin_url("admin.php?page=database_press&section=information-schema&msg=no_allow_empty_table"));
         }
+    }
+    /**
+     * Clona la tabella
+     */
+    public function clone_table() {
+        global $wpdb;
+        if (!current_user_can('administrator')) die('no_access');
+        dbp_fn::require_init();
+        if (!isset($_REQUEST['table'])) {
+            wp_redirect( admin_url("admin.php?page=database_press&section=information-schema&msg=no_table_selected"));
+        }
+        if (isset($_REQUEST['new_table']) && Dbp_fn::sanitize_key($_REQUEST['new_table']) != '') {
+            $new_table_name =  Dbp_fn::sanitize_key($_REQUEST['new_table']);
+            $new_table_name = str_replace(".","", $new_table_name);
+            $new_table = $new_table_name ;
+        } else {
+            $new_table_name = Dbp_fn::sanitize_key($_REQUEST['table']);
+            $new_table_name = str_replace(".","", $new_table_name)."_clone";
+            $new_table = $new_table_name; 
+        }
+        
+        $list = Dbp_fn::get_table_list();
+        $k = 0;
+        while  (in_array($new_table, $list['tables']) && $k < 100) {
+            $k++;
+            $new_table = $new_table_name."_".$k;
+        } 
+        
+        $wpdb->query('CREATE TABLE `'.$new_table.'` LIKE `'.Dbp_fn::sanitize_key($_REQUEST['table']).'`'); 
+        $wpdb->query('INSERT INTO `'.$new_table.'` SELECT * FROM `'.Dbp_fn::sanitize_key($_REQUEST['table']).'`');
+
+        //TODO metto la tabella in DRAFT!
+        Dbp_fn::update_dbp_option_table_status($new_table, 'DRAFT', 'Table cloned from '.Dbp_fn::sanitize_key($_REQUEST['table']));
+        wp_redirect( admin_url("admin.php?page=database_press&section=information-schema&msg=clone_ok"));
+            
+        
     }
     /**
      * Elimina la tabella

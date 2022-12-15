@@ -1256,9 +1256,10 @@ class  Dbp_fn {
 
                 $edit = true;
                 $other_edit = false;
-              
+                $btns0 = [];
                 if ($edit) {
-                    $btns['edit'] = '<span class="dbp-submit-style-link" onclick="dbp_edit_details_v2(dbp_tb_id['.$count_unique_id.'], this);">Edit</span>';
+                    $btns0['edit'] = '<span class="dbp-submit-style-link" onclick="dbp_edit_details_v2(dbp_tb_id['.$count_unique_id.'], this);">Edit</span>';
+                    $btns0['clone'] = '<span class="dbp-submit-style-link" onclick="af_clone_details(dbp_tb_id['.$count_unique_id.'], this);">Clone</span>';
                 } else if ($other_edit) {
                     $btns['view'] = '<span class="dbp-submit-style-link" onclick="dbp_edit_details_v2(dbp_tb_id['.$count_unique_id.'], this);">View</span>';
                 }
@@ -1267,9 +1268,12 @@ class  Dbp_fn {
                 
                 $btns['delete'] = '<span class="dbp-submit-style-link-delete" onclick="dbp_delete_confirm([dbp_tb_id['.$count_unique_id.']], this);">Delete</span>';
                     
-                
+                if (count($btns0))  {
+                    $table_model->items[$key]->$first_table_header .= '<div class="row-actions">'.implode(" | ", $btns0).'</div><div class="row-actions">'.implode(" | ", $btns).'</div>';
+                } else {
 
-                $table_model->items[$key]->$first_table_header .= '<div class="row-actions">'.implode(" | ", $btns).'</div>';
+                    $table_model->items[$key]->$first_table_header .= '<div class="row-actions">'.implode(" | ", $btns).'</div>';
+                }
 
                 if ($show_chekboxes ) {
                     $table_model->items[$key]->__checkbox_ = '<input class="js-dbp-table-checkbox" type="checkbox" value="'.$count_unique_id.'">';
