@@ -29,6 +29,7 @@ the extracted variables return the processed values. If this attribute is used, 
 - FIXBUG: (TAB FORM) change styles doesn't work correctly
 - FIXBUG The query aliases of a new FORM must always be quoted
 - IMPROVEMENT: On the autocomplete popup added the handling of the ESC key.
+
 ### V.1.4.0 2022-12-15 - Clone list
 - NEW: (list-all) Clone list: it is now possible to clone a list.
 - NEW: (Browse-list) The ability to clone a record has been added to lists.
