@@ -71,12 +71,10 @@
             return false;
         }
     }
-    //console.log ($tr);
     $tr2 = $tr.clone(true);
     jQuery(el).parents('tr').before($tr2);
     $tr2.removeClass('js-clore-master').addClass('js-dragable-tr');
     jQuery('.js-dragable-table > tbody').sortable('refresh');
-    console.log($tr2.find('.js-field-preselect').get(0));
     dbp_preselect($tr2.find('.js-field-preselect').get(0));
  }
 

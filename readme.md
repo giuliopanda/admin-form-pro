@@ -19,6 +19,16 @@ The plugin must be placed inside yoursite/wp-content/plugins.
 
 # changelog
 
+### V.1.5.0 2023-01-08 Metadata support
+- NEW Inside the template engine, when a variable is extracted from the data of a list, the VAL attribute has been added.
+the extracted variables return the processed values. If this attribute is used, the variable returns the original value saved in the database.
+- NEW: In the page where the form is configured, the possibility of sorting the order in which to show multiple tables has been added
+- NEW: Special handling for metadata has been developed. In the setting screen it is possible to select the metadata table linked to the main table. If this is selected in the form configuration page, an Add metadata button will appear with which it will be possible to add new custom fields.
+- FIXBUG: inherited the single checkbox was not passing the value
+- FIXBUG: on lists with multiple tables the system that inherits the configuration on the list doesn't seem to work.
+- FIXBUG: (TAB FORM) change styles doesn't work correctly
+- FIXBUG The query aliases of a new FORM must always be quoted
+- IMPROVEMENT: On the autocomplete popup added the handling of the ESC key.
 ### V.1.4.0 2022-12-15 - Clone list
 - NEW: (list-all) Clone list: it is now possible to clone a list.
 - NEW: (Browse-list) The ability to clone a record has been added to lists.

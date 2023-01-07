@@ -78,20 +78,20 @@ class  Dbp_pro_loader_list_form {
             <div class="dbp-structure-grid">
                 <div class="dbp-form-row-column">
                     <label class="dbp-label-grid dbp-css-mb-0"><span class="dbp-form-label"><?php _e('Choose Table','admin_form'); ?></span>
-                    <?php echo ADFO_fn::html_select($list_of_tables['tables'], true, 'name="fields_lookup_id['. absint($count_fields) . ']" onchange="dbp_change_lookup_id(this)" class="js-select-fields-lookup"', @$item->lookup_id); ?>
+                    <?php echo ADFO_fn::html_select($list_of_tables['tables'], true, 'name="fields_lookup_id['. absint($count_fields) . ']" onchange="dbp_change_lookup_id(this)" class="js-select-fields-lookup js-prevent-exceeded-1000"', @$item->lookup_id); ?>
                     </label>
                 </div>
                 <div class="dbp-form-row-column">
                     <label class="dbp-label-grid dbp-css-mb-0"><span class="dbp-form-label"><?php _e('Label','admin_form'); ?></span>
-                    <?php echo ADFO_fn::html_select($lookup_col_list, false, 'name="fields_lookup_sel_txt['. absint($count_fields) . ']"  class="js-lookup-select-text"', @$item->lookup_sel_txt); ?>
+                    <?php echo ADFO_fn::html_select($lookup_col_list, false, 'name="fields_lookup_sel_txt['. absint($count_fields) . ']"  class="js-lookup-select-text js-prevent-exceeded-1000"', @$item->lookup_sel_txt); ?>
                     </label>
-                    <input type="hidden" name="fields_lookup_sel_val[<?php echo absint($count_fields); ?>]" class="js-lookup-select-value" value="<?php echo esc_attr(@$item->lookup_sel_val); ?>">
+                    <input type="hidden" name="fields_lookup_sel_val[<?php echo absint($count_fields); ?>]" class="js-lookup-select-value js-prevent-exceeded-1000" value="<?php echo esc_attr(@$item->lookup_sel_val); ?>">
                 </div>
             </div>
             <div class="dbp-form-row dbp-label-grid">
                 <label><span class="dbp-form-label"><?php _e('Query WHERE part (optional)','admin_form'); ?></span></label>
                 <div>
-                <textarea class="dbp-input js-lookup-where" style="width:100%; margin-bottom:.5rem" rows="1" name="fields_lookup_where[<?php echo absint($count_fields); ?>]"><?php echo esc_textarea(@$item->lookup_where); ?></textarea>
+                <textarea class="dbp-input js-lookup-where js-prevent-exceeded-1000" style="width:100%; margin-bottom:.5rem" rows="1" name="fields_lookup_where[<?php echo absint($count_fields); ?>]"><?php echo esc_textarea(@$item->lookup_where); ?></textarea>
                 <?php $id_test_lookup = 'dbpl_' . ADFO_fn::get_uniqid() ;?>
                 <span class="dbp-link-click" onclick="btn_lookup_test_query(this,'<?php echo esc_attr($id_test_lookup); ?>')"><?php _e('Query test','admin_form'); ?></span>
                 <span id="<?php echo esc_attr($id_test_lookup); ?>" style="margin-left:1rem"></span>

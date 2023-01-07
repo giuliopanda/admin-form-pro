@@ -19,7 +19,7 @@ class  Dbp_pro_loader_list_sql_edit {
 		
 		add_action( 'dbp_list_sql_edit_html_after_table', [$this, 'action_list_sql_edit_html_sql'],10, 2 );
 		add_action( 'dbp_list_sql_edit_html_bottom', [$this, 'action_list_sql_edit_html_delete'],10, 2 );
-        add_filter('dbp_list_sql_save', [$this, 'filter_list_sql_edit_html'],10, 1) ;
+       // add_filter('dbp_list_sql_save', [$this, 'filter_list_sql_edit_html'],10, 1) ;
     }
 
     /**
@@ -75,6 +75,7 @@ class  Dbp_pro_loader_list_sql_edit {
     /**
 	 * Gestisce il salvataggio alternativo in class-dbp-list-admin.php 
      */
+	/*
 	public function filter_list_sql_edit_html($custom_save) {
         global $wp_roles;
         $id = $custom_save['dbp_id'];
@@ -92,10 +93,25 @@ class  Dbp_pro_loader_list_sql_edit {
 					$error_query = sprintf(__('Only a single select query is allowed in the lists %s', 'admin_form'), $table_model->get_current_query());
 					$show_query = true;
 				} else {
-					$table_model->add_primary_ids();
-					// TODO se aggiungo qualche valore dovrei metterlo hidden in list view formatting!
+					$primaries = $table_model->add_primary_ids();
+				
+					
+
 					$table_model->list_add_limit(0, 1);
 					$items = $table_model->get_list();
+
+					//  se aggiungo qualche primary id, lo metto hidden in list view formatting!
+					if (count($primaries) > 0) {
+						foreach ($primaries as $k_pry => $v_pry) {
+							$setting_custom_list =  ADFO_functions_list::get_list_structure_config($items,  $post->post_content['list_setting']);
+							foreach ($setting_custom_list as $sett_key => $setting) {
+								if ($setting->orgname == $v_pry && $setting->table == $k_pry) {
+									$post->post_content['list_setting'][$sett_key] = (new ADFO_list_setting())->set_from_array(['name'=>$k_pry, 'title' => $v_pry, 'format_values' => '', 'inherited' => 1, 'toggle' => 'HIDE']);
+									break;
+								}
+							}
+						}
+					}
 					if ($table_model->last_error == "") {
 						$post->post_content['sql'] = html_entity_decode($table_model->get_current_query());
 					} else {
@@ -197,7 +213,8 @@ class  Dbp_pro_loader_list_sql_edit {
 				$post->post_content['sql_from'] = $from;
 			
 				// Salvo le chiavi primarie e lo schema
-				$post->post_content['primaries'] = $table_model->get_pirmaries();	
+				$post->post_content['primaries'] = $table_model->get_pirmaries();
+				$table_model->update_items_with_setting($post);
 				$post->post_content['schema'] = reset($table_model->items);
 			} else {
 				if (isset($post->post_content['primaries'])) unset($post->post_content['primaries']);
@@ -206,9 +223,7 @@ class  Dbp_pro_loader_list_sql_edit {
 			}
 		
 			$show_query = false;
-			/**
-			 * @var dbpDs_list_setting[] $setting_custom_list
-			 */
+
 			$setting_custom_list =  ADFO_functions_list::get_list_structure_config($items, $post->post_content['list_setting']);
 			foreach ($setting_custom_list as $key_list=>$list) {
 				$post->post_content['list_setting'][$key_list] = $list->get_for_saving_in_the_db();
@@ -274,6 +289,7 @@ class  Dbp_pro_loader_list_sql_edit {
 		$custom_save['show_query'] = $show_query;
 		return $custom_save;
     }
+	*/
 
 }
 new Dbp_pro_loader_list_sql_edit();

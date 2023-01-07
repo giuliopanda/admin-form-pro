@@ -36,7 +36,7 @@ function dbp_multiqueries_ajax(filename) {
             }
         }
     }).error(function() {
-        console.log ("ERROR");
+        console.warn ("ERROR");
     });
 }
 

@@ -100,7 +100,7 @@ function dbp_toggle_action_import(el) {
  *  Clona il div con il select con le tabelle al change del select 
  */
 function dbp_import_add_table_fields_for_insert(el) {
-    console.log ('dbp_import_add_table_fields_for_insert');
+    //console.log ('dbp_import_add_table_fields_for_insert');
     jQuery('.dbp-import-content-clone-block').css('display','none');
     let $block = jQuery(el).parents('.js-insert-fields-content-clone');
     var select_val = jQuery(el).val();
@@ -135,8 +135,7 @@ function dbp_import_add_table_fields_for_insert(el) {
  * Verifico se una tabella che si sta inserendo ha il primary key inserito oppure no
  */
 function check_primary_key_choosen($block) {
-    console.log('check_primary_key_choosen');
-    console.log ($block);
+    //console.log('check_primary_key_choosen');
     $block.find('.js-msg-no-pri-key').css('display', 'block');
     $block.find('.js-msg-yes-pri-key').css('display', 'none');
     $block.find('.js-fields-choosen').each(function() {
@@ -153,7 +152,6 @@ function check_primary_key_choosen($block) {
  * @param String table 
  */  
 function dbp_load_table_structure(elid, table) {
-    console.log ('dbp_load_table_structure');
    // console.log ("dbp_load_table_structure id: "+elid+" table: "+table );
     csv_temporaly_filename = jQuery('#csv_temporaly_filename').val();
     csv_first_row_as_headers = jQuery('#csv_first_row_as_headers').val();
@@ -424,7 +422,7 @@ function dbp_csv_test_import() {
                     nonce: dbi_vars.upload_file_nonce
                 },
                 error: function( jqXHR, textStatus, errorThrown ) {
-                    console.log( jqXHR, textStatus, errorThrown );
+                    console.warn( jqXHR, textStatus, errorThrown );
                 },
                 success: function( data ) {
                     var size_done = start + slice_size;

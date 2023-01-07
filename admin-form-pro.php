@@ -20,7 +20,7 @@ namespace admin_form;
 
 if (!defined('WPINC')) die;
 
-define('ADFO_PRO_VERSION', '1.4.0');
+define('ADFO_PRO_VERSION', '1.5.0');
 //define('ADFO_PRO_VERSION', rand());
 
 $idrs = dirname(plugin_dir_path(__FILE__));

@@ -560,54 +560,7 @@ class  Dbp_pro_list_loader {
 		$sql = html_entity_decode(ADFO_fn::get_request('sql'));
 		$table_model->prepare($sql);
 		if ($sql != "" && $table_model->sql_type() == "select") {
-			$tables = [];
-			$sql_schema = $table_model->get_schema();
-			$pris = [];
-			$already_inserted = [];
-			if (is_countable($sql_schema)) {
-				foreach ($sql_schema as $field) {
-					if (isset($field->orgtable) && $field->orgtable != "" && isset($field->table)) {
-						$table = $field->orgtable;
-						// devo trovare la primary key
-						if (!isset($pris[$field->orgtable])) {
-							$pris[$field->orgtable] = ADFO_fn::get_primary_key($field->orgtable);
-						}
-						// se non è già stata inserita
-						if (!in_array($table, $already_inserted) && $pris[$field->orgtable] != "") {
-							$already_inserted[] = $table;
-							$tables[] = [$table  ."meta", $field->table.".".$pris[$field->orgtable]];
-							$tables[] = [$table  ."_meta", $field->table.".".$pris[$field->orgtable]];
-							if (substr($table,-1) == "s") {
-								if (substr($table,-4) == "ches" || substr($table,-4) == "shes" || substr($table,-3) == "ses" || substr($table,-3) == "xes" || substr($table,-3) == "zes") {
-									$singular = substr($table,0, -2);
-								} else {
-									$singular = substr($table,0, -1);
-								}
-								$tables[] = [$singular ."meta", $field->table.".".$pris[$field->orgtable]];
-								$tables[] = [$singular ."_meta", $field->table.".".$pris[$field->orgtable]];
-							}
-						}
-					}
-				}
-			} else {
-				wp_send_json(['msg' => __("I can't find any linkable metadata",'admin_form')]);
-			}
-		
-			$all_tables = ADFO_fn::get_table_list();
-			$return_table = [];
-			foreach ($all_tables['tables'] as $sql_table) {
-				
-				$sql_table_name = '';
-				foreach ($tables as $val_tab) {
-					if ($sql_table == $val_tab[0]) {
-						$sql_table_name =  $val_tab[1]."::".$sql_table;
-						break;
-					}
-				}
-				if ($sql_table_name != "") {
-					$return_table[$sql_table_name] = $sql_table;
-				}
-			} 
+			$return_table = ADFO_class_metadata::find_metadata_tables($table_model);
 			if (is_countable($return_table) && count($return_table) > 0) {
 				wp_send_json(['all_tables' => $return_table]);
 			} else {
@@ -689,7 +642,6 @@ class  Dbp_pro_list_loader {
 	 */
 	function edit_sql_addmeta() {
 		ADFO_fn::require_init();
-		$choose_meta = array_map('sanitize_text_field', $_REQUEST['choose_meta']);
 		$choose_meta = ADFO_fn::sanitize_text_recursive($_REQUEST['choose_meta']);
 		$already_checked_meta =  (isset($_REQUEST['altreadychecked_meta']) && is_array($_REQUEST['altreadychecked_meta'])) ? array_filter(ADFO_fn::sanitize_text_recursive($_REQUEST['altreadychecked_meta'])) : []; 
 

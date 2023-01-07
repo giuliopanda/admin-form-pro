@@ -628,7 +628,6 @@ function dbp_bulk_actions() {
  * Preme il bottone delete di una query
  */
 function dbp_ajax_detete_from_query(limit_start,total,filename) {
-    console.log ('dbp_ajax_detete_from_query !!!');
     let sql = jQuery('#sql_query_executed').val();
     let tables = [];
    // jQuery('.js-temp-checkbox').remove();
