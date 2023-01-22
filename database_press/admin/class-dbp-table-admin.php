@@ -114,6 +114,8 @@ class database_press_admin
 
 				wp_enqueue_script( 'jquery-ui-sortable' );
 				wp_enqueue_script( 'database-sql-editor-js', plugin_dir_url( __FILE__ ) . 'js/database-sql-editor.js',[], DB_PRESS_VERSION);
+				wp_enqueue_script( 'database-press-home', plugin_dir_url( __FILE__ ) . 'js/database-press-home.js',[], DB_PRESS_VERSION);
+
 				add_filter('dbp_render_sql_height', function () {return 100;} );
 
 				add_filter( 'dbp_render_sql_btns', [$this, 'home_render_sql_btns'] );

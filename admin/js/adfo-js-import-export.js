@@ -150,7 +150,7 @@ function adfo_ajax_download_csv(dbp_id, limit_start, csv_filename) {
                     } else {
                         jQuery('#dbi-file-upload-submit').addClass('dbp-btn-disabled');
                         // Update upload progress
-                        jQuery( '#dbpUploadProgress' ).html( 'Upload Complete' );
+                        jQuery( '#dbpUploadProgress' ).html( 'Upload Complete. <a href="#" onclick="location.reload();">Import a new file</a>' );
                         jQuery('#container_step2').empty().append('<div id="analysis_perc"></div>');
                         adfo_check_data(data.file_name, data.org_name, dbp_id, 0);
                     }
@@ -188,10 +188,13 @@ function adfo_check_data(filename, orgname, dbp_id, limit_start) {
                 jQuery('#container_step2').append('<div class="dbp-alert-warning">ERROR: '+ data.error +'</div>');
             } else if (data.hasOwnProperty('table_array')) {
                 perc = Math.round(((data.limit+data.limit_start) / data.total_row ) * 100);
-                jQuery('#analysis_perc').empty().html(perc + "% data analysis in progress");
-                if (data.table_data > 0) {
+                
+                if (data.table_data.length > 0) {
+                    jQuery('#analysis_perc').empty().html(perc + "% data analysis complete");
                     $table =  gp_draw_table(data.table_array, data.table_data);
                     jQuery('#container_step2').append($table);
+                } else {
+                    jQuery('#analysis_perc').empty().html(perc + "% data analysis complete<br> Everything seems OK.");
                 }
               
                 if (data.import_table) {

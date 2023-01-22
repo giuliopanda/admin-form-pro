@@ -239,7 +239,7 @@ class  Dbp_items_list_setting {
 					} else {
 						
 						if ($depth < $max_depth) {
-							$new_v[] = '<div class="dbp-serialize-row dbp-depth-' . $depth . '"><span class="dbp-serialize-label">'.$k.':</span><span class="dbp-serialize-value">:</span>';
+							$new_v[] = '<div class="dbp-serialize-row dbp-depth-' . $depth . '"><span class="dbp-serialize-label">'.$k. ' ('.gettype($v).')</span><span class="dbp-serialize-value">:</span>';
 							$tt = $depth + 1; 
 							$new_v[] = self::show_obj($v, $tt, $max_char_show, $max_depth, $max_count);	
 						}  else {

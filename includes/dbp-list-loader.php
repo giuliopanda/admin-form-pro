@@ -65,6 +65,8 @@ class  Dbp_pro_list_loader {
 		add_action( 'wp_ajax_af_test_formula', [$this, 'test_formula']);
         add_action( 'wp_ajax_af_recalculate_formula', [$this, 'recalculate_formula']);
 
+		add_action( 'wp_ajax_get_processlist', [$this, 'get_processlist_json'] );
+		add_action( 'wp_ajax_kill_process', [$this, 'kill_process_callback'] );
     }
 
 
@@ -947,17 +949,29 @@ class  Dbp_pro_list_loader {
 
 
 	/**
-      * Testo una formula pinacode
+      * Testo una formula pinacode sulla form
       */
 	  function test_formula() {
         ADFO_fn::require_init();
-		$formula = (isset($_REQUEST['formula'])) ? wp_kses_post( wp_unslash($_REQUEST['formula'])) : '';
-     
+		$formula = (isset($_REQUEST['formula'])) ? str_ireplace("<script","script", ( wp_unslash($_REQUEST['formula']))) : '';
+		$json_result_warning = $json_result_error = [];
         $post_id = absint($_REQUEST['dbp_id']);
         $row     = absint($_REQUEST['row']);
         $json_result = ['formula'=>$formula, 'id'=>$post_id, 'row'=>$row, 'error'=>[], 'warning'=>[],'notice'=>[], 'response'=>'', 'typeof'=>'NULL', 'pinacode_data'=>[] ];
         if ($formula != "" && $post_id > 0 && $row > 0) {
             $post        = ADFO_functions_list::get_post_dbp($post_id);
+			if (stripos($_REQUEST['formula'], "[%data") !== false) {
+				$from = $post->post_content['sql_from'];
+				
+				if (is_countable($from) && count($from) > 0) {
+				
+					$alternativy = array_map(function($value){
+						return "[%" . $value.".";
+					}, array_keys($from));
+					$json_result_error[] = sprintf(__("You can use <b>[&percnt;data</b> to retrieve table data or more generally for data visualization. In input forms use table aliases instead of [&percnt;data. in this case you can use <b>%s</b>", 'admin_form'), implode(", ",$alternativy));
+				}
+				
+			}
             $table_model = new ADFO_model();
             if (isset($post->post_content['sql'])) {
                 $table_model->prepare($post->post_content['sql']);
@@ -986,8 +1000,10 @@ class  Dbp_pro_list_loader {
                 $json_result['pinacode_data'] = PinaCode::get_var('*');
                 $json_result['response'] =  PinaCode::execute_shortcode( $formula );
                 $json_result['typeof'] = gettype( $json_result['response']);
-                $json_result['error'] = PcErrors::get('error', true);
-                $json_result['warning'] = PcErrors::get('warning', true);
+                $json_result_error[] = PcErrors::get('error', true);
+				$json_result['error'] = array_filter($json_result_error); 
+                $json_result_warning[] = PcErrors::get('warning', true);
+				$json_result['warning'] = array_filter($json_result_warning);
                 $json_result['notice'] = PcErrors::get('notice', true);
             }
         }
@@ -1105,6 +1121,57 @@ class  Dbp_pro_list_loader {
 		die();
     }
 
+	/**
+	 * 
+	 */
+	function get_processlist_json() {
+		global $wpdb;
+		if(!current_user_can('administrator')) {
+			wp_send_json([]);
+			die();
+		}
+		$processlist = $wpdb->get_results( "SHOW PROCESSLIST" );
+
+		$filtered_list = array_filter($processlist, function ($row) {
+			return ($row->User != 'event_scheduler' && $row->Info != 'SHOW PROCESSLIST' && $row->Time > 1);
+		});
+
+		foreach ($filtered_list as &$row) {
+			$row->Time = gmdate("H:i:s", $row->Time);
+		}
+
+		wp_send_json(array_values($filtered_list));
+		die();
+	}
+
+	/**
+	
+	 */
+	function kill_process_callback() {
+		global $wpdb;
+		if(!current_user_can('administrator')) {
+			wp_send_json(array(
+				'status' => 'error',
+				'msg' => 'You do not have permission to perform this operation'
+			));
+			die();
+		}
+		$process_id = intval($_POST['process_id']);
+		$query = "KILL " . $process_id;
+		$result = $wpdb->query($query);
+		if($result === false){
+			wp_send_json(array(
+				'status' => 'error',
+				'msg' => 'An error occurred while trying to kill the process.'
+			));
+		}else{
+			wp_send_json(array(
+				'status' => 'success',
+				'msg' => 'The process was killed successfully.'
+			));
+		}
+		die();
+	}
     
 }
 new Dbp_pro_list_loader();

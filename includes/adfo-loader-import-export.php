@@ -121,7 +121,7 @@ class  Dbp_pro_import_export_list {
         $limit = 3000;
         $temporaly_files = new ADFO_temporaly_files();
         $csv_items = $temporaly_files->read_csv(sanitize_text_field($_REQUEST['filename']), ';', true, $limit, $limit_start);
-       // var_dump ($csv_items);
+      
         if (!is_array($csv_items)) {
             $json_send['error'] = __('The file was not a valid csv', 'admin_form');
 			wp_send_json($json_send);
@@ -136,6 +136,7 @@ class  Dbp_pro_import_export_list {
         foreach ($csv_items as $item) {
             $real_limit++;
             $res_save_data = $form->save_data([(object)$item]);
+           
             $report = array_merge($item, $res_save_data);
             $result[] = $res_save_data;
             if (!ADFO_fn::get_max_execution_time()) {

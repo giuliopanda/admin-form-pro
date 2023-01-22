@@ -29,9 +29,10 @@ if (!current_user_can('administrator'))  return;
                                 $table_model = new Dbp_model(); 
                                 dbp_html_sql::render_sql_from($table_model, true); ?>
                             </form>
-                           
+                        
+                            <h3>Info:</h3>
                             <div class="dbp-home-check">
-                                <h4>Info:</h4>
+                               
                                 <?php 
                                     if ($info_db != '') {
                                         echo '<div class="dbp-color-info"> &bull; '.$info_db.'</div>'; 
@@ -78,6 +79,13 @@ if (!current_user_can('administrator'))  return;
                                     }
                                 }
                                ?>
+                            </div>
+                            <br>
+                            <h3>ProcessList</h3>
+                            <p><?php _e("The processlist shows the queries that are currently running. If a query is blocking the system, it is possible to interrupt its execution by clicking the kill button. However, it's not something you should do", "admin_form"); ?></p>
+                            <div id="adfo_msg_kill"></div>
+                            <div class="dbp-home-check" id="adfo_processlist">
+
                             </div>
                         </div>
                     </div>

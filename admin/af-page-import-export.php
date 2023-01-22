@@ -15,7 +15,6 @@ if (!defined('WPINC')) die;
             <div class="af-content-table js-id-dbp-content" >
             <?php if (ADFO_fn::echo_html_title_box('IMPORT EXPORT', '', $msg, $msg_error)) : ?>
                 <div class="af-content-margin">
-                    <?php _e ("Export", 'admin_form'); ?>
                     <h3><?php _e ("Export all data" , 'admin_form'); ?></h3>
                     <p><?php _e ("The data is exported in a raw format so that it can be modified and re-imported into the table. All the data in the tables are extracted, not just the displayed ones." , 'admin_form'); ?></p>
                     <div class="dbp-submit" onclick="adfo_download_raw_csv(<?php echo esc_attr(sanitize_text_field($_REQUEST['dbp_id'])); ?>)"><?php _e ("Export all RAW data", 'admin_form'); ?></div>

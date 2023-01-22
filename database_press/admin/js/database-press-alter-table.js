@@ -244,7 +244,7 @@ function dbp_preselect(el) {
     numeric = ['INT','TINYINT', 'SMALLINT','MEDIUMINT','BIGINT','DECIMAL','FLOAT','DOUBLE'];
     timestamp = ['TIMESTAMP','DATETIME'];
     nolength = ['TIMESTAMP','DATETIME', 'TINYTEXT','TEXT','MEDIUMTEXT','LONGTEXT','DATE','TIME', 'YEAR','BOOLEAN','JSON'];
-    console.log ("dbp_check_type "+$el.val());
+    //console.log ("dbp_check_type "+$el.val());
     if(nolength.indexOf($el.val()) != -1) {
         $tr.find(".js-create-table-length").css('visibility','hidden');
         $tr.find(".js-create-table-length").val('');
