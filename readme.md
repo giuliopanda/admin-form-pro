@@ -19,6 +19,8 @@ The plugin must be placed inside yoursite/wp-content/plugins.
 
 # changelog
 
+### 1.6.2 2023-02-09 Fixbug
+- COMMIT Error
 ### 1.6.1 2023-02-09 Fixbug
 - FIXBUG: When you edit a query and then cancel, it still runs the edited query
 - FIXBUG: On SELECT DISTINCT queries add table ids showing inconsistent results
