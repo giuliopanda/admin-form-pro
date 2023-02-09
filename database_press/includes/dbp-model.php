@@ -1313,8 +1313,14 @@ class  Dbp_model {
      * @return Array all primaries
      */
     public function add_primary_ids() {
-
         $current_query_select = $this->get_partial_query_select();
+        $string_current_query_select = $current_query_select;
+        if (is_array($current_query_select)) {
+            $string_current_query_select = implode(" ", $current_query_select);
+        }
+        if (stripos($string_current_query_select, "DISTINCT") !== false || stripos($string_current_query_select, "SHOW ") === 0) {
+            return [];
+        }
         if (count($this->primary_added) > 0) {
             return $this->all_primaries;
         }

@@ -56,22 +56,14 @@ function check_toggle_sql_query_edit()  {
 /**
  * Fa sparire l'edit della query
  */
- function hide_sql_query_edit() {
+function hide_sql_query_edit() {
     if (typeof (document.getElementById('sql_query_edit').dbp_editor_sql) != "undefined") {
-        /*
-        jQuery('#dbp-bnt-edit-query').css('display','inline-block');
-        jQuery('#dbp-bnt-go-back-filter-query').css('display','inline-block');
-        jQuery('#dbp-bnt-go-query').css('display', 'none');
-        jQuery('#dbp-bnt-cancel-query').css('display', 'none');
-        jQuery('#dbp-bnt-reload-query').css('display', 'inline-block');
-        jQuery('#result_query').css('display', 'block');
-*/
         jQuery('#result_query').css('display', 'block');
         jQuery('#dbp_content_query_edit').removeClass('js-default-show-editor').addClass('js-default-hide-editor');
-        
         document.getElementById('sql_query_edit').dbp_editor_sql;
         dbp_edit.codemirror.toTextArea();
         document.getElementById('sql_query_edit').dbp_editor_sql = undefined;
+        jQuery('#sql_query_edit').val(jQuery('#sql_query_executed').val());
         jQuery('#sql_query_edit').css('display', 'none');
     }
 }
