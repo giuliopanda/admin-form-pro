@@ -19,11 +19,11 @@ The plugin must be placed inside yoursite/wp-content/plugins.
 
 # changelog
 
-### 1.6.1 FIXBUG 09-02-2023
-FIXBUG: quando modifichi una query e poi annulli, esegue comunque la query modificata
-FIXBUG: sulle query SELECT DISTINCT aggiunge gli id della tabella mostrando risultati inconsistenti
+### 1.6.1 FIXBUG 2023-02-09
+FIXBUG: When you edit a query and then cancel, it still runs the edited query
+FIXBUG: On SELECT DISTINCT queries add table ids showing inconsistent results
 
-### 1.6.0 FIXBUG 22-01-2023
+### 1.6.0 FIXBUG 2023-01-22
 NEW: Added Time field and template engine attributes: timenum-to-timestr, timestr-to-timenum and time-to-hour
 NEW (PRO) in the datapress main page added a box that shows the running queries and allows you to remove them
 FIXBUG (PRO) show table in import data list 
