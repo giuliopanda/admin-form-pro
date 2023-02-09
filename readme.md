@@ -19,25 +19,25 @@ The plugin must be placed inside yoursite/wp-content/plugins.
 
 # changelog
 
-### 1.6.1 FIXBUG 2023-02-09
-FIXBUG: When you edit a query and then cancel, it still runs the edited query
-FIXBUG: On SELECT DISTINCT queries add table ids showing inconsistent results
+### 1.6.1 2023-02-09 Fixbug
+- FIXBUG: When you edit a query and then cancel, it still runs the edited query
+- FIXBUG: On SELECT DISTINCT queries add table ids showing inconsistent results
 
-### 1.6.0 FIXBUG 2023-01-22
-NEW: Added Time field and template engine attributes: timenum-to-timestr, timestr-to-timenum and time-to-hour
-NEW (PRO) in the datapress main page added a box that shows the running queries and allows you to remove them
-FIXBUG (PRO) show table in import data list 
-IMPROVEMENT: Limited metadata function. Metadata must be unique. There can be only one metadata for each meta_key. During the save if I find more metadata for the same key I delete them.
-FIXBUG Added checking on date fields when they are invalid.
-IMPROVEMENT: (TAB FORM) option in select: if there are no values I set them equal to the labels
-IMPROVEMENT: Changed the default setting of the frontend of the tables.
-IMPROVEMENT: Rebuild of post and user fields on lists. They now display the post title or the user's nicename. Search now works on user title or name instead of IDs. However, it is not possible to sort the list by a post or user field. This will not be developed because if you change the data type of the list the query will give an error.
-FIXBUG: (page action=list-sql-edit) When I save it hides the primary keys in the lists.
-FIXBUG: on import for user post and lookup fields
-FIXBUG FRONTEND when you press enter and you have the focus on the search even if it is in ajax it sends the data in get
-IMPROVEMENT: (LIST view formatting) On post and user type columns I no longer choose which information to show, it's always the title or username, but I've added the option to automatically create the link to the article or author's page. Attention this change generates a small incompatibility with previous versions. If you are using the post or user field check out the new functionality. If you wanted to link to other fields, use the lookup field instead.
-IMPROVEMENT: (TAB FORM) the test of the calculated fields does not work with data which however works in production. Added an information box if using [%data.
-BUG: (TAB FORM) When you created a new field it didn't allow dragging it to sort.
+### 1.6.0 2023-01-22 Fixbug
+- NEW: Added Time field and template engine attributes: timenum-to-timestr, timestr-to-timenum and time-to-hour
+- NEW (PRO) in the datapress main page added a box that shows the running queries and allows you to remove them
+- FIXBUG (PRO) show table in import data list 
+- IMPROVEMENT: Limited metadata function. Metadata must be unique. There can be only one metadata for each meta_key. During the save if I find more metadata for the same key I delete them.
+- FIXBUG Added checking on date fields when they are invalid.
+- IMPROVEMENT: (TAB FORM) option in select: if there are no values I set them equal to the labels
+- IMPROVEMENT: Changed the default setting of the frontend of the tables.
+- IMPROVEMENT: Rebuild of post and user fields on lists. They now display the post title or the user's nicename. Search now works on user title or name instead of IDs. However, it is not possible to sort the list by a post or user field. This will not be developed because if you change the data type of the list the query will give an error.
+- FIXBUG: (page action=list-sql-edit) When I save it hides the primary keys in the lists.
+- FIXBUG: on import for user post and lookup fields
+- FIXBUG FRONTEND when you press enter and you have the focus on the search even if it is in ajax it sends the data in get
+- IMPROVEMENT: (LIST view formatting) On post and user type columns I no longer choose which information to show, it's always the title or username, but I've added the option to automatically create the link to the article or author's page. Attention this change generates a small incompatibility with previous versions. If you are using the post or user field check out the new functionality. If you wanted to link to other fields, use the lookup field instead.
+- IMPROVEMENT: (TAB FORM) the test of the calculated fields does not work with data which however works in production. Added an information box if using [%data.
+- BUG: (TAB FORM) When you created a new field it didn't allow dragging it to sort.
 
 ### V.1.5.0 2023-01-08 Metadata support
 - NEW Inside the template engine, when a variable is extracted from the data of a list, the VAL attribute has been added.
