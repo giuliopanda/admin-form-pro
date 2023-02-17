@@ -593,6 +593,7 @@
 .dbp-multiquery-single-query-info {
     display: inline-block;
     margin-left:1rem;
+    vertical-align: sub;
 }
 
 .dbp-multiquery-action a {
@@ -601,6 +602,7 @@
 
 .dbp-form-single-query {
     display: inline-block;
+    vertical-align: middle;
 }
 
 .dbp-submit-style-link {

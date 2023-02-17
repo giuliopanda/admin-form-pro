@@ -517,6 +517,9 @@ function dbp_submit_table_filter(action) {
         jQuery('#table_filter').append('<input type="hidden" name="remove_table_query" value="'+tq+'">');
     }
     */
+    if (action != 'limit_start' &&  action != 'order' && action != 'change_limit') {
+        jQuery('#cache_count').remove();
+    }
     if (action == 'delete_rows') {
         $add_form = jQuery('#dbp_form_deletes_rows').clone();
         $add_form.find('.dbp-xmp').remove();

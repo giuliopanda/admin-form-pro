@@ -746,7 +746,7 @@ class  Dbp_model {
      * @param Booleam $remove_limit
      * @return Integer |-1 se non ha potuto contare il numero di righe
      */
-    public function get_count($remove_limit = true) {
+    public function get_count($remove_limit = true, $return_sql = false) {
         global $wpdb;
         $sql = $this->current_query;
         if($this->sql_type() == "select") {
@@ -779,7 +779,11 @@ class  Dbp_model {
                 if ($groupby > 0 || $having > 0) {
                     $new_sql = "SELECT count(*) FROM (".$new_sql.") AS tot;";
                 }
+                
                 //print ("<p>COUNT: ".$new_sql."</p>");
+                if ($return_sql) {
+                    return $new_sql;
+                }
                 $result = $wpdb->get_var($new_sql);
                 if (is_wp_error($result) || !empty($wpdb->last_error)) {
                     $this->last_error = $wpdb->last_error;

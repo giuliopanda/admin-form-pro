@@ -3,7 +3,7 @@ var dbp_sql_check = "";
 var dbp_alias_table = {};
 jQuery(document).ready(function () {
     setInterval(function() {dbp_analyze_query()}, 3000);
-   
+    setTimeout(function() {dbp_analyze_query()}, 500);
 });
    
 /**
@@ -23,15 +23,6 @@ function check_toggle_sql_query_edit()  {
  */
  function show_sql_query_edit(size_height)  {
     if (document.getElementById('sql_query_edit') != null) {
-        /*
-        jQuery('#dbp-bnt-edit-query').css('display','none');
-        jQuery('#dbp-bnt-go-back-filter-query').css('display','none');
-        jQuery('#dbp-bnt-go-query').css('display', 'inline-block');
-        jQuery('#dbp-bnt-cancel-query').css('display', 'inline-block');
-        jQuery('#sql_query_edit').css('display', 'none');
-        jQuery('#result_query').css('display', 'none');
-        jQuery('#dbp-bnt-reload-query').css('display', 'none');
-*/
         jQuery('#sql_query_edit').css('display', 'none');
         jQuery('#result_query').css('display', 'none');
         jQuery('#dbp_content_query_edit').removeClass('js-default-hide-editor').addClass('js-default-show-editor');
@@ -730,10 +721,13 @@ function dbp_analyze_query() {
                 // console.log ('dbp_analyze_query:');
                 //  console.log (jQuery('.js-result-query-btns .js-show-only-select-query'));
                 jQuery('#dbp_sql_error_show').empty().addClass('dbp-hide');
-
                     if (response.error != "") {
                         if (response.error.indexOf('You have an error in your SQL syntax') == -1 ) {
-                            jQuery('#dbp_sql_error_show').removeClass('dbp-hide').append(response.error);
+                            if (jQuery('#result_query').css('display') == 'none') {
+                                jQuery('#dbp_sql_error_show').removeClass('dbp-hide').append(response.error);
+                            } else {
+                                jQuery('#dbp_sql_error_show').addClass('dbp-hide');
+                            }
                         }
                         jQuery('.js-result-query-btns .js-show-only-select-query').addClass('dbp-btn-disabled js-btn-disabled');
                     } else {

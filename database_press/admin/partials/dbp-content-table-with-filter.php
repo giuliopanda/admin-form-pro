@@ -53,6 +53,7 @@ $some_error = $table_model->last_error || @$msg_error != "";
                     <div class="alignleft">
                         <span class="displaying-num">Show <?php echo count($table_items) -1; ?> of <?php echo $table_model->total_items; ?> items</span>
                         <span class="" >Element per page: </span>
+                        <input type="hidden" name="cache_count" id="cache_count"  value="<?php echo absint($table_model->total_items); ?>">
                         <input type="number" name="filter[limit]" id="Element_per_page" class="dbp-pagination-input" value="<?php echo absint($table_model->limit); ?>" style="width:3.4rem; padding-right:0;" min="1" max="500">
                         <div name="change_limit_start" class="button action dbp-pagination-input"  onclick="dbp_submit_table_filter('change_limit')" >Apply</div>
                         <?php dbp_fn::get_pagination($table_model->total_items, $table_model->limit_start, $table_model->limit); ?>
@@ -60,11 +61,12 @@ $some_error = $table_model->last_error || @$msg_error != "";
                             <div id="dbp-bnt-clear-filter-query" class="button"  onclick="dbp_clear_filter()"><?php _e('Clear Filter','db_press'); ?></div>
                         <?php endif; ?>
                     </div>
-                <?php endif; ?>
+               
                     <div style="float: left; margin-left: 1rem; line-height: 1.6rem;">
                         <label>
                             <input type="checkbox" name="dbp-show-all-text" value="1" onchange="dbp_submit_table_filter()"<?php echo(isset($_REQUEST['dbp-show-all-text']) && $_REQUEST['dbp-show-all-text'] == 1) ? 'checked="checked"' : ''; ?>><?php _e('Show all text', 'admin_form'); ?></label>
                     </div>
+                <?php endif; ?>
                 <?php if (count($table_model->tables_primaries) > 0) : ?>
                 <div class="alignright">
                     <div class="dbp-submit" onclick="dbp_edit_details_v2()"><?php _e('Add New record','db_press'); ?></div>
@@ -119,11 +121,5 @@ $some_error = $table_model->last_error || @$msg_error != "";
     <script>
     var dbp_tables = <?php echo json_encode($list_of_tables_js); ?>;
     var dbp_columns = <?php echo json_encode($list_of_columns); ?>;
-    <?php if ($some_error) : ?>
-        jQuery(document).ready(function () {
-            setTimeout(function() { show_sql_query_edit();}, 2000);
-           
-        });
-    <?php endif; ?>
     </script>
 </div>

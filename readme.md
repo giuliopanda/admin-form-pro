@@ -1,23 +1,33 @@
 # Admin-Form-Pro
-Manages database tables in the Wordpress Admin panel 
+Admin form pro extends the capabilities of the wordpress Admin form plugin by adding advanced database management. 
 
-The pro version of the plugin for wordpress [admin-form](https://wordpress.org/plugins/admin-form/).
-To work on the site, the admin-form downloaded from the official wordpress repository must be installed!
+Admin form pro allows you to manage your data quickly and efficiently, with functionality similar to PhpMyAdmin, but with some advanced features. In particular, it gives you the ability to filter tables by column, just like in Excel, allowing you to quickly find the data you are looking for.
+
+Thanks to its intuitive and easy-to-use interface, you can easily manage information in several tables at once and also edit data from multiple tables at once. 
 
 # Installation
-Download the plugin, if it's in a compressed folder unzip first. 
-The plugin must be placed inside yoursite/wp-content/plugins.
+
+This is the PRO version of the plugin for wordpress [admin-form](https://wordpress.org/plugins/admin-form/).
+To work on the site, the admin-form downloaded from the official wordpress repository must be installed!
+
 
 # The pro version adds:
-- The calculated fields
-- The lookups
+- [The calculated fields](https://github.com/giuliopanda/admin-form-pro/wiki/Calculated-fields).
+- [The lookups](https://github.com/giuliopanda/admin-form-pro/wiki/LOOKUP)
 - A system for managing tables through queries
 - The ability to create query forms (LAB).
 - Advanced management in the creation of tables
-- Import and export of data in mysql / csv.
+- [Import and export of data in mysql / csv](https://github.com/giuliopanda/admin-form-pro/wiki/Import-Export)
 - Import export data of a specific form.
 
 # changelog
+
+### 1.7.0 Fxibug
+- FIXBUG: enabled multiqueries in the input form even for queries other than select
+- FIXBUG: show full text appeared even when there were no results
+- FIXBUG: when the query gave error happened that the editor appeared double
+- IMPROVEMENT: Improved the response performance of a query by decreasing the instances of recalculating the total results extracted.
+
 
 ### 1.6.2 2023-02-09 Fixbug
 - COMMIT Error

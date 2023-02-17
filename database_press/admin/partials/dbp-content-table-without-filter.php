@@ -19,12 +19,12 @@ foreach ($items as $item) {
     echo '<div class="dbp-result-query dbp-css-mb-1 js-dbp-mysql-query-text">'.$item->model->get_default_query().'</div>';
     ?>
     <div class="dbp-multiquery-action">
-
-        [<form method="post" action="<?php echo admin_url("admin.php"); ?>" class="dbp-form-single-query">
-            <input type="hidden" name="page"  value="database_press">
-            <input type="hidden" name="action"  value="custom_query">
+        <form method="post" action="<?php echo add_query_arg('page', 'database_press',  admin_url("admin.php")); ?>" class="dbp-form-single-query">
+            <input type="hidden" name="section"  value="table-browse">
+            <input type="hidden" name="action_query"  value="custom_query">
             <input type="hidden" name="custom_query"  value="<?php echo esc_attr($item->model->get_current_query()); ?>">
-        </form>]
+            <input type="submit" value="Run again" class="button button-primary">
+        </form>
         <span class="dbp-multiquery-single-query-info">
             <?php 
             if ($item->model->sql_type() == "select") {
@@ -36,4 +36,5 @@ foreach ($items as $item) {
     </div>
     <?php
     echo $item->content; 
+
 }

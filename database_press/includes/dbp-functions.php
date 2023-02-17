@@ -684,9 +684,11 @@ class  Dbp_fn {
 
     /**
      * Funzione per aggiungere limit e order in una query passati da Request Il risultato lo mette dentro il model
-     * @param Class $table_model
+     * @param Dbp_model $table_model
      * @param Integer $max_show_items
+     * @return string La query sql per fare il count del numero di record se serve, altrimenti torna vuota.
      */
+
     static function add_request_filter_to_model(&$table_model,  $max_show_items = 100) {
         $action_query = dbp_fn::req('action_query','');
         $table_filter = true;
@@ -699,7 +701,13 @@ class  Dbp_fn {
         } 
        
         $table_model->list_add_where($table_filter);
-        $table_model->get_count();
+
+        $count_sql = "";
+        if (isset($_REQUEST['cache_count'])) {
+            $table_model->total_items = intval($_REQUEST['cache_count']);
+        } else {
+            $count_sql = $table_model->get_count(true, true);
+        }
         
         if ($action_query != "custom_query") {
             $table_limit_start 			= dbp_fn::get_request_limit_start('filter.limit_start', 0, $table_model->total_items) ;
@@ -724,6 +732,7 @@ class  Dbp_fn {
                 $table_model->limit_start = $ls;
             }
         }
+        return  $count_sql;
     }
 
     /**
@@ -759,9 +768,11 @@ class  Dbp_fn {
     /**
      * Funzione per aggiungere limit e order in una query passati da Request Il risultato lo mette dentro il model
      * @param string $query
+     * @param Integer $max_show_items
+     * @param boolean $multiquery
      * @return database_press_model_base
      */
-    static function model_single_query($query, $max_show_items = 1000) {
+    static function model_single_query($query, $max_show_items = 1000, $multiquery = false) {
         $table_model = new Dbp_model();
         $table_model->prepare($query, false);
         $effected_row = $table_model->get_count(false);
@@ -772,7 +783,11 @@ class  Dbp_fn {
             } else {
                 $table_limit = $table_model->total_items;
             }
-            $table_model->get_list();
+            if ($multiquery) {
+                $table_model->get_list(false, false);
+            } else {
+                $table_model->get_list();
+            }
             $table_model->update_items_with_setting();
         } 
         if ($table_model->sql_type() == "select") {
@@ -782,19 +797,7 @@ class  Dbp_fn {
     }
 
    
-    /**
-     * Crea un bottone o un link per esportare una query
-     */
-    static function html_query_export($text, $query ) {
-        ?>
-        <form method="post" action="<?php echo admin_url("admin-post.php"); ?>" class="dbp-form-single-query">
-            <input type="hidden" name="page" value="database_press">
-            <input type="hidden" name="action" value="export">
-            <input type="hidden" name="custom_query"  value="<?php echo esc_attr($query); ?>">
-            <button type="submit" class="dbp-submit-style-link" ><?php _e($text, 'db_press'); ?></button> 
-        </form>
-        <?php
-    }
+
    /**
      * Crea un csv da scaricare direttamente compatibile con EXCEL.
      * gp_export_data_to_csv(json_encode("{'id':1,'name':'Pippo', 'id':2,'name':'Pluto'}"));
@@ -894,7 +897,7 @@ class  Dbp_fn {
 			$count_queries = 0;
 			while ($queries) {
 				$query = array_shift($queries);
-				$single_table_model = dbp_fn::model_single_query($query, 100);
+				$single_table_model = dbp_fn::model_single_query($query, 100, true);
 				$report_queries[] = [$query, $single_table_model->effected_row, $single_table_model->time_of_query, $single_table_model->last_error];
 				$count_queries++;
 				if ($single_table_model->last_error != "") {

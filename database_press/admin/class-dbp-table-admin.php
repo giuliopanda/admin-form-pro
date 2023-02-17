@@ -317,6 +317,7 @@ class database_press_admin
 	 * Mostro il risultato di una query
 	 */
 	private function table_browse() {
+		global $wpdb;
 		if (!current_user_can('administrator')) return;
 		wp_enqueue_script( 'jquery-ui-sortable' );
 		wp_enqueue_script( 'database-form2-js', plugin_dir_url( __FILE__ ) . 'js/database-form2.js',[], DB_PRESS_VERSION);
@@ -436,11 +437,19 @@ class database_press_admin
 			} else {
 				$_REQUEST['search'] = '';
 			}
-			
-			dbp_fn::add_request_filter_to_model($table_model, $this->max_show_items);
-			$table_model->add_primary_ids();
 
+			$count_sql_query = dbp_fn::add_request_filter_to_model($table_model, $this->max_show_items);
+			$table_model->add_primary_ids();
+		
 			$table_items = $table_model->get_list(true, false);
+			if ($table_model->limit >= count($table_items) -1) {
+				if ($count_sql_query != '') {
+					$table_model->total_items = $wpdb->get_var($count_sql_query);
+				}
+			} else {
+				$table_model->total_items = count($table_items) - 1;
+			}
+
 			if (isset($_REQUEST['dbp-show-all-text']) && $_REQUEST['dbp-show-all-text'] == 1) {
 				$table_model->update_items_with_setting(false, true, 99999);
 			} else {
