@@ -1,6 +1,10 @@
 # Admin-Form-Pro
 Admin form pro extends the capabilities of the wordpress Admin form plugin by adding advanced database management. 
 
+Take control of your wordpress database
+
+![filter](https://github.com/giuliopanda/repo/blob/main/database_press_screenshot03.png)
+
 Admin form pro allows you to manage your data quickly and efficiently, with functionality similar to PhpMyAdmin, but with some advanced features. In particular, it gives you the ability to filter tables by column, just like in Excel, allowing you to quickly find the data you are looking for.
 
 Thanks to its intuitive and easy-to-use interface, you can easily manage information in several tables at once and also edit data from multiple tables at once. 
@@ -22,7 +26,14 @@ To work on the site, the admin-form downloaded from the official wordpress repos
 
 # changelog
 
-### 1.7.0 Fxibug
+### 1.8.0 Fixbug 2023-03-08 Fixbug
+* IMPROVEMENT: Improved page loading performance. The query to calculate the total number of records has been optimized and other queries have been eliminated.
+* BUGFIX PRO: Always appear show all text even when query gives error.
+* BUGFIX PRO: If a query gave error the double editor would appear!
+* BUGFIX PRO: List export and subsequent import used to fail for complex queries or some types of fields, especially calculated fields which are now added to RAW export. 
+
+
+### 1.7.0 2023-02-16 Fxibug
 - FIXBUG: enabled multiqueries in the input form even for queries other than select
 - FIXBUG: show full text appeared even when there were no results
 - FIXBUG: when the query gave error happened that the editor appeared double

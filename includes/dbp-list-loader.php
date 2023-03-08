@@ -375,8 +375,10 @@ class  Dbp_pro_list_loader {
 				} 
 				$table_model->prepare($sql);
 			}
+			
 			$table_model->list_add_limit($limit_start, $line);
 			if ($dbp_id > 0) {
+				ADFO_functions_list::add_post_type_settings($table_model, $post);
 				if (isset($post->post_content['sql_order']['sort']) &&  isset($post->post_content['sql_order']['field'])) {
 					$_REQUEST['sort']['field'] = $post->post_content['sql_order']['field'] ;
 					$table_model->list_add_order($post->post_content['sql_order']['field'], $post->post_content['sql_order']['sort']);
@@ -390,6 +392,58 @@ class  Dbp_pro_list_loader {
 				$table_items = [];
 				$table_items = $table_model->items;
 			}
+			// Aggiungo i CALCULATED FIELD nell'export RAW 
+			if ($dbp_id > 0 && $data_type == 'raw') {
+				$form = new ADFO_class_form($dbp_id);
+				list($settings, $table_options) = $form->get_form();
+				$setting_params = $form->data_structures_to_array($settings);
+				$table_items2 = [];
+				$array_option = array_shift($table_options);
+				foreach ($table_items as  $key => $item) {
+					if ($key == 0) {
+						$table_items2[] = $item;
+						continue;
+					}
+					$itms = $form->convert_items_to_groups([$item], $settings, $table_options);
+					$temp_new_items = [];
+					
+					$tables_m = [];			
+					foreach ($itms as $itm) {
+						foreach ($itm as $gr => $itm0) {
+							if (!isset($tables_m[$array_option[$gr]->orgtable])) {
+								$temp_tt = ADFO_fn::get_table_structure($array_option[$gr]->orgtable);
+								$tables_m[$array_option[$gr]->orgtable] = [];
+								foreach($temp_tt as $key => $val) {
+									$tables_m[$array_option[$gr]->orgtable][$val->Field] = $val->Type;
+								}
+							}
+							//var_dump($tables_m[$array_option[$gr]->orgtable]);
+							foreach ($itm0 as $it_key => $it) {
+								$field_table = $tables_m[$array_option[$gr]->orgtable][$setting_params[$gr][$it_key]['name']];
+
+								if ($it != "" && $setting_params[$gr][$it_key]['form_type'] == 'DATE' || substr($field_table,0,4)  == 'date') {
+									$d = new \DateTime($it);
+									$temp_new_items[$it_key] = $d->format('Y-m-d');
+								}
+								if ($it != "" && $setting_params[$gr][$it_key]['form_type'] == 'DATETIME' || substr($field_table,0,8) == 'datetime') {
+									$d = new \DateTime($it);
+									$temp_new_items[$it_key] = $d->format('Y-m-d H:i:s');
+								}
+								if ($it == "" && $setting_params[$gr][$it_key]['form_type'] == 'CALCULATED_FIELD') {
+									$temp_new_items[$it_key] = $setting_params[$gr][$it_key]['custom_value'];
+								} else {
+									$temp_new_items[$it_key] = $it;
+								}
+							}
+						}
+
+					}
+					$table_items2[] = $temp_new_items;
+				}
+				$table_items = $table_items2;
+				
+			}
+
 			// verifico che la query non abbia dato errore
 			if ($table_model->last_error ) {
 				$error =  $table_model->last_error."<br >".$table_model->get_current_query();

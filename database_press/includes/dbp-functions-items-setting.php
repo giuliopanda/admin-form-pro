@@ -92,7 +92,16 @@ class  Dbp_items_list_setting {
 			
 			$pri = ($table != "" && isset($primaries[$orgtable]) && strtolower($primaries[$orgtable]) == strtolower($orgname));
 			
-			$first_row[$key] = (object)['name'=>$print_column_name, 'original_table' => $orgtable,  'table' => $table, 'name_column'=>$name_column, 'original_name' => $orgname,'field_key'=>$field_key, 'original_field_name'=>$original_field_name,'toggle'=>(isset($value['toggle']) ? $value['toggle'] : 'SHOW'), 'type'=> $simple_type, 'sorting'=>$row_sorting, 'dropdown' => $drop_down, 'width'=>$width, 'align'=>@$value['align'], 'mysql_name' => @$value['mysql_name'], 'name_request' => @$value['name_request'], 'searchable' => @$value['searchable'], 'custom_param' => @$value['custom_param'], 'format_values' => @$value['format_values'], 'format_styles' => @$value['format_styles'], 'pri'=>$pri];
+			$value_toogle = (isset($value['toggle']) ? $value['toggle'] : 'SHOW');
+			$value_align = (isset($value['align'])) ? $value['align'] : '';
+			$value_mysql = (isset($value['mysql_name'])) ? $value['mysql_name'] : '';
+			$value_name_request = (isset($value['name_request'])) ? $value['name_request'] : '';
+			$value_searchable = (isset($value['searchable'])) ? $value['searchable'] : '';
+			$value_custom_param = (isset($value['custom_param'])) ? $value['custom_param'] : '';
+			$value_format_values = (isset($value['format_values'])) ? $value['format_values'] : '';
+			$value_format_styles = (isset($value['format_styles'])) ? $value['format_styles'] : '';
+
+			$first_row[$key] = (object)['name'=>$print_column_name, 'original_table' => $orgtable,  'table' => $table, 'name_column'=>$name_column, 'original_name' => $orgname,'field_key'=>$field_key, 'original_field_name'=>$original_field_name,'toggle'=>$value_toogle, 'type'=> $simple_type, 'sorting'=>$row_sorting, 'dropdown' => $drop_down, 'width'=>$width, 'align'=>$value_align, 'mysql_name' => $value_mysql, 'name_request' => $value_name_request, 'searchable' => $value_searchable, 'custom_param' => $value_custom_param, 'format_values' => $value_format_values, 'format_styles' => $value_format_styles, 'pri'=>$pri];
         } 
         $count = 0;
 	

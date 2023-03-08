@@ -5,7 +5,7 @@
  * @wordpress-plugin
  * Plugin Name:       Admin form PRO
  * Description:       Admin form PRO is a tool designed to manage administration form.
- * Version:           1.7.0
+ * Version:           1.8.0
  * Requires at least: 5.9
  * Requires PHP:      7.2
  * Author:            Giulio Pandolfelli
@@ -18,7 +18,7 @@ namespace admin_form;
 
 if (!defined('WPINC')) die;
 
-define('ADFO_PRO_VERSION', '1.7.0');
+define('ADFO_PRO_VERSION', '1.8.0');
 //define('ADFO_PRO_VERSION', rand());
 
 if(is_file(__DIR__ . "/../admin-form/admin-form.php")) {

@@ -8,7 +8,7 @@ $lists = get_posts(['post_status' => 'publish',
 'numberposts' => -1,
 'post_type'   => 'dbp_list']);
 
-$post_type = dbp_fn::get_post_types();
+
 $request_table = dbp_fn::req('table');
 $request_dbp_id =  dbp_fn::req('dbp_id');
 ?>
@@ -55,24 +55,6 @@ $request_dbp_id =  dbp_fn::req('dbp_id');
                 <?php if (in_array( $table_name, $wordpress_tables)) : ?>
                     <?php $slt = ($request_table == $table_name) ? ' dbp-sidebar-link-selected' : ''; ?>
                     <li><a class="js-dbp-table-text dbp-sidebar-link-2<?php echo $slt; ?>" href="<?php echo add_query_arg(['section'=>'table-browse', 'table'=>$table_name], admin_url("admin.php?page=database_press")); ?>"><?php echo $table_name; ?></a>
-                    <?php /* if ($table_name == dbp_fn::get_prefix().'posts') : ?>
-                    <ul class="dbp-ul-2">
-                        <?php foreach ($post_type as $p) : ?>
-                            <li>
-                                <form  method="POST" action="<?php echo admin_url('admin.php?page=database_press&section=table-browse&table='.dbp_fn::get_prefix().'posts'); ?>">
-                                    <input type="hidden" name="custom_query" value="SELECT * FROM `<?php echo dbp_fn::get_prefix(); ?>posts`">
-                                    <input type="hidden" name="filter[search][<?php echo dbp_fn::get_prefix(); ?>posts_post_type][op]" value="IN">
-                                    <input type="hidden" name="action_query" value="filter">
-                                    <input type="hidden" name="filter[search][<?php echo dbp_fn::get_prefix(); ?>posts_post_type][r]" value="2">
-                                    <input type="hidden" name="filter[search][<?php echo dbp_fn::get_prefix(); ?>posts_post_type][table]" value="<?php echo dbp_fn::get_prefix(); ?>posts">
-                                    <input type="hidden" name="filter[search][<?php echo dbp_fn::get_prefix(); ?>posts_post_type][column]" value="`<?php echo dbp_fn::get_prefix(); ?>posts`.`post_type`">
-                                    <input type="hidden" name="filter[search][<?php echo dbp_fn::get_prefix(); ?>posts_post_type][value]" value="<?php echo esc_attr($p); ?>">
-                                    <div class="dbp-ul-2-submit" onclick="jQuery(this).parent().submit();"><?php echo $p; ?></div>
-                                </form>
-                            </li>
-                        <?php endforeach; ?>
-                    </ul>
-                    <?php endif; */?>
                     </li>
                 <?php endif; ?>
             <?php endforeach; ?> 

@@ -12,6 +12,10 @@ class  Dbp_fn {
      */
     static $execute_time_start = 0;
     /**
+     * $static get_all_columns
+     */
+    static $get_all_columns = [];
+    /**
      * @static Array table_list
      */
     static $table_list = [];
@@ -163,6 +167,9 @@ class  Dbp_fn {
      */
     static function get_all_columns() {
         global $wpdb;
+        if (count(dbp_fn::$get_all_columns) > 0) {
+            return  dbp_fn::$get_all_columns;
+        }
         $sql = 'SELECT TABLE_NAME as `table`, COLUMN_NAME as `column`, DATA_TYPE as `type`, CHARACTER_MAXIMUM_LENGTH as `length`, ORDINAL_POSITION FROM information_schema.columns where table_schema = "' . esc_sql($wpdb->dbname) . '" order by `table` ASC, `ORDINAL_POSITION` ASC';
         $columns = $wpdb->get_results($sql);
         $result = [];
@@ -175,6 +182,7 @@ class  Dbp_fn {
             }
         }
         ksort  ($result);
+        dbp_fn::$get_all_columns = $result;
         return $result;
     }
 
@@ -982,20 +990,6 @@ class  Dbp_fn {
         global $wpdb;
         return $wpdb->prefix;
     }
-
-    /**
-     * Trova l'elenco dei posttype
-     * @return array
-     */
-    static function get_post_types() {
-        global $wpdb;
-        $p = $wpdb->get_results('SELECT DISTINCT(`post_type`) pt FROM '.$wpdb->prefix.'posts ORDER BY `post_type` DESC LIMIT 1000');
-        foreach ($p as &$value) {
-            $value = $value->pt;
-        }
-        return $p;
-    }
-
 
     /**
      * Calcola il massimo upload file
