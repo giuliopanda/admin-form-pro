@@ -26,6 +26,9 @@ To work on the site, the admin-form downloaded from the official wordpress repos
 
 # changelog
 
+### 1.8.1 Fixbug 2023-03-08 Fixbug
+* FIXBUG: (create list from query) fatal error in php 8.1+
+
 ### 1.8.0 Fixbug 2023-03-08 Fixbug
 * IMPROVEMENT: Improved page loading performance. The query to calculate the total number of records has been optimized and other queries have been eliminated.
 * BUGFIX PRO: Always appear show all text even when query gives error.

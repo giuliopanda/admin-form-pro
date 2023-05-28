@@ -85,7 +85,7 @@ class  Dbp_pro_list_loader {
         $title = wp_strip_all_tags( ADFO_fn::get_request('new_title'));
        // TODO: if (!is_admin()) return;
 	    $sql = html_entity_decode ( wp_kses_post(wp_unslash($_REQUEST['new_sql'])));
-		$post = ADFO_functions_list::get_post_dbp($id);
+		
 		$table_model = new ADFO_model();
 		$table_model->prepare($sql);
 		if ($table_model->sql_type() != "select") {
@@ -109,6 +109,8 @@ class  Dbp_pro_list_loader {
             wp_redirect( admin_url("admin.php?page=admin_form&section=list-all&msg=create_list_error"));
 			die();
         } 
+		$post = ADFO_functions_list::get_post_dbp($id);
+		
 		$limit = $table_model->remove_limit();
 		if ($limit > 0) {
 			$post->post_content['sql_limit'] = $limit;
