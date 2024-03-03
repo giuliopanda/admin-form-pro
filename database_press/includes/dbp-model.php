@@ -28,6 +28,10 @@ class  Dbp_model {
      */
     public $last_error = false;
     /**
+     * @var String $last_warning L'ultimo warning generato dal model
+     */
+    public $last_warning = false;
+    /**
      * @var Int $limit_start 
      */
     public  $limit_start = 0;
@@ -614,6 +618,7 @@ class  Dbp_model {
     public function get_list($check_same_column = true, $force_select = true) {
         global $wpdb;
         $start = microtime(true);
+        $this->last_warning = false;
         $this->last_error = false;
         $this->effected_row = 0;
         $sql = $this->ulitities_marks->restore($this->current_query);
@@ -642,10 +647,7 @@ class  Dbp_model {
                 
                 // verifico se ci sono colonne con lo stesso nome Non è permesso, fa casini!
                 if ($check_same_column) {
-                    if (!$this->get_list_check_same_column($list_last_get_col_info)) {
-                        $this->time_of_query = round(microtime(true) - $start, 4);
-                        return [];
-                    }
+                    $this->get_list_check_same_column($list_last_get_col_info);
                 }
                 $as_fields = $this->get_original_column_name(true);
                 $first_array = reset($result);
@@ -1768,11 +1770,8 @@ class  Dbp_model {
         $temp_names = [];
         foreach ($list_last_get_col_info as $val ) {
             if (in_array($val->name, $temp_names)) {
-                $this->last_error = sprintf(__('The query has multiple columns (<b>%s</b>) with the same name.', 'db_press'), $val->name);
-                $this->effected_row = 0;
-                $this->items = [];
-               
-                 return false;
+                $this->last_warning = sprintf(__('The query has multiple columns (<b>%s</b>) with the same name. This may generate some errors, it would be better to correct it and give each column a unique name', 'db_press'), $val->name);
+                 return true;
             }
             $temp_names[] = $val->name;
         }

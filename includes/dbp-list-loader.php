@@ -389,10 +389,16 @@ class  Dbp_pro_list_loader {
 			$table_items = $table_model->get_list();
 			$count = $table_model->get_count();
 			if ($dbp_id > 0 && $data_type != 'raw') {
-				$table_model->update_items_with_setting($post);
+				$table_model->update_items_with_setting($post, false, -1, true);
 				ADFO_fn::remove_hide_columns($table_model);
-				$table_items = [];
 				$table_items = $table_model->items;
+				foreach ($table_items as $iskey => $item) {
+					foreach ($item as $ikey => $_) {
+						if (substr($ikey,0,8) == '____af__') {
+							unset($table_items[$iskey]->$ikey);
+						}
+					}
+				} 
 			}
 			// Aggiungo i CALCULATED FIELD nell'export RAW 
 			if ($dbp_id > 0 && $data_type == 'raw') {
@@ -438,12 +444,10 @@ class  Dbp_pro_list_loader {
 								}
 							}
 						}
-
 					}
 					$table_items2[] = $temp_new_items;
 				}
 				$table_items = $table_items2;
-				
 			}
 
 			// verifico che la query non abbia dato errore
@@ -456,9 +460,19 @@ class  Dbp_pro_list_loader {
 				wp_send_json(['error'=>__("There was an unexpected problem", 'admin_form')]);
 				die();
 			}
-			 array_shift($table_items);
+			$first_row =  array_shift($table_items);
+			// imposto i nomi corretti alle colonne
+			if ($data_type != 'raw') {
+				$new_table_items = [];
+				foreach ($table_items as $iskey => $item) {
+					foreach ($item as $ikey => $ivalue) {
+						$new_table_items[$iskey][$first_row[$ikey]->name] = $ivalue;
+					}
+				} 
+				$table_items = $new_table_items;
+			}
 		} else {
-			$line = 200;
+			$line = 2000;
 			// estraggo i dati dalla query solo per i checkbox selezionati
 			$table_items = [];
 			$next_limit_start = $limit_start + $line;
@@ -482,7 +496,6 @@ class  Dbp_pro_list_loader {
 				if (count($table_items_temp) == 2) {
 					$table_items[] = array_pop($table_items_temp);
 				}
-
 			}
 		}
 		// rimuovo la prima riga che è l'header con lo schema della tabella.

@@ -41,7 +41,7 @@ class  Dbp_pro_import_export_list {
 
     public function controller($section) {
         if ($section != 'import-export') return;
-     
+        
         wp_enqueue_script( 'adfo-js-import-export-js',  dirname(plugin_dir_url( __FILE__ ))   . '/admin/js/adfo-js-import-export.js',[],ADFO_PRO_VERSION);
         wp_localize_script( 'adfo-js-import-export-js', 'dbi_vars', array(
             'upload_file_nonce' => wp_create_nonce( 'dbi-file-upload' ),
@@ -49,7 +49,6 @@ class  Dbp_pro_import_export_list {
         );
         $msg = '';
         $msg_error = '';
-        
         require (__DIR__."/../admin/af-page-import-export.php");
     }
     /**

@@ -168,7 +168,10 @@ class  Dbp_loader_information_schema {
                 $insert_values_key = $insert_values_val = [];
                 foreach ($row as $key=>$value) {
                     $insert_values_key[] = '`'.$key.'`'; 
-                    $insert_values_val[] = "'".esc_sql($value)."'";
+                    $value = str_replace("%", "{perc_from_admin_form_due_to_crazy_wordPress_system}", $value);
+                    $value = "'".esc_sql($value)."'";
+                    $value = str_replace("{perc_from_admin_form_due_to_crazy_wordPress_system}", "%", $value);
+                    $insert_values_val[] = $value;
                 }
                 $insert_rows[] = 'INSERT INTO `'.Dbp_fn::sanitize_key($table).'` ('.
                 implode(", ", $insert_values_key).

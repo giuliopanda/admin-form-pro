@@ -1,5 +1,5 @@
 # Admin-Form-Pro
-Admin form pro extends the capabilities of the wordpress Admin form plugin by adding advanced database management. 
+Admin form pro extends the capabilities of the wordpress Admin form plugin by adding advanced database management. It's free and open source.
 
 Take control of your wordpress database
 
@@ -25,6 +25,13 @@ To work on the site, the admin-form downloaded from the official wordpress repos
 - Import export data of a specific form.
 
 # changelog
+
+### 1.9.0 2023-03-08 Fixbug
+* Compatibility with ADMIN-FORM 1.9.0
+* NEW: ADD the possibility to insert multiple values in the lookup field
+* IMPROVEMENT: Left join autocompletes now show only the actual values i.e. metavalues only show the values of the chosen metakey.
+* FIXBUG: On select with left join if there are columns with the same name the query freezes and is annoying
+* FIXBUG: on downloads it does not export the names of the columns taken from the list.
 
 ### 1.8.1 Fixbug 2023-03-08 Fixbug
 * FIXBUG: (create list from query) fatal error in php 8.1+

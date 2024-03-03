@@ -10,7 +10,7 @@ if (!defined('WPINC')) die;
     <div id="dbp_container" class="dbp-grid-container" style="display:none; position:fixed; ">
         <div class="dbp-column-content">
             <div class="af-content-header">
-                <?php require(ADFO_DIR.'/admin/partials/af-partial-tabs.php'); ?>
+                <?php require_once(ADFO_DIR.'/admin/partials/af-partial-tabs.php'); ?>
             </div>
             <div class="af-content-table js-id-dbp-content" >
             <?php if (ADFO_fn::echo_html_title_box('IMPORT EXPORT', '', $msg, $msg_error)) : ?>
@@ -24,8 +24,7 @@ if (!defined('WPINC')) die;
 
 
                     <h3><?php _e("Import data", 'admin_form'); ?></h3>
-                    <p><?php _e("Use the raw data export as a starting point for editing or creating new records.", 'admin_form'); ?></p>
-
+                    <p><?php _e("Use the raw data export as a starting point for editing or creating new records.", 'admin_form'); ?><br><?php _e("Imported data must be in UTF-8", 'admin_form'); ?></p>
                     <div class="dbp-content-margin">
                         <h2 class="dbp-h2"><?php _e('File to import', 'admin_form'); ?></h2>
                         <p class="dbp-p"><?php  _e('Upload <b>.CSV</b> file', 'admin_form');   ?></p>
@@ -52,4 +51,4 @@ if (!defined('WPINC')) die;
     </div>
 </div>
 
-<?php require(ADFO_DIR.'/admin/js/admin-form-footer-script.php');
+<?php require(ADFO_DIR.'admin/js/admin-form-footer-script.php');

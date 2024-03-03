@@ -91,7 +91,7 @@ class  Dbp_pro_loader_list_form {
             <div class="dbp-form-row dbp-label-grid">
                 <label><span class="dbp-form-label"><?php _e('Query WHERE part (optional)','admin_form'); ?></span></label>
                 <div>
-                <textarea class="js-name-with-count dbp-input js-lookup-where js-prevent-exceeded-1000" style="width:100%; margin-bottom:.5rem" rows="1" name="fields_lookup_where[<?php echo absint($count_fields); ?>]"><?php echo esc_textarea(@$item->lookup_where); ?></textarea>
+                <textarea class="js-name-with-count dbp-input js-lookup-where js-prevent-exceeded-1000" style="width:100%; margin-bottom:.5rem" rows="1" name="fields_lookup_where[<?php echo absint($count_fields); ?>]"><?php echo esc_textarea((isset($item->lookup_where) ? $item->lookup_where : '')); ?></textarea>
                 <?php $id_test_lookup = 'dbpl_' . ADFO_fn::get_uniqid() ;?>
                 <span class="dbp-link-click" onclick="btn_lookup_test_query(this,'<?php echo esc_attr($id_test_lookup); ?>')"><?php _e('Query test','admin_form'); ?></span>
                 <span id="<?php echo esc_attr($id_test_lookup); ?>" style="margin-left:1rem"></span>

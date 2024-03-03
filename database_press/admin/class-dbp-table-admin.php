@@ -474,8 +474,10 @@ class database_press_admin
 			if ($table_model->table_status() == 'CLOSE' && $msg == '' && $msg_error == '') {
 				$msg = __('The table can no longer be modified because it is in the "CLOSE" state.', 'db_press');
 			}
-		
-
+			if ($table_model->last_warning !== false) {
+				$msg_error = $table_model->last_warning;
+			}
+			
 			//var_dump($table_model->items);
 			$html_table   = new Dbp_html_table();
 			$html_content = $html_table->template_render($table_model); // lo uso nel template
